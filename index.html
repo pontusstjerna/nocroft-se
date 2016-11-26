@@ -7,7 +7,8 @@
     
     <div align = "center">
     <canvas id="canvas" width="1000" height="1000">
-    Your browser does not support the HTML5 canvas tag.</canvas>
+    Your browser does not support the HTML5 canvas tag.
+    </canvas>
     
         
 
@@ -98,7 +99,7 @@
     }
     }
     
-    var edges = [new edge(p[0], p[1]),
+    var edges =         [new edge(p[0], p[1]),
                          new edge(p[1], p[2]),
                          new edge(p[1], p[3]),
                          new edge(p[1], p[4]),
@@ -111,12 +112,21 @@
                          new edge(p[5], p[2]),
                          new edge(p[3], p[2])];
                          
+    
+                         
                           
     var canv = document.getElementById("canvas");
     var context = canv.getContext("2d");
     var currentColor = 1;
     var currentEdge = 0;
     canvas.addEventListener('click', function() {setNewColor();}, false);
+    
+    function createEdges(){
+        for(i = 0; i < edges.length; i++){
+            document.getElementById("line1").setAttribute("x1",edges[i].start[0]);
+            //Osv
+        }
+    }
       
       function setNewColor(){
         for(h = 0; h < edges.length; h++){
@@ -156,6 +166,22 @@
     
 
     </script>
+    
+    <svg width="1000" height="1000">
+    <line id="line1" />
+    <line id="line2" />
+    <line id="line3" />
+    <line id="line4" />
+    <line id="line5" />
+    <line id="line6" />
+    <line id="line7" />
+    <line id="line8" />
+    <line id="line9" />
+    <line id="line10" />
+    <line id="line11" />
+    <line id="line12" />
+    Sorry, your browser does not support inline SVG.
+    </svg>
     
     <p style="color:rgb(200,200,200)">Download this Live Wallpaper free for Android!</p>
     <a href="https://play.google.com/store/apps/details?id=pontus.symmetry&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
