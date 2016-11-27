@@ -39,24 +39,24 @@
         
     <script>
     
-    
     var x = 1000/2;
     var y = 20;
     var scale = 30;
-    var p = [[x - 5 * scale, y],    //0
-                        [x - 9 * scale, y + 6 * scale], //1
-                        [x, y + 20 * scale],    //2
-                        [x, y + 13 * scale],    //3
-                        [x + 5 * scale, y],     //4
-                        [x + 9 * scale, y + 6 * scale]];//5
+    var p =       [[x - 5 * scale, y],                      //0
+                        [x - 9 * scale, y + 6 * scale],    //1
+                        [x, y + 20 * scale],                   //2
+                        [x, y + 13 * scale],                   //3
+                        [x + 5 * scale, y],                     //4
+                        [x + 9 * scale, y + 6 * scale]]; //5
     
     function edge(start, end) {
         this.start = start;
         this.end = end;
         this.alpha = 0;
-        this.cIntervals =  [100, 130, //Red min max
-                    120, 150,  //Green min max
-                    200, 250];//Blue min max
+        this.cIntervals =  
+                    [100, 130,   //Red min max
+                     120, 150,   //Green min max
+                     200, 250]; //Blue min max
         this.rgbColor = [this.cIntervals[1], this.cIntervals[3], this.cIntervals[5]];
         this.rSpeed = 6;
         this.change = 1;
@@ -125,7 +125,7 @@
         }
     }
     
-    var edges =         [new edge(p[0], p[1]),
+    var edges = [new edge(p[0], p[1]),
                          new edge(p[1], p[2]),
                          new edge(p[1], p[3]),
                          new edge(p[1], p[4]),
@@ -138,13 +138,9 @@
                          new edge(p[5], p[2]),
                          new edge(p[3], p[2])];
                          
-    
-                         
-                          
-    //var graph = document.getElementById("graph");
-    var currentColor = 1;
+    var currentColor = Math.floor(Math.random()*5);
+    setNewColor();
     var currentEdge = 0;
-    //graph.addEventListener('click', function() {setNewColor();}, false);
     
     function createEdges(){
          for(i = 0; i < edges.length; i++){
@@ -179,12 +175,10 @@
     }
     
     function update() {
-
         changeColors();
         setTimeout(update,20); // call doMove in 20msec
     }
     
-
     </script>
     
     </svg>
@@ -213,7 +207,6 @@
     
     </table>
     
-    
     <br>
     <br>
     
@@ -234,14 +227,11 @@
     </g>
     </svg>
     </a>
-
-    
     
     <br>
     <br>
     <br>
     <br>
-
     
     <table style="width:20%" border = "0" align = "center">
     <tr>
