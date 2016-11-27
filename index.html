@@ -2,16 +2,41 @@
     <head>
         <title> Pontek.se</title>
     </head>
-    <body
-    bgcolor="#101010">
+        <style>
+    body{
+          background-color: #101010;
+          
+          /*First choice, snd choice etc if browser does not support*/
+          font-family: Verdana, Arial, sans-serif;
+          font-size: 1em;
+          color: rgb(200,200,200);
+        }
+        
+    p.copyright{
+        font-size: 70%;
+    }
+        
+    </style>
+    <body>
     
     <div align = "center">
-    <canvas id="canvas" width="1000" height="1000">
-    Your browser does not support the HTML5 canvas tag.
-    </canvas>
     
+    <svg onclick='setNewColor()' width="1000" height="1000">
+        <line id="line0" />
+        <line id="line1" />
+        <line id="line2" />
+        <line id="line3" />
+        <line id="line4" />
+        <line id="line5" />
+        <line id="line6" />
+        <line id="line7" />
+        <line id="line8" />
+        <line id="line9" />
+        <line id="line10" />
+        <line id="line11" />
+        <line id="line12" />
+        Sorry, your browser does not support inline SVG.
         
-
     <script>
     
     
@@ -36,7 +61,8 @@
         this.rSpeed = 6;
         this.change = 1;
         this.speed = Math.floor(Math.random()*this.rSpeed);
-        this.getRgb = function getRgb(){return 'rgba(' + this.rgbColor[0] + ','+ this.rgbColor[1] + ',' + this.rgbColor[2] +',' + this.alpha/255 + ')';}
+        this.getRgb = function getRgb(){return 'rgb(' + this.rgbColor[0] + ','+ this.rgbColor[1] + ',' + this.rgbColor[2] + ')';}
+        this.getAlpha = function getAlpha() {return this.alpha/255.0;}
         this.changeColor = 
         function changeColor(){
             for (j = 0; j < this.rgbColor.length; j++) {
@@ -63,40 +89,40 @@
         
         this.setColor = function setColor(color){
 
-        switch (color){
-            case 0: //BLUE
-                this.cIntervals = [70, 130, //Red min max
-                        120, 160,  //Green min max
-                        200, 250];//Blue min max};
-                break;
-            case 1: //GREEN
-                this.cIntervals = [30, 100, //Red min max
-                        150, 250,  //Green min max
-                        100, 140];//Blue min max};
-                break;
-            case 2: //RED
-                this.cIntervals = [180, 250, //Red min max
-                        50, 90,  //Green min max
-                        50, 90];//Blue min max;
-                break;
-            case 3: //YELLOW
-                this.cIntervals = [190, 250, //Red min max
-                        100, 250,  //Green min max
-                        10, 80];//Blue min max};
-                break;
-            case 4: //Purple
-                this.cIntervals = [140, 250, //Red min max
-                        50, 120,  //Green min max
-                        150, 250];//Blue min max};
-                break;
-            case 5: //Cyan
-                this.cIntervals = [50, 100, //Red min max
-                        100, 250,  //Green min max
-                        150, 250];//Blue min max};
-                break;
+            switch (color){
+                case 0: //BLUE
+                    this.cIntervals = [70, 130, //Red min max
+                            120, 160,  //Green min max
+                            200, 250];//Blue min max};
+                    break;
+                case 1: //GREEN
+                    this.cIntervals = [30, 50, //Red min max
+                            170, 250,  //Green min max
+                            100, 100];//Blue min max};
+                    break;
+                case 2: //RED
+                    this.cIntervals = [180, 250, //Red min max
+                            50, 90,  //Green min max
+                            50, 90];//Blue min max;
+                    break;
+                case 3: //YELLOW
+                    this.cIntervals = [190, 250, //Red min max
+                            100, 250,  //Green min max
+                            10, 80];//Blue min max};
+                    break;
+                case 4: //Purple
+                    this.cIntervals = [140, 250, //Red min max
+                            50, 120,  //Green min max
+                            150, 250];//Blue min max};
+                    break;
+                case 5: //Cyan
+                    this.cIntervals = [50, 100, //Red min max
+                            100, 250,  //Green min max
+                            150, 250];//Blue min max};
+                    break;
+            }
+            this.rgbColor = [this.cIntervals[1], this.cIntervals[3], this.cIntervals[5]];
         }
-        this.rgbColor = [this.cIntervals[1], this.cIntervals[3], this.cIntervals[5]];
-    }
     }
     
     var edges =         [new edge(p[0], p[1]),
@@ -115,18 +141,24 @@
     
                          
                           
-    var canv = document.getElementById("canvas");
-    var context = canv.getContext("2d");
+    //var graph = document.getElementById("graph");
     var currentColor = 1;
     var currentEdge = 0;
-    canvas.addEventListener('click', function() {setNewColor();}, false);
+    //graph.addEventListener('click', function() {setNewColor();}, false);
     
     function createEdges(){
-        for(i = 0; i < edges.length; i++){
-            document.getElementById("line1").setAttribute("x1",edges[i].start[0]);
-            //Osv
+         for(i = 0; i < edges.length; i++){
+            var currentLine = document.getElementById("line".concat(i));
+            currentLine.setAttribute("x1",edges[i].start[0]);
+            currentLine.setAttribute("y1", edges[i].start[1]);
+            currentLine.setAttribute("x2",edges[i].end[0]);
+            currentLine.setAttribute("y2", edges[i].end[1]);
+            currentLine.style.stroke = "rgb(0,255,0)";
+            currentLine.style.strokeWidth = 2;
         }
     }
+    
+    createEdges();
       
       function setNewColor(){
         for(h = 0; h < edges.length; h++){
@@ -137,53 +169,27 @@
                          
     update();
 
-    function paint(){
-    
-        for(k = 0; k < edges.length; k++){
-            context.beginPath();
-            context.moveTo(edges[k].start[0],edges[k].start[1]);
-            context.lineTo(edges[k].end[0],edges[k].end[1]);
-            context.lineWidth = 5;
-            context.strokeStyle = "#101010";
-            context.stroke();
-        }
-    
+    function changeColors(){
         for(i = 0; i < edges.length; i++){
             edges[i].changeColor();
-            context.beginPath();
-            context.moveTo(edges[i].start[0],edges[i].start[1]);
-            context.lineTo(edges[i].end[0],edges[i].end[1]);
-            context.lineWidth = 2.3;
-            context.strokeStyle = edges[i].getRgb();
-            context.stroke();
+            var currentLine = document.getElementById("line".concat(i));
+            currentLine.style.stroke = edges[i].getRgb();
+            currentLine.style.strokeOpacity = edges[i].getAlpha();
         }
     }
     
     function update() {
-    paint();
-  setTimeout(update,20); // call doMove in 20msec
-}
+
+        changeColors();
+        setTimeout(update,20); // call doMove in 20msec
+    }
     
 
     </script>
     
-    <svg width="1000" height="1000">
-    <line id="line1" />
-    <line id="line2" />
-    <line id="line3" />
-    <line id="line4" />
-    <line id="line5" />
-    <line id="line6" />
-    <line id="line7" />
-    <line id="line8" />
-    <line id="line9" />
-    <line id="line10" />
-    <line id="line11" />
-    <line id="line12" />
-    Sorry, your browser does not support inline SVG.
     </svg>
     
-    <p style="color:rgb(200,200,200)">Download this Live Wallpaper free for Android!</p>
+    <p>Download this Live Wallpaper free for Android!</p>
     <a href="https://play.google.com/store/apps/details?id=pontus.symmetry&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
     <img width = "20%" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" /></a>
     
@@ -194,8 +200,8 @@
     
     <table style="width:90%">
     <tr>
-    <td style="color:rgb(200,200,200)" align = "center">Download my Snake game for Android Wear and phone!</td>
-    <td style="color:rgb(200,200,200)" align = "center">Ladda ner min raggningsreplikgenerator!</td>
+    <td align = "center">Download my Snake game for Android Wear and phone!</td>
+    <td align = "center">Ladda ner min raggningsreplikgenerator!</td>
     </tr>
     
     <tr>
@@ -211,9 +217,24 @@
     <br>
     <br>
     
-    <p style="color:rgb(200,200,200)">Download this screensaver free for Windows!</p>
-    <a href="https://github.com/pontusstjerna/symmetryscreensaver">
-    <img width = "10%" alt="Get it for Windows!" src="www.windows.com" /></a>
+    <p>Download this screensaver free for Windows!</p>
+    <a href="downloads/Symmetry Screensaver.scr">
+    <!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 864 312" enable-background="new 0 0 864 312" xml:space="preserve" width = "20%">
+     <rect x="0" y="0" fill="#0078D5" width="864.1" height="312"/>
+    <g>
+        <g>
+            <g id="bag_3_">
+                <path fill="#FFFFFF" d="M126.5,219.8l-65.7-9.2v-55.4h65.7V219.8z M126.5,150.3H60.8V97.9l65.7-9.2V150.3z M216.1,232.4
+                    l-84.7-12.1v-65.1h84.7V232.4z M216.1,150.3h-84.7V88.2l84.7-12.1V150.3z"/>
+            </g>
+	</g>
+	<text transform="matrix(0.9939 0 0 1 265.4683 126.2339)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'SegoePro'" font-size="68.6575">Get it on </tspan><tspan x="0" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97" letter-spacing="-2">W</tspan><tspan x="100.6" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97" letter-spacing="-3">i</tspan><tspan x="123.3" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97">n</tspan><tspan x="185.5" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97" letter-spacing="-3">d</tspan><tspan x="246.6" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97" letter-spacing="-3">o</tspan><tspan x="306.5" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97">ws</tspan><tspan x="428.9" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97" letter-spacing="-8"> </tspan><tspan x="445.8" y="106.5" fill="#FFFFFF" font-family="'SegoePro'" font-size="109.97">10</tspan></text>
+    </g>
+    </svg>
+    </a>
+
     
     
     <br>
@@ -253,6 +274,6 @@
     </body>
     
     <footer>
-    <p style = "color:rgb(255,255,255); font-size: 80%" align="center">&copy; Copyright 2016 by Pontus Stjernstrom.</p>
+    <p class="copyright" align="center">&copy; Copyright 2016 by Pontus Stjernstrom.</p>
 </footer>
 </html>
