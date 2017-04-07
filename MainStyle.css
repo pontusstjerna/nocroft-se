@@ -1,0 +1,16 @@
+body{
+          background-color: #101010;
+          
+          /*First choice, snd choice etc if browser does not support*/
+          font-family: Verdana, Arial, sans-serif;
+          font-size: 1em;
+          color: rgb(200,200,200);
+        }
+
+    div{
+        background: #202020
+    }
+        
+    p.copyright{
+        font-size: 70%;
+    }
