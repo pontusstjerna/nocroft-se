@@ -2,15 +2,14 @@
 <head>
  <title>Pontek balls</title>
 </head>
-
-     <style>
+<style>
     body{
-          background-color: #101010;
-          
-          /*First choice, snd choice etc if browser does not support*/
-          font-family: Verdana, Arial, sans-serif;
-          font-size: 1em;
-          color: rgb(200,200,200);
+        background-color: #101010;
+        
+        /*First choice, snd choice etc if browser does not support*/
+        font-family: Verdana, Arial, sans-serif;
+        font-size: 1em;
+        color: rgb(200,200,200);
         }
 
     div{
@@ -22,28 +21,28 @@
     }
 
     button{
-        transition : all 0.3s;
+        background-color: #7070DD;
+        transition : all 0.2s;
     }
 
-    button :hover{
-        background: #5050AA;
+    button:hover{
+        background-color: #BBBBBB;
     }
-        
-    </style>
-    
+</style>
+<body>
     <div width="1000" height="600" align="center" id="worldDiv">
         <svg id="svgWorld" width="1000" height="600">
-        <circle id="ball" cx="200" cy="100" r="40" stroke="green" stroke-width="4" fill="white" />
+            <circle id="ball" cx="200" cy="100" r="40" stroke="green" stroke-width="4" fill="white" />
         Your browser does not know how to display svg.
         </svg>
     </div>
-    
+
     <script src="balls.js">
     </script>
-    
+
     <div align="center">
-    <button onclick="startAnimation()">Start</button>
-    <button id="btnStop" >Stop</button>
+        <button type="button" id="btnStart">Start</button>
+        <button type="button" id="btnStop" >Stop</button>
     </div>
 
     <p id="info">Info</p>
