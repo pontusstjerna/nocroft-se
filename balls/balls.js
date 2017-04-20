@@ -147,6 +147,8 @@ window.onload = function(){
 
                     var colVectorHeading = Math.atan2(collisionVector[0], collisionVector[1]);
 
+                    var ball1Vel = Math.sqrt(ball1.vx*ball1.vx + ball1.vy*ball1.vy);
+
                     out.innerHTML = colVectorHeading*(180/Math.PI); 
 
                     balls[ball1].vx *= -1*(1 - friction);
