@@ -8,16 +8,24 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <div align="center">
+    <div class="center">
+    <h1>Weird random text generator</h1>
     <textarea id="txtIn" class="txtGen"></textarea>
     <br>
     <br>
     <button id="btnGenerate" class="button">Generate!</button>
     <br>
-    <br>
-    <textarea id="txtOut" class="txtGen">Result will be displayed here.</textarea>
+    <div id="progress">
+    <div id="progressBar"></div>
     </div>
+    <p class="sidenote">or you can try this <a href="javascript:void(0);" id="btnExample">example</a>.</p>
+    <textarea id="txtOut" class="txtGen" readonly="true">Result will be displayed here.</textarea>
+    <p class="sidenote">Check out <a href="http://norvig.com/big.txt">this</a> example as well!</p>
+    </div>
+    <script src="example.js"></script>
     <script src="textgen.js"></script>
 </body>
-
+<footer>
+    <p class="copyright" align="center">&copy; Copyright 2017 by Pontus Stjernstrom.</p>
+</footer>
 </html>

@@ -22,13 +22,14 @@ textarea{
 
 .button{
     font-size: 2em;
-    background: darkgoldenrod;
+    color: darkorange;
+    background-color: #202020;
     border: 0em;
     transition: 0.2s all;
 }
 
 .button:hover{
-    background: orange;
+    background: #303030;
 }
 
 .txtGen{
@@ -41,5 +42,26 @@ textarea{
 }
 
 #btnExample{
-    color: lightblue;
+    margin-left: 0px;
+}
+
+#progress{
+    margin: auto;
+    width: 10em;
+    height: 0.7em;
+    background-color: #101010;
+}
+
+#progressBar{
+    width: 1%;
+    height: 100%;
+    background-color: lightgreen;
+}
+
+.center{
+    text-align: center;
+}
+
+a{
+    color:darkorange;
 }
