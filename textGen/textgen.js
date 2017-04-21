@@ -34,7 +34,7 @@ document.getElementById("btnGenerate").onclick = startGeneration;
 function startGeneration(){
   
   var input = document.getElementById("txtIn").value;
-  document.getElementById("maintext").innerHTML = generate(input);
+  document.getElementById("txtOut").value = generate(input);
 }
 
 function generate(text){
