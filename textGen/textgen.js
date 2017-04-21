@@ -29,10 +29,15 @@ int main()
  return 0;
 }*/
 
-var testString = "I like potatoes.";
-alert(generate(testString));
+document.getElementById("btnGenerate").onclick = startGeneration;
 
-generate = function(text){
+function startGeneration(){
+  
+  var input = document.getElementById("txtIn").value;
+  document.getElementById("maintext").innerHTML = generate(input);
+}
+
+function generate(text){
     var c;
     var i;
     var eqsofar;
@@ -40,18 +45,21 @@ generate = function(text){
     var k = 3;
     var p = 0;
     var newString = "";
-    for(max = 2000; max > 0; max--){
+
+    for(max = 200; max > 0; max--){
       eqsofar = 0;
       for(q = 0; q < text.length - k + 1; q++){
         for(i = 0; i < k && text.charAt(p + i) == text.charAt(q + i); i++);
+        //console.log("The i is now: " + i);
         if(i == k){
-          if(Math.floor(Math.random()*100) % eqsofar == 0){
+          if(Math.floor(Math.random()*32000) % eqsofar == 0){
             nextp = q;
+            console.log("Eqsofar: " + eqsofar + ". Nextp: " + q);
           }
           eqsofar++;
         }
       }
-      if(nextp + k >= text.length){
+      if(nextp + k >= text.length - 1){
         break;
       } 
       c = text.charAt(nextp + k);
