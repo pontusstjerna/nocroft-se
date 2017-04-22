@@ -31,6 +31,7 @@ int main()
 document.getElementById("btnGenerate").onclick = startGeneration;
 document.getElementById("btnExample").onclick = createExample;
 var input = document.getElementById("txtIn");
+var output = document.getElementById("txtOut");
 
 function startGeneration(){
   generate(input.value);
@@ -45,6 +46,10 @@ function generate(text){
     var p = 0;
     var newString = "";
     var max = 2000;
+    output.value = "";
+    resetProgress();
+
+
     var loop = setInterval(function(){
       aquiredCharsSoFar = 1;
       max--;
@@ -60,7 +65,7 @@ function generate(text){
         }
       }
       c = text.charAt(nextp + requiredChars);
-      document.getElementById("txtOut").value += c;
+      output.value += c;
 
       p = nextp + 1;
       progress(2000);
@@ -84,4 +89,9 @@ var width = 0.0;
 function progress(maximum) {
     width += 100.0/parseFloat(maximum); 
     elem.style.width = Math.floor(width) + '%'; 
+}
+
+function resetProgress(){
+  width = 0;
+  elem.style.width = 0 + '%'; 
 }
