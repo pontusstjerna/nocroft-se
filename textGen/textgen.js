@@ -32,6 +32,7 @@ document.getElementById("btnGenerate").onclick = startGeneration;
 document.getElementById("btnExample").onclick = createExample;
 var input = document.getElementById("txtIn");
 var output = document.getElementById("txtOut");
+var reqCharsInput = document.getElementById("reqChars");
 
 function startGeneration(){
   generate(input.value);
@@ -42,12 +43,11 @@ function generate(text){
     var i;
     var aquiredCharsSoFar;
     var nextp = 0;
-    var requiredChars = 3;
+    var requiredChars = parseInt(reqCharsInput.value);
     var p = 0;
     var newString = "";
     var max = 2000;
     output.value = "";
-    resetProgress();
 
 
     var loop = setInterval(function(){
@@ -68,12 +68,11 @@ function generate(text){
       output.value += c;
 
       p = nextp + 1;
-      progress(2000);
 
       if(max <= 0 || nextp + requiredChars >= text.length){
         clearInterval(loop);
       }
-    }, 1);    
+    }, 0);    
 
     console.log(text.length);
 
@@ -82,16 +81,4 @@ function generate(text){
 
 function createExample(){
   input.value = example;
-}
-
-var elem = document.getElementById("progressBar"); 
-var width = 0.0;
-function progress(maximum) {
-    width += 100.0/parseFloat(maximum); 
-    elem.style.width = Math.floor(width) + '%'; 
-}
-
-function resetProgress(){
-  width = 0;
-  elem.style.width = 0 + '%'; 
 }

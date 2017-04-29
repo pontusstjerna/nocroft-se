@@ -8,10 +8,10 @@ body{
 
     padding: 1em;
   }
-        
-.copyright{
-    font-size: 70%;
-    }
+
+  a{
+    color:darkorange;
+}
 
 textarea{
     background-color: #303030;
@@ -19,6 +19,10 @@ textarea{
     color: #fafafa;
     font-size: 1em;
 }
+        
+.copyright{
+    font-size: 70%;
+    }
 
 .button{
     font-size: 2em;
@@ -32,30 +36,9 @@ textarea{
     background: #303030;
 }
 
-.txtGen{
-    width: 70%;
-    height: 20em;
-}
-
-.sidenote{
-    font-size: 80%;
-}
-
-#btnExample{
-    margin-left: 0px;
-}
-
-#progress{
-    margin: auto;
-    width: 10em;
-    height: 0.7em;
-    background-color: #101010;
-}
-
-#progressBar{
-    width: 1%;
-    height: 100%;
-    background-color: lightgreen;
+.button.link:hover{
+    cursor: pointer; 
+    cursor: hand; 
 }
 
 .center{
@@ -64,6 +47,32 @@ textarea{
     
 }
 
-a{
-    color:darkorange;
+.txtGen{
+    width: 70%;
+    height: 20em;
 }
+
+.inputNumber{
+    width: 3em;
+}
+
+.sidenote{
+    font-size: 80%;
+}
+
+.br.double{
+    line-height: 200%;
+}
+
+.br.big{
+    line-height: 400%;
+}
+
+.br.huge{
+    line-height: 1000%;
+}
+
+#btnExample{
+    margin-left: 0px;
+}
+

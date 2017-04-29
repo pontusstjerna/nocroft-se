@@ -8,16 +8,17 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
+    <a href="../index.html#links">Back to Pontek</a>
     <div class="center">
     <h1>Weird random text generator</h1>
-    <textarea id="txtIn" class="txtGen"></textarea>
+    <textarea id="txtIn" class="txtGen">Type some text here in any language. The longer, the better. The more immature, the funnier.</textarea>
+    <br>
+    Select particularity: 
+    <input id="reqChars" class="inputNumber" type="number" name="quantity" min="0" value="3">
     <br>
     <br>
     <button id="btnGenerate" class="button">Generate!</button>
     <br>
-    <div id="progress">
-    <div id="progressBar"></div>
-    </div>
     <p class="sidenote">or you can try this <a href="javascript:void(0);" id="btnExample">example</a>.</p>
     <textarea id="txtOut" class="txtGen" readonly="true">Result will be displayed here.</textarea>
     <p class="sidenote">Check out <a href="http://norvig.com/big.txt">this</a> example as well!</p>

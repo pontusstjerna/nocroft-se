@@ -1,6 +1,7 @@
 <html>
 <head>
  <title>Pontek balls</title>
+ <link rel="stylesheet" href="../css/main.css">
 </head>
 <style>
     body{
@@ -34,6 +35,7 @@
     }
 </style>
 <body>
+    <a href="../index.html#links">Back to Pontek</a>
     <div width="1000" height="600" align="center" id="worldDiv">
         <svg id="svgWorld" width="1000" height="600">
             <circle id="ball" cx="200" cy="100" r="20" stroke="green" stroke-width="4" fill="white" />
@@ -51,6 +53,7 @@
         Gravity<input type="checkbox" id="chkGravity" checked>
         Friction<input type="range" id="rangeFriction" value="0.1" max="1" min="0" step="0.01">
         Size for new balls<input type="range" id="rangeMass" value="20" min="0" max="100">
+        <p class="sidenote">This is not the final version. I am not allowed to publish it yet, since it is part of a math course I am taking.</p>
     </div>
 
     <p>Add ball by clicking on screen.</p>
