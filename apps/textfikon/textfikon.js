@@ -31,13 +31,17 @@ function translate(text, output){
         }
 
         if(word.length > 1){
-            for(j = word.length/2; j < word.length; j++){
+            for(j = Math.floor(word.length/2); j < word.length; j++){
                 newWord += word[j];
             }
 
-            for(j = 0; j < word.length/2; j++){
+            console.log(j);
+
+            for(j = 0; j < Math.floor(word.length/2); j++){
                 newWord += word[j];
             }
+
+            console.log(j);
 
             newWord += "kon ";
         }
