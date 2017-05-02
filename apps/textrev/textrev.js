@@ -20,7 +20,3 @@ function reverse(text){
       }
     }, 0);    
 }
-
-function createExample(){
-  input.value = example;
-}
