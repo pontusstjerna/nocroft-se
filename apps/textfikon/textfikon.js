@@ -12,7 +12,7 @@ function translate(text, output){
 
     var loop = setInterval(function(){
       
-      var word = words[i];
+      var word = words[i].toLowerCase();
       var newWord = "";
 
         if(i > 0){
@@ -30,20 +30,22 @@ function translate(text, output){
             newWord = "Fi";
         }
 
+        var dot = " ";
+
         if(word.length > 1){
             for(j = Math.floor(word.length/2); j < word.length; j++){
-                newWord += word[j];
+                if(word[j] != "."){
+                    newWord += word[j];
+                }else{
+                    dot = ".";
+                }
             }
-
-            console.log(j);
 
             for(j = 0; j < Math.floor(word.length/2); j++){
                 newWord += word[j];
             }
 
-            console.log(j);
-
-            newWord += "kon ";
+            newWord += "kon" + dot;
         }
 
         output.value += newWord;
