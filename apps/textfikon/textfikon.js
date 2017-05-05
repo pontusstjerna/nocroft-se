@@ -1,4 +1,5 @@
 var input = document.getElementById("txtIn");
+var vowels = "aeiouyåäöAEIOUYÅÄÖ";
 
 function startTranslation(){
     translate(input.value, document.getElementById("txtOut"));
@@ -15,6 +16,11 @@ function translate(text, output){
       var word = words[i].toLowerCase();
       var newWord = "";
 
+      var sndHalfIndex = 0;
+      for(sndHalfIndex = 0; sndHalfIndex < word.length && vowels.indexOf(word.charAt(sndHalfIndex)) === -1; sndHalfIndex++);
+      sndHalfIndex++;
+
+      if(sndHalfIndex <= word.length){
         if(i > 0){
             newWord = " ";
 
@@ -32,24 +38,25 @@ function translate(text, output){
 
         var dot = " ";
 
-        if(word.length > 1){
-            for(j = Math.floor(word.length/2); j < word.length; j++){
-                if(word[j] != "."){
-                    newWord += word[j];
-                }else{
-                    dot = ".";
-                }
-            }
-
-            for(j = 0; j < Math.floor(word.length/2); j++){
+        
+        for(j = sndHalfIndex; j < word.length; j++){
+            if(word[j] != "."){
                 newWord += word[j];
+            }else{
+                dot = ".";
             }
-
-            newWord += "kon" + dot;
         }
+
+        for(j = 0; j < sndHalfIndex; j++){
+            newWord += word[j];
+        }
+
+        newWord += "kon" + dot;
 
         output.value += newWord;
 
+      }
+    
         i++;
       if(i >= words.length){
         clearInterval(loop);
