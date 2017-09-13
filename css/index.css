@@ -1,0 +1,12 @@
+.banner{
+    width: 50%;
+}
+
+.bannerDiv{
+    display:inline-block;
+}
+
+.bannerHeader{
+    margin: 0;
+    padding: 0;
+}
