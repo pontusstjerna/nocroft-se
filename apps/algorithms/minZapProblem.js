@@ -1,24 +1,3 @@
-/*
-Pseudocode by Pontus
-
-C = set of circles sorted by longest distance to origin
-let H = boolean array of same length as C, set all false
-let S = {}
-
-for i = 0 to sizeof(C) - 1 loop
-    if not H[i] then
-        H[i] = true
-        let r = ray from origin to origin of C[i]
-        for j = i to sizeof(C) - 1
-            if intersect(r, C[j]) then
-                H[j] = true
-                add r to S
-            end if
-        end loop
-    end if
-end loop
-*/
-
 var surface = document.getElementById("balloonSurface");
 var div = document.getElementById("balloonDiv");
 var balloons = [];
@@ -30,6 +9,7 @@ addRay(100,0);
 
 div.onclick = (e) => {
    getMousePos(e);
+   try1();
 }
 
 function getMousePos(e){
@@ -93,9 +73,54 @@ function dist(p1, p2) {
 }
 
 function intersect(r, c) {
-    return dist(r, {x: c.x, y: c.y} < c.radius);
+    return dist(r, c) < c.radius;
 }
 
 function intersectBalloons(b1, b2) {
-    return dist({x: b1.x, y: b1.y}, {x: b2.x, y: b2.y}) < b1.radius + b2.radius;
+    return dist(b1, b2) < b1.radius + b2.radius;
+}
+
+/*****************THE ALGORITHM******************/
+/*
+Pseudocode by Pontus
+
+C = set of circles sorted by longest distance to origin
+let H = boolean array of same length as C, set all false
+let S = {}
+
+for i = 0 to sizeof(C) - 1 loop
+    if not H[i] then
+        H[i] = true
+        let r = ray from origin to origin of C[i]
+        for j = i to sizeof(C) - 1
+            if intersect(r, C[j]) then
+                H[j] = true
+                add r to S
+            end if
+        end loop
+    end if
+end loop
+*/
+
+function try1() {
+    let C = sortBalloons();
+    console.log(C.length);
+    
+}
+
+function sortBalloons() {
+    let sorted = [];
+    let copy = balloons.slice();
+    for(j = 0; j < balloons.length; j++) {
+        let current = copy[0];
+        for(i = 0; i < copy.length; i++) {
+            if(dist(current, origin) < dist(copy[i], origin)) {
+                current = copy[i];
+            } 
+        }
+        sorted.push(current);
+        copy = copy.splice(copy.indexOf(current) - 1,1);
+    }
+
+    return sorted;
 }
