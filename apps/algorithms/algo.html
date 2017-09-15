@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pontek.se - Algorithm implementations</title>
     <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/algo.css">
 </head>
 <body>
     <a href="../../index.html#links">Back to Pontek</a>
@@ -20,7 +21,18 @@
     <button id="btnRunPrime">Run</button>
     <p id="primeResult">Result: </p>
 
+    <br>
     <h3>Balloon shooting - Minimum Zap Problem</h3>
+    <p>Try 1</p>
+    <div align="center" id="balloonDiv">
+        <svg id="balloonSurface" width="300" height="300" class="surface">
+            <circle id="ball" cx="200" cy="100" r="20" stroke="green" stroke-width="2" fill="white" />
+        Your browser does not know how to display svg.
+        </svg>
+    </div>
+    <p class="sidenote">Click to add a new balloon. Size is random.</p>
+    <button id="btnRunBalloon">Find optimal rays</button>
+
 
     </div>
     <script src="prime.js"></script>
