@@ -4,15 +4,19 @@ var balloons = [];
 var rays = [];
 var origin = {x: surface.getAttribute("width")/2, y: surface.getAttribute("height")/2};
 
-var tryNum = document.getElementById("tryNum").value;
-
 addBalloon(100,50);
 
 div.onclick = (e) => {
    getMousePos(e);
-   
-   if(tryNum === 1) {
+
+   var tryNum = document.getElementById("tryNum").value;
+
+   if(tryNum == 1) {
         try1();
+   } else if(tryNum == 2) {
+       try2();
+   } else if (tryNum == 3) {
+       try3();
    }
 }
 
@@ -68,8 +72,8 @@ function addBalloon(x,y) {
 }
 
 function addRay(x,y) {
-    x = (x - origin.x) * 100 + origin.x;
-    y = (y - origin.y) * 100 + origin.y;
+    //x = (x - origin.x) * 100 + origin.x;
+    //y = (y - origin.y) * 100 + origin.y;
     var newRay = document.createElementNS("http://www.w3.org/2000/svg", 'line');
 
     newRay.setAttribute("x1", origin.x);
@@ -108,8 +112,38 @@ function clearRays() {
     rays = [];
 }
 
-/*****************THE ALGORITHM******************/
+function sortBalloons() {
+    let sorted = [];
+    let copy = balloons.slice();
+    for(var j = 0; j < balloons.length; j++) {
+        let current = copy[0];
+        for(var i = 0; i < copy.length; i++) {
+            if(dist(current, origin) < dist(copy[i], origin)) {
+                current = copy[i];
+            } 
+        }
+        sorted.push(current);
+        let index = copy.indexOf(current);
+        copy.splice(index ,1);
+    }
+
+    return sorted;
+}
+
+function createArrayWithValue(length, value) {
+    let arr = [];
+    for(var i = 0; i < length; i++) {
+        arr[i] = value;
+    }
+
+    return arr;
+}
+
+/*****************THE ALGORITHMS******************/
 /*
+
+TRY 1
+
 Pseudocode by Pontus
 
 C = set of circles sorted by longest distance to origin
@@ -148,29 +182,51 @@ function try1() {
     
 }
 
-function sortBalloons() {
-    let sorted = [];
-    let copy = balloons.slice();
-    for(var j = 0; j < balloons.length; j++) {
-        let current = copy[0];
-        for(var i = 0; i < copy.length; i++) {
-            if(dist(current, origin) < dist(copy[i], origin)) {
-                current = copy[i];
-            } 
+/*
+TRY 2
+
+Pseudocode by Pontus
+
+C = set of circles sorted by longest distance to origin
+let H = boolean array of same length as C, set all false
+let S = {}
+
+for i = 0 to sizeof(C) - 1 loop
+    if not H[i] then
+        let r = ray from origin to right tangent of C[i]
+        add r to S
+        for j = i to sizeof(C) - 1 loop
+            if intersect(r, C[j]) then
+                H[j] = true
+            end if
+        end loop
+    end if
+end loop
+*/
+
+function try2() {
+    clearRays();
+    let C = sortBalloons();
+    let H = createArrayWithValue(C.length, false);
+
+    for(var i = 0; i < C.length; i++) {
+        if(!H[i]) {
+            
+            let dx = C[i].x - origin.x;
+            let dy = C[i].y - origin.y;
+            let normal = {x: -dy, y: dx};
+            let length = dist(origin, normal)
+            let normalizedNormal = {x: normal.x/length, y: normal.y/length};
+            let r = {x: C[i].x + normalizedNormal.x * C[i].radius, y: C[i].y + normalizedNormal.y * C[i].radius};
+            
+
+            //let r = {x: C[i].x - C[i].radius, y: C[i].y + C[i].radius};
+            addRay(r.x, r.y);
+            for(var j = i; j < C.length; j++) {
+                if(intersect(r, C[j])) {
+                    H[j] = true;
+                }
+            }
         }
-        sorted.push(current);
-        let index = copy.indexOf(current);
-        copy.splice(index ,1);
     }
-
-    return sorted;
-}
-
-function createArrayWithValue(length, value) {
-    let arr = [];
-    for(var i = 0; i < length; i++) {
-        arr[i] = value;
-    }
-
-    return arr;
 }
