@@ -4,11 +4,25 @@ var balloons = [];
 var rays = [];
 var origin = {x: surface.getAttribute("width")/2, y: surface.getAttribute("height")/2};
 
+var tryNum = document.getElementById("tryNum").value;
+
 addBalloon(100,50);
 
 div.onclick = (e) => {
    getMousePos(e);
-   try1();
+   
+   if(tryNum === 1) {
+        try1();
+   }
+}
+
+document.getElementById("btnResetTry1").onclick = () => {
+    for(var i = 0; i < balloons.length; i++) {
+        surface.removeChild(balloons[i].svg);
+    }
+    balloons = [];
+
+    clearRays();
 }
 
 function getMousePos(e){
