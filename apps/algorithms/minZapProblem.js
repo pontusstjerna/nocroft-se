@@ -72,8 +72,8 @@ function addBalloon(x,y) {
 }
 
 function addRay(x,y) {
-    //x = (x - origin.x) * 100 + origin.x;
-    //y = (y - origin.y) * 100 + origin.y;
+    x = (x - origin.x) * 100 + origin.x;
+    y = (y - origin.y) * 100 + origin.y;
     var newRay = document.createElementNS("http://www.w3.org/2000/svg", 'line');
 
     newRay.setAttribute("x1", origin.x);
@@ -212,21 +212,107 @@ function try2() {
     for(var i = 0; i < C.length; i++) {
         if(!H[i]) {
             
-            let dx = C[i].x - origin.x;
-            let dy = C[i].y - origin.y;
-            let normal = {x: -dy, y: dx};
-            let length = dist(origin, normal)
-            let normalizedNormal = {x: normal.x/length, y: normal.y/length};
-            let r = {x: C[i].x + normalizedNormal.x * C[i].radius, y: C[i].y + normalizedNormal.y * C[i].radius};
-            
-
-            //let r = {x: C[i].x - C[i].radius, y: C[i].y + C[i].radius};
+            let ray = {x: C[i].x - origin.x, y: C[i].y - origin.y};
+            let normal = {x: -ray.y + origin.x, y: ray.x + origin.y}; 
+            let length = dist(C[i], origin);
+            let radiusNormal = {
+                x: (normal.x - origin.x) * C[i].radius / length + origin.x, 
+                y: (normal.y - origin.y) * C[i].radius / length + origin.y
+            };
+            let r = {x: C[i].x + radiusNormal.x - origin.x, y: C[i].y + radiusNormal.y - origin.y};
             addRay(r.x, r.y);
             for(var j = i; j < C.length; j++) {
                 if(intersect(r, C[j])) {
                     H[j] = true;
                 }
             }
+        }
+    }
+}
+
+/*
+TRY 3
+
+Pseudocode by Pontus
+
+C = set of circles sorted by longest distance to origin
+let H = boolean array of same length as C, set all false
+let S = {}
+
+for i = 0 to sizeof(C) - 1 loop
+    if not H[i] then
+        let maxCircles = 0 //This is the current maximum number of circles a ray can intersect
+        let maxRay = empty ray //The ray that intersect with the most circles
+        for j = 0 to 2 loop
+            if j = 0 then
+                let r = ray from origin to origin of C[i]
+            else if j = 1 then
+                let r = ray from origin to right tangent of C[i]
+            else
+                let r = ray from origin to left tangent of C[i]
+            end if
+            let currentCircles = 0 //The number of intersecting circles for this particular method
+            for k = i to sizeof(C) - 1 loop
+                if intersect(r, C[k]) then
+                    H[k] = true
+                    numCircles = numCircles + 1
+                end if
+            end loop
+            if currentCircles > maxCircles then
+                maxCircles = currentCircles
+                maxRay = r
+            end if
+        end loop
+        add r to S
+    end if
+end loop
+*/
+
+function try3() {
+    clearRays();
+    let C = sortBalloons();
+    let H = createArrayWithValue(C.length, false);
+
+    for(var i = 0; i < C.length; i++) {
+        if(!H[i]) {
+            let maxCircles = 0;
+            let maxRay = null;
+            for(var j = 0; j < 3; j++) {
+                let r = null;
+                let numCircles = 0;
+                if(j === 0) {
+                    r = {x: C[i].x, y: C[i].y};
+                } else if (j === 1) {
+                    let ray = {x: C[i].x - origin.x, y: C[i].y - origin.y};
+                    let normal = {x: -ray.y + origin.x, y: ray.x + origin.y}; 
+                    let length = dist(C[i], origin);
+                    let radiusNormal = {
+                        x: (normal.x - origin.x) * C[i].radius / length + origin.x, 
+                        y: (normal.y - origin.y) * C[i].radius / length + origin.y
+                    };
+                    r = {x: C[i].x + radiusNormal.x - origin.x, y: C[i].y + radiusNormal.y - origin.y};    
+                } else {
+                    let ray = {x: C[i].x - origin.x, y: C[i].y - origin.y};
+                    let normal = {x: -ray.y + origin.x, y: ray.x + origin.y}; 
+                    let length = dist(C[i], origin);
+                    let radiusNormal = {
+                        x: (normal.x - origin.x) * -C[i].radius / length + origin.x, 
+                        y: (normal.y - origin.y) * -C[i].radius / length + origin.y
+                    };
+                    r = {x: C[i].x + radiusNormal.x - origin.x, y: C[i].y + radiusNormal.y - origin.y};    
+                }
+                for(var k = i; k < C.length; k++) {
+                    if(intersect(r, C[k])) {
+                        H[k] = true;
+                        numCircles++;
+                    }
+                }
+                if(numCircles > maxCircles) {
+                    maxRay = r;
+                    maxCircles = numCircles;
+                }
+            }
+            addRay(maxRay.x, maxRay.y);
         }
     }
 }
