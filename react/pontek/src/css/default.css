@@ -1,18 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+* {
+    margin: 3px;
+}
+
 body {
-  text-align: center;
   background-color: #101010;
+  font-family: 'Raleway', sans-serif;
+  color: #CCCCCC;
+}
+
+.center {
+    text-align: center;
+    align-content: center;
 }
 
 .background {
   
 }
 
-h1 {
+h1, a {
   color: darkorange;
-}
-
-p {
-  color: white;
 }
 
 
