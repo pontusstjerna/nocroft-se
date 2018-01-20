@@ -22,7 +22,7 @@
     </g> -->
     
     <g stroke="#61DAFB" stroke-width="2">
-        <line id="line0" x1="350" y1="20" x2="230" y2="200" />
+        <line id="line0" ref="line0" x1="350" y1="20" x2="230" y2="200" />
         <line id="line1" x1="230" y1="200" x2="500" y2="620"/>
         <line id="line2" x1="230" y1="200" x2="500" y2="410"/>
         <line id="line3" x1="230" y1="200" x2="650" y2="20"/>
