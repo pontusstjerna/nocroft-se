@@ -66,8 +66,6 @@ class Symmetry extends Component {
         return (
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                width="1000" 
-                height="1000" 
                 viewBox="0 0 1000 1000"
                 onClick={() => this.changeColor()}
                 >
