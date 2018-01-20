@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import Symmetry from '../assets/symmetry';
-import '../css/default.css';
+import Symmetry from './symmetry';
+import '../../css/default.css';
 
 class App extends Component {
-
-    startAnimation(svg) {
-        svg.animate();
-    }
 
     render() {
         
         return (
             <div>
                 <header className="App-header">
-                    <Symmetry ref={this.startAnimation}/>
+                    <Symmetry ref={svg => svg.animate()}/>
                     <h1>Under construction!</h1>
                 </header>
                 <p className="Text">

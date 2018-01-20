@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
 
+import { colors } from './colors';
+
 class Symmetry extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             lines: [],
+            currentColor: 0,
         }
 
         for (var i = 0; i < 12; i++) {
             this.state.lines.push({
-                alpha: 255,
+                color: {...colors[this.state.currentColor]},
+                speed: 6,
                 stroke: '#61DAFBFF',
             });
         }
+    }
+
+    changeColor() {
+        let newColor =  (this.state.currentColor + 1) % colors.length;
+        let lines = this.state.lines;
+        for (var i = 0; i < lines.length; i++) {
+            lines[i].color = {...colors[newColor]};
+        }
+
+        this.setState({
+            currentColor: newColor,
+            lines
+        });
     }
 
     animate() {
@@ -21,17 +38,39 @@ class Symmetry extends Component {
         setInterval(() => {
             let lines = this.state.lines;
             for (var i = 0; i < lines.length; i++) {
-                lines[i].stroke = 'rgba(255,255,255,' + lines[i].alpha + ')';
+                this.changeAlpha(lines[i]);
+                let color = lines[i].color;
+                lines[i].stroke = 'rgba(' +
+                    color.r + ',' +
+                    color.g + ',' +
+                    color.b + ',' +
+                    color.a / 255.0 + ')';
             }
 
             this.setState({lines});
-        }, 500);
+        }, 30);
+    }
+
+    changeAlpha(line) {
+        line.color.a += line.speed;
+        
+        if (line.color.a > 250) {
+            line.speed = -Math.floor(Math.random() * 6);
+        } else if (line.color.a < 10) {
+            line.speed = Math.floor(Math.random() * 12);
+        }
     }
 
     render() {
         this.lines = [];
         return (
-            <svg className="" xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="1000" 
+                height="1000" 
+                viewBox="0 0 1000 1000"
+                onClick={() => this.changeColor()}
+                >
                 <g strokeWidth="2">
                     <line x1="350" y1="20" x2="230" y2="200" stroke={this.state.lines[0].stroke} />
                     <line x1="230" y1="200" x2="500" y2="620" stroke={this.state.lines[1].stroke}/>
