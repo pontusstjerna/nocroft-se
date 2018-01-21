@@ -1,0 +1,46 @@
+<svg class="Symmetry" xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+    <!-- <defs>
+        <linearGradient id="Gradient">
+            <stop offset="5%"  stop-color="white"/>
+            <stop offset="95%" stop-color="#FFFFFFFF"/>
+        </linearGradient>
+    </defs> -->
+    
+    <!-- <g stroke="url(#Gradient)" stroke-width="4">
+        <line id="line0" x1="350" y1="20" x2="230" y2="200" />
+        <line id="line1" x1="230" y1="200" x2="500" y2="620"/>
+        <line id="line2" x1="230" y1="200" x2="500" y2="410"/>
+        <line id="line3" x1="230" y1="200" x2="650" y2="20"/>
+        <line id="line4" x1="350" y1="20" x2="500" y2="410"/>
+        <line id="line5" x1="350" y1="20" x2="650" y2="20"/>
+        <line id="line6" x1="350" y1="20" x2="770" y2="200"/>
+        <line id="line7" x1="650" y1="20" x2="500" y2="410"/>
+        <line id="line8" x1="770" y1="200" x2="500" y2="410"/>
+        <line id="line9" x1="650" y1="20" x2="770" y2="200"/>
+        <line id="line11" x1="770" y1="200" x2="500" y2="620"/>
+        <line id="line12" x1="500" y1="410" x2="500" y2="620"/>
+    </g> -->
+    
+    <g stroke="#61DAFB" stroke-width="2">
+        <line id="line0" ref="line0" x1="350" y1="20" x2="230" y2="200" />
+        <line id="line1" x1="230" y1="200" x2="500" y2="620"/>
+        <line id="line2" x1="230" y1="200" x2="500" y2="410"/>
+        <line id="line3" x1="230" y1="200" x2="650" y2="20"/>
+        <line id="line4" x1="350" y1="20" x2="500" y2="410"/>
+        <line id="line5" x1="350" y1="20" x2="650" y2="20"/>
+        <line id="line6" x1="350" y1="20" x2="770" y2="200"/>
+        <line id="line7" x1="650" y1="20" x2="500" y2="410"/>
+        <line id="line8" x1="770" y1="200" x2="500" y2="410"/>
+        <line id="line9" x1="650" y1="20" x2="770" y2="200"/>
+        <!-- <line id="line10" x1="650" y1="20" x2="770" y2="200"/> -->
+        <line id="line11" x1="770" y1="200" x2="500" y2="620"/>
+        <line id="line12" x1="500" y1="410" x2="500" y2="620"/>
+    </g>
+</svg>
+
+<!-- [[350, 20],                      //0
+        [230, 200],    //1
+        [500, 620],                   //2
+        [500, 410],                   //3
+        [650, 20],                     //4
+        [770, 200]]; //5 -->
