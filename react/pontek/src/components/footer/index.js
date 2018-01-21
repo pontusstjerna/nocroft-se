@@ -38,7 +38,7 @@ class Footer extends Component {
                     </div>
                 </div>
                 <footer>
-                    <p class="copyright" align="center">&copy; Copyright 2018 by Pontus.</p>
+                    <p className="copyright" align="center">&copy; Copyright 2018 by Pontus.</p>
                 </footer>
             </div>
         );

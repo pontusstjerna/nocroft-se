@@ -20,6 +20,10 @@ class Symmetry extends Component {
         }
     }
 
+    componentDidMount() {
+        this.animate();
+    }
+
     changeColor() {
         let newColor =  (this.state.currentColor + 1) % colors.length;
         let lines = this.state.lines;

@@ -1,0 +1,48 @@
+.menu-item {
+    color:darkorange;
+    padding: 5px;
+    margin: 0;
+}
+
+.menu-item:hover {
+    transition-duration: 500ms;
+    background-color: darkorange;
+    text-decoration: none;
+    color: #101010;
+}
+
+.active {
+    text-decoration: underline;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #505050;
+    width: 100%;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 0.7em;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: darkorange
+    }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}

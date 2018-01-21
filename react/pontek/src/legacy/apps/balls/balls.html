@@ -1,0 +1,65 @@
+<html>
+<head>
+ <title>Pontek balls</title>
+ <link rel="stylesheet" href="../../css/main.css">
+</head>
+<style>
+    body{
+        background-color: #101010;
+        
+        /*First choice, snd choice etc if browser does not support*/
+        font-family: Verdana, Arial, sans-serif;
+        font-size: 1em;
+        color: rgb(200,200,200);
+        }
+
+    div{
+        background: #202020
+    }
+        
+    p.copyright{
+        font-size: 70%;
+    }
+
+    button{
+        background-color: #7070DD;
+        transition : all 0.2s;
+    }
+
+    button:hover{
+        background-color: #BBBBBB;
+    }
+
+    input[type="number"]{
+        width:4em
+    }
+</style>
+<body>
+    <a href="../../index.html#links">Back to Pontek</a>
+    <div width="1000" height="600" align="center" id="worldDiv">
+        <svg id="svgWorld" width="1000" height="600">
+            <circle id="ball" cx="200" cy="100" r="20" stroke="green" stroke-width="4" fill="white" />
+        Your browser does not know how to display svg.
+        </svg>
+    </div>
+
+    <script src="balls.js">
+    </script>
+
+    <div align="center">
+        <button type="button" id="btnStart">Start</button>
+        <button type="button" id="btnStop" >Stop</button>
+        <button type="button" id="btnReset">Reset</button>
+        Gravity<input type="checkbox" id="chkGravity" checked>
+        Friction<input type="range" id="rangeFriction" value="0.1" max="1" min="0" step="0.01">
+        Size for new balls<input type="range" id="rangeMass" value="20" min="0" max="100">
+        <p class="sidenote">This is not the final version. I am not allowed to publish it yet, since it is part of a math course I am taking.</p>
+    </div>
+
+    <p>Add ball by clicking on screen.</p>
+    Info: <p id="info">Info</p>
+</body>
+<footer>
+<p class="copyright" align="center">&copy; Copyright 2017 by Pontus.</p>
+</footer>
+</html>

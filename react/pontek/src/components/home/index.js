@@ -6,19 +6,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/default.css';
 import '../../css/app.css';
 
-class App extends Component {
+class Home extends Component {
+
+    componentDidMount() {
+        document.title = 'Pontek.se - Home';
+    }
 
     render() {
-        
         return (
             <div>
                 <div className="row">
                     <div className="offset-md-3 col-md-6 text-center">
-                        <Symmetry ref={svg => svg.animate()}/>
-                        <h1>Under construction!</h1>
-                        <p className="Text">
-                            This will later be the new version of Pontek.se.
-                        </p>
+                        <Symmetry/>
                     </div>
                 </div>
                 <div className="row">
@@ -67,10 +66,9 @@ class App extends Component {
                         min fantastiska raggningsreplikgenerator för Android!
                     </div>
                 </div>
-                <Footer/>
             </div>
         );
     }
 }
 
-export default App;
+export default Home;
