@@ -1,0 +1,14 @@
+img, a {
+    width: 100;
+    align-content: center;
+    text-align: center;
+    margin: 0.3em;
+}
+
+.footer {
+    margin-top: 10em;
+}
+
+.twitter {
+    width: 5%;
+}
