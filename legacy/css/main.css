@@ -1,0 +1,81 @@
+body{
+    background-color: #101010;
+    
+    /*First choice, snd choice etc if browser does not support*/
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1em;
+    color: rgb(200,200,200);
+
+    padding: 1em;
+  }
+
+  a{
+    color:darkorange;
+}
+
+textarea{
+    background-color: #303030;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fafafa;
+    font-size: 1em;
+}
+        
+.copyright{
+    font-size: 70%;
+    }
+
+.button{
+    font-size: 2em;
+    color: darkorange;
+    background-color: #202020;
+    border: 0em;
+    transition: 0.2s all;
+}
+
+.button:hover{
+    background: #303030;
+}
+
+.button.link:hover{
+    cursor: pointer; 
+    cursor: hand; 
+}
+
+.center{
+    text-align: center;
+    margin: auto;
+}
+
+.txtNormal{
+    width: 70%;
+    height: 20em;
+}
+
+.linkTable{
+    margin: auto;
+}
+
+.inputNumber{
+    width: 3em;
+}
+
+.sidenote{
+    font-size: 80%;
+}
+
+.br.double{
+    line-height: 200%;
+}
+
+.br.big{
+    line-height: 400%;
+}
+
+.br.huge{
+    line-height: 1000%;
+}
+
+#btnExample{
+    margin-left: 0px;
+}
+

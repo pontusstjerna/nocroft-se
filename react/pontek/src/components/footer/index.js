@@ -32,7 +32,7 @@ class Footer extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-12 text-center">
-                        <a href="privacyPolicy.html" class="sidenote">
+                        <a href="/legacy/privacyPolicy.html" className="sidenote">
                             Privacy policy for Android apps
                         </a>
                     </div>

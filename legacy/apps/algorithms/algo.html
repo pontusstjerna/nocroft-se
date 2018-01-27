@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pontek.se - Algorithm implementations</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/algo.css">
+</head>
+<body>
+    <a href="/">Back to Pontek</a>
+    <div class="center">
+    <h1>Algorithm implementations</h1>
+    <p class="sidenote">These are some implementations of the algorithms from 
+        <a href="http://www.cse.chalmers.se/edu/year/2017/course/TIN093_LP1/">this</a> course.
+    </p>
+    <br>
+    <h3>Prime(n)</h3>
+    Prime of <input type="number" id="primeNum">
+    <button id="btnRunPrime">Run</button>
+    <p id="primeResult">Result: </p>
+
+    <br>
+    <h3>Balloon shooting - Minimum Zap Problem</h3>
+    <p>Try number <input type="number" id="tryNum" value=3></p>
+    <div align="center" id="balloonDiv">
+        <svg id="balloonSurface" width="800" height="800" class="surface">
+        Your browser does not know how to display svg.
+        </svg>
+    </div>
+    <p class="sidenote">Click to add a new balloon. Size is random.</p>
+    <button id="btnResetTry1">Reset</button>
+
+
+    </div>
+    <script src="prime.js"></script>
+    <script src="minZapProblem.js"></script>
+    <br>
+</body>
+<footer>
+    <p class="copyright" align="center">&copy; Copyright 2017 by Pontus.</p>
+</footer>
+</html>

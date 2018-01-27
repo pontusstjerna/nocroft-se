@@ -1,7 +1,7 @@
 .menu-item {
-    color:darkorange;
     padding: 5px;
     margin: 0;
+    background-color: transparent;
 }
 
 .menu-item:hover {
@@ -16,33 +16,32 @@
 }
 
 .dropdown {
-    position: relative;
     display: inline-block;
+    color: darkorange;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #505050;
+    background-color: #202020;
     width: 100%;
+    margin: 0;
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: black;
-    padding: 0.7em;
-    text-decoration: none;
     display: block;
+    font-size: 0.9em;
 }
 
-.dropdown-content a:hover {
-    background-color: darkorange
-    }
+.dropdown:hover {
+    background-color: darkorange;
+    color: #101010;
+    transition-duration: 300ms;
+}
 
 .dropdown:hover .dropdown-content {
+    transition-duration: 300ms;
     display: block;
-}
-
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: #202020;
 }
