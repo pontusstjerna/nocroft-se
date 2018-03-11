@@ -1,0 +1,98 @@
+body {
+    text-align: center;
+    background-color: #101010;
+    color: white;
+    font-family: "Raleway", Helvetica, sans-serif;
+}
+
+#header {
+    font-size: 55px;
+    animation: glow infinite 10s linear alternate;
+}
+
+#alpaca {
+    width: 250px;
+    height: auto;
+    border-radius: 125px;
+    animation: spin infinite 60s linear;
+}
+
+#compliment {
+    margin: 2em;
+    text-align: center;
+}
+
+.compliment-value {
+    font-size: 15px;
+    border-radius: 15px;
+    
+    margin-right: 0;
+    padding: 8px;
+    border: none;
+}
+
+#send {
+    border: none;
+    font-size: 15px;
+    padding: 8px;
+    background-color: #303030;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 15px;
+}
+
+#send:hover {
+    text-shadow: 0 0 10px white;
+    transition-duration: 300ms;
+}
+
+#alpaca-description {
+    width: 50%;
+    margin: auto;
+    margin-top: 2em;
+    text-align: left;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes bounce {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(0.7);
+        text-shadow: 0 0 5px green;
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px lightgreen;
+    }
+
+    25% {
+        text-shadow: 0 0 5px greenyellow;
+    }
+
+    50% {
+        text-shadow: 0 0 5px yellow;
+    }
+
+    75% {
+        text-shadow: 0 0 5px lightskyblue;
+    }
+
+    100% {
+        text-shadow: 0 0 5px blue;
+    }
+}
