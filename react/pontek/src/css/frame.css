@@ -6,7 +6,7 @@
 
 .menu-item:hover {
     transition-duration: 500ms;
-    background-color: darkorange;
+    background-color: #cc7700;
     text-decoration: none;
     color: #101010;
 }

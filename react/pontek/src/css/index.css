@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Bad+Script');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.row {
+  width: 100%;
+}
+
+.slogan {
+  text-shadow: 0 0 5px white;
+}
+
+.big-button {
+  font-size: 35px;
+  border: none;
+  border-radius: 5px;
+}
+
+.big-button:hover {
+  box-shadow: 0 0 15px darkorange;
+  transition: 300ms;
+}
+
+.container-margin {
+  margin: 8em 0em;
+}
+
+.text-flirt {
+  font-family: 'Bad Script', cursive;
+}

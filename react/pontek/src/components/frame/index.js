@@ -7,11 +7,12 @@ import {
   } from 'react-router-dom';
 
 import Home from '../home';
+import Autoflirt from '../autoflirt';
 import About from '../about';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/default.css';
-import './frame.css';
+import '../../css/frame.css';
 
 class Frame extends Component {
 
@@ -21,6 +22,7 @@ class Frame extends Component {
                 <div>
                     <div className="col-md-11 menu">
                         <NavLink className="menu-item" exact to="/">Home</NavLink>
+                        <NavLink className="menu-item" to="/autoflirt">Pick-up line Generator</NavLink>
                         <div className="dropdown">
                             <div className="menu-item">
                                 Legacy Webapps
@@ -37,6 +39,7 @@ class Frame extends Component {
                     </div>
                     <div className="content">
                         <Route exact path="/" component={Home} />
+                        <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} />
                     </div>
                     <Footer />

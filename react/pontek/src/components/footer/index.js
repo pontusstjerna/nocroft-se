@@ -4,7 +4,7 @@ import github from '../../assets/GitHub-Mark-Light-32px.png';
 import youtube from '../../assets/YouTube-social-icon_red_24px.png';
 import twitter from '../../assets/TwitterLogo_white.png';
 import '../../css/default.css';
-import './footer.css';
+import '../../css/footer.css';
 
 class Footer extends Component {
 

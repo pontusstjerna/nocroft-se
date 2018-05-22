@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://pontek.se/",
   "dependencies": {
+    "autoflirt": "git+https://pontusstjerna@github.com/pontusstjerna/autoflirt.git",
     "bootstrap": "^4.0.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
