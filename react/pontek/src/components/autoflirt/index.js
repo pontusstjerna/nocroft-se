@@ -3,7 +3,7 @@ import generate from 'autoflirt';
 
 let generationInterval = undefined;
 
-class Autoflirt extends Component {
+class AutoflirtView extends Component {
 
     constructor(props) {
         super(props);
@@ -70,4 +70,4 @@ class Autoflirt extends Component {
     }
 }
 
-export default Autoflirt;
+export default AutoflirtView;

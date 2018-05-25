@@ -1,3 +1,35 @@
 .banner {
     width: 100%;
 }
+
+.flirt {
+    color: darkorange;
+    margin-top: 2em;
+    margin-bottom: 10em;
+    padding: 2em;
+    animation: bounce infinite 1s alternate;  
+}
+
+.flirt:hover {
+    transition: 300ms;
+    text-decoration: none;
+    color: #FFC580;
+}
+
+@keyframes bounce {
+    from {
+        transform: scale(1);
+        /*transform: rotate(5deg)*/
+    }
+
+    to {
+        transform: scale(1.1);
+        /*transform: rotate(-5deg);*/
+    }
+}
+
+/* THIS IS A SUPER SECRET MESSAGE!!
+
+Hah! Gotcha there didn't I?
+
+*/
