@@ -11,7 +11,7 @@ body {
 }
 
 .slogan {
-  text-shadow: 0 0 5px white;
+  
 }
 
 .big-button {
@@ -26,9 +26,12 @@ body {
 }
 
 .container-margin {
-  margin: 8em 0em;
+  margin: 4em 0em;
 }
 
 .text-flirt {
+  color: white;
+  height: 5em;
+  margin-top: 5em;
   font-family: 'Bad Script', cursive;
 }
