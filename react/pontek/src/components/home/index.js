@@ -3,9 +3,6 @@ import generate from '../../autoflirt';
 import Symmetry from './symmetry';
 import Footer from '../footer';
 import windows from '../../assets/windows.svg';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../css/default.css';
-import '../../css/app.css';
 
 class Home extends Component {
 
@@ -22,11 +19,9 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
-                <div className="row">
-                    <div className="offset-md-3 col-md-6 text-center">
-                        <Symmetry/>
-                    </div>
+            <div className="home-container">
+                <div className="hero-symmetry">
+                    <Symmetry/>
                 </div>
                 <div className="row">
                     <div className="offset-md-5 col-md-2 text-center">

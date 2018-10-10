@@ -68,24 +68,25 @@ class Symmetry extends Component {
     render() {
         this.lines = [];
         return (
-            <svg 
+            <svg
+                className="symmetry" 
                 xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 1000 700"
+                viewBox="0 0 540 700"
                 onClick={() => this.changeColor()}
                 >
                 <g strokeWidth="2">
-                    <line x1="350" y1="20" x2="230" y2="200" stroke={this.state.lines[0].stroke} />
-                    <line x1="230" y1="200" x2="500" y2="620" stroke={this.state.lines[1].stroke}/>
-                    <line x1="230" y1="200" x2="500" y2="410" stroke={this.state.lines[2].stroke}/>
-                    <line x1="230" y1="200" x2="650" y2="20" stroke={this.state.lines[3].stroke}/>
-                    <line x1="350" y1="20" x2="500" y2="410" stroke={this.state.lines[4].stroke}/>
-                    <line x1="350" y1="20" x2="650" y2="20" stroke={this.state.lines[5].stroke}/>
-                    <line x1="350" y1="20" x2="770" y2="200" stroke={this.state.lines[6].stroke}/>
-                    <line x1="650" y1="20" x2="500" y2="410" stroke={this.state.lines[7].stroke}/>
-                    <line x1="770" y1="200" x2="500" y2="410" stroke={this.state.lines[8].stroke}/>
-                    <line x1="650" y1="20" x2="770" y2="200" stroke={this.state.lines[9].stroke}/>
-                    <line x1="770" y1="200" x2="500" y2="620" stroke={this.state.lines[10].stroke}/>
-                    <line x1="500" y1="410" x2="500" y2="620" stroke={this.state.lines[11].stroke}/>
+                    <line x1="120" y1="0" x2="0" y2="180" stroke={this.state.lines[0].stroke} />
+                    <line x1="0" y1="180" x2="270" y2="600" stroke={this.state.lines[1].stroke}/>
+                    <line x1="0" y1="180" x2="270" y2="390" stroke={this.state.lines[2].stroke}/>
+                    <line x1="0" y1="180" x2="420" y2="0" stroke={this.state.lines[3].stroke}/>
+                    <line x1="120" y1="0" x2="270" y2="390" stroke={this.state.lines[4].stroke}/>
+                    <line x1="120" y1="0" x2="420" y2="0" stroke={this.state.lines[5].stroke}/>
+                    <line x1="120" y1="0" x2="540" y2="180" stroke={this.state.lines[6].stroke}/>
+                    <line x1="420" y1="0" x2="270" y2="390" stroke={this.state.lines[7].stroke}/>
+                    <line x1="540" y1="180" x2="270" y2="390" stroke={this.state.lines[8].stroke}/>
+                    <line x1="420" y1="0" x2="540" y2="180" stroke={this.state.lines[9].stroke}/>
+                    <line x1="540" y1="180" x2="270" y2="600" stroke={this.state.lines[10].stroke}/>
+                    <line x1="270" y1="390" x2="270" y2="600" stroke={this.state.lines[11].stroke}/>
                 </g>
             </svg>
         );

@@ -1,0 +1,22 @@
+.menu {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    z-index: 10; /* Above "hero" */
+    position: relative;
+}
+
+.menu-item {
+    font-size: 1.5em;
+    margin: 0 10px;
+    transition: .3s all ease;
+}
+
+.menu-item:hover {
+    text-decoration: none;
+    color: rgb(195, 210, 255);
+}
+
+.active {
+    text-decoration: none;
+}
