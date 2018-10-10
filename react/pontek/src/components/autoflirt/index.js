@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import generate from 'autoflirt';
+import generate from '../../autoflirt';
 
 let generationInterval = undefined;
 
-class AutoflirtView extends Component {
+class Autoflirt extends Component {
 
     constructor(props) {
         super(props);
@@ -70,4 +70,4 @@ class AutoflirtView extends Component {
     }
 }
 
-export default AutoflirtView;
+export default Autoflirt;
