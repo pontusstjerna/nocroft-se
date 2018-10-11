@@ -18,7 +18,8 @@ class Frame extends Component {
                 <div>
                     <div className="menu">
                         <NavLink className="menu-item" exact to="/">Home</NavLink>
-                        <NavLink className="menu-item" to="/autoflirt">Pick-up line Generator</NavLink>                        
+                        <a className="menu-item" href="#" data-to="section-apps" >Apps</a>
+                        <NavLink className="menu-item" to="/autoflirt">Autoflirt</NavLink>                        
                         <NavLink className="menu-item" to="/about">About me </NavLink>
                     </div>
                     <div className="content">

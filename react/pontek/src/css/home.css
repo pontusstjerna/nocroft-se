@@ -9,8 +9,9 @@
 }
 
 .hero-symmetry {
-    /*background: url("../assets/smoke.jpg");*/
-    
+    background: center url("../assets/tree.jpg");
+    margin-top: -50px;
+    height: 102vh;
 }
 
 .slogan {
