@@ -12,13 +12,20 @@ import About from '../about';
 
 class Frame extends Component {
 
+    scrollTo(section) {
+        setTimeout(() => window.scrollTo({
+            top: 800,
+              behavior: 'smooth',
+          }), 5);
+    } 
+
     render () {
         return (
             <HashRouter>
                 <div>
                     <div className="menu">
                         <NavLink className="menu-item" exact to="/">Home</NavLink>
-                        <a className="menu-item" href="#" data-to="section-apps" >Apps</a>
+                        <a className="menu-item" href="#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
                         <NavLink className="menu-item" to="/autoflirt">Autoflirt</NavLink>                        
                         <NavLink className="menu-item" to="/about">About me </NavLink>
                     </div>

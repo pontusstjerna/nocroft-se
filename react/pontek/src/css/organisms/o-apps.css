@@ -1,0 +1,11 @@
+.o-apps {
+    /*height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;*/
+}
+
+.o-apps__windows {
+    width: 400px;
+}
