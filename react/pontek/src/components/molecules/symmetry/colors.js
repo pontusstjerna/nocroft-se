@@ -1,8 +1,8 @@
 export const colors = [
     { // Blue
-        r: 130,
-        g: 160,
-        b: 250,
+        r: 177,
+        g: 218,
+        b: 249,
         a: 1,
     }, 
     { // Green

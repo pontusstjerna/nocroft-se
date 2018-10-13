@@ -1,0 +1,47 @@
+.o-hero {
+    height: 100vh;
+    margin-top: -70px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    animation: fade 5s 0s linear forwards;
+}
+
+.o-hero__img {
+    content: '';
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 0.5;
+    background-position-x: center;
+}
+
+.o-hero__title {
+    color: white;
+    font-size: 3rem;
+    padding: 10px 20px;
+    z-index: 10;
+}
+
+@media screen and (min-width: 710px) {
+    .o-hero__title {
+        color: white;
+        z-index: 0;
+        font-size: 6rem;
+        padding: 10px 20px;
+    }
+}
+
+@keyframes fade {
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: black;
+    }
+}

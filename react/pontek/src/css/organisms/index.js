@@ -1,0 +1,1 @@
+import './o-hero.css';

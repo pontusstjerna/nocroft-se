@@ -1,0 +1,1 @@
+import './m-symmetry.css';

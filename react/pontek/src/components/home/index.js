@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import generate from '../../autoflirt';
-import Symmetry from './symmetry';
-import Footer from '../footer';
+import Hero from '../organisms/hero.js';
+
 import windows from '../../assets/windows.svg';
 
 class Home extends Component {
@@ -20,9 +20,7 @@ class Home extends Component {
     render() {
         return (
             <div className="home-container">
-                <div className="hero-symmetry">
-                    <Symmetry/>
-                </div>
+                <Hero imgs={['tree.jpg', 'sky.jpg']} />
                 <div className="row">
                     <div className="offset-md-5 col-md-2 text-center">
                         <a href="downloads/Symmetry Screensaver.scr">

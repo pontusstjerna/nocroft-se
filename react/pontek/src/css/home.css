@@ -8,12 +8,6 @@
   width: 100%;
 }
 
-.hero-symmetry {
-    background: center url("../assets/tree.jpg");
-    margin-top: -50px;
-    height: 102vh;
-}
-
 .slogan {
   
 }
@@ -25,12 +19,8 @@
 }
 
 .big-button:hover {
-  box-shadow: 0 0 15px darkorange;
+  box-shadow: 0 0 15px white;
   transition: 300ms;
-}
-
-.container-margin {
-  margin: 4em 0em;
 }
 
 .text-flirt {
