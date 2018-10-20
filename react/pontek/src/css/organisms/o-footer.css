@@ -1,0 +1,21 @@
+.o-footer {
+    text-align: center;
+    background: #000;
+    position: relative;
+    bottom: 0;
+}
+
+.o-footer .o-footer__copy {
+    margin-bottom: 0;
+}
+
+img, a {
+    width: 100;
+    align-content: center;
+    text-align: center;
+    margin: 0.3em;
+}
+
+.twitter {
+    width: 5%;
+}

@@ -1,3 +1,17 @@
 .u-container {
-    padding: 100px;
+    padding: 20px;
+}
+
+.u-container--large {
+    padding: 50px;
+}
+
+@media screen and (min-width: 710px) {
+    .u-container {
+        padding: 50px;
+    }
+
+    .u-container--large {
+        padding: 100px;
+    }
 }

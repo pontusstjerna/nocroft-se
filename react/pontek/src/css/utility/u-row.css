@@ -1,5 +1,11 @@
 .u-row {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
+}
+
+@media screen and (min-width: 710px) {
+    .u-row {
+        flex-direction: row;
+    }
 }
