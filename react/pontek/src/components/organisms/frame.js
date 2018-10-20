@@ -18,20 +18,34 @@ class Frame extends Component {
             top: document.getElementById(section).getBoundingClientRect().top,
               behavior: 'smooth',
           }), 5);
+        this.closeMenu();
     } 
+
+    closeMenu() {
+        const menuClasses = document.querySelector('.o-header').classList;
+        
+        if (menuClasses.contains('o-header__open')) {
+            menuClasses.remove('o-header__open');
+        }
+    }
+
+    toggleMenu() {
+        document.querySelector('.o-header').classList.toggle('o-header__open');
+    }
 
     render () {
         return (
             <HashRouter>
                 <div>
-                    <div className="menu">
-                        <a className="menu-item" href="#/" onClick={() => this.scrollTo('section-home')} >Home</a>                        
-                        <a className="menu-item" href="#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
-                        {/* <NavLink className="menu-item" to="/autoflirt">Autoflirt</NavLink>                        
-                        <NavLink className="menu-item" to="/about">About me </NavLink> */}
-                        <NavLink className="menu-item" to="/privacyPolicy">Privacy Policy</NavLink>
+                    <div className="o-header">
+                        <button className="o-header__trigger" onClick={this.toggleMenu}><span></span></button>
+                        <a className="o-header__item" href="#/" onClick={() => this.scrollTo('section-home')} >Home</a>                        
+                        <a className="o-header__item" href="#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
+                        {/* <NavLink className="o-header__item" to="/autoflirt">Autoflirt</NavLink>                        
+                        <NavLink className="o-header__item" to="/about">About me </NavLink> */}
+                        <a className="o-header__item" onClick={this.closeMenu} href="#/privacyPolicy">Privacy Policy</a>
                     </div>
-                    <div className="content">
+                    <div className="o-header__content">
                         <Route exact path="/" component={Home} />
                         {/* <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} /> */}

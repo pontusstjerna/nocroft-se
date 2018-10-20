@@ -15,7 +15,7 @@ class Hero extends Component {
             <div className="o-hero" >
                 <div className="o-hero__img" style={{backgroundImage: 'url(' + this.getImg(imgs) + ')'}}></div>
                 <Symmetry strokeWidth="3" />
-                <h1 className="o-hero__title">nocroft.se</h1>
+                <h1 className="o-hero__title"><a href="/">nocroft.se</a></h1>
             </div>
         )
     }

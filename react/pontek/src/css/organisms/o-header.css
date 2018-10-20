@@ -1,27 +1,109 @@
-.menu {
+.o-header {
     display: flex;
     width: 100%;
-    justify-content: flex-end;
     z-index: 10; /* Above "hero" */
     position: fixed;
     right: -100%;
-    max-height: 40px;
-    margin-top: 30px;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    background: #151515;
+    opacity: 0.9;    
+    transition: .3s all ease;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.o-header__trigger {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    border: none;
+    height: 23px;
+    width: 30px;
+    padding: 0;
+    background: none;
+}
+
+.o-header__trigger:focus {
+    outline: none;
+}
+
+.o-header__trigger span {
+    width: 100%;
+    height: 3px;
+    background: white;
+    display: block;
+}
+
+.o-header__trigger span:before {
+    content: '';
+    background: white;
+    width: 100%;
+    transition: .3s all ease;
+    height: 3px;
+    top: 0;
+    position: absolute;
+    display: block;    
+}
+
+.o-header__trigger span:after {
+    content: '';
+    background: white;
+    width: 100%;
+    transition: .3s all ease;
+    height: 3px;
+    bottom: 0;
+    position: absolute;
+    display: block;
+}
+
+.o-header__open {
+    z-index: 20;
+    left: 0;
+}
+
+.o-header__open span {
+    background: none;
+}
+
+.o-header__open span:before {
+    transform: rotate(45deg);
+    transform-origin: top left;
+    width: 100%;
+}
+
+.o-header__open span:after {
+    transform: rotate(-45deg);
+    transform-origin: bottom left;
+    width: 100%;
 }
 
 @media screen and (min-width: 710px) {
-    .menu {
+    .o-header {
         right: 40px;
+        justify-content: flex-end;
+        flex-direction: row;
+        max-height: 40px;
+        margin-top: 30px;
+    }
+
+    .o-header__item {
+        margin: 0 10px;
+    }
+
+    .o-header__trigger {
+        display: none;
     }
 }
 
-.menu-item {
+.o-header__item {
     font-size: 1.5em;
-    margin: 0 10px;
+    margin: 20px 10px;
     transition: .3s all ease;
 }
 
-.menu-item:hover {
+.o-header__item:hover {
     text-decoration: none;
     color: rgb(195, 210, 255);
 }
