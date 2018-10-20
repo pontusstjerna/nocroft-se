@@ -1,8 +1,9 @@
 .o-footer {
     text-align: center;
     background: #000;
-    position: relative;
+    position: absolute;
     bottom: 0;
+    height: 200px;
 }
 
 .o-footer .o-footer__copy {

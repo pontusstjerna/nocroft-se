@@ -1,0 +1,15 @@
+.p-privacy-policy {
+    text-align: center;
+    margin: 0 auto;
+    padding: 100px 0;
+}
+
+.p-privacy-policy h1 {
+
+}
+
+@media screen and (min-width: 710px) {
+    .p-privacy-policy {
+        width: 800px;
+    }
+}

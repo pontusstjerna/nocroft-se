@@ -6,15 +6,16 @@ import {
     HashRouter
   } from 'react-router-dom';
 
-import Home from '../home';
-import Autoflirt from '../autoflirt';
-import About from '../about';
+import Home from '../pages/home.js';
+import Autoflirt from '../pages/autoflirt.js';
+import PrivacyPolicy from '../pages/privacyPolicy.js';
+import About from '../pages/about.js';
 
 class Frame extends Component {
 
     scrollTo(section) {
         setTimeout(() => window.scrollTo({
-            top: 800,
+            top: document.getElementById(section).getBoundingClientRect().top,
               behavior: 'smooth',
           }), 5);
     } 
@@ -24,15 +25,17 @@ class Frame extends Component {
             <HashRouter>
                 <div>
                     <div className="menu">
-                        <NavLink className="menu-item" exact to="/">Home</NavLink>
+                        <a className="menu-item" href="#/" onClick={() => this.scrollTo('section-home')} >Home</a>                        
                         <a className="menu-item" href="#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
-                        <NavLink className="menu-item" to="/autoflirt">Autoflirt</NavLink>                        
-                        <NavLink className="menu-item" to="/about">About me </NavLink>
+                        {/* <NavLink className="menu-item" to="/autoflirt">Autoflirt</NavLink>                        
+                        <NavLink className="menu-item" to="/about">About me </NavLink> */}
+                        <NavLink className="menu-item" to="/privacyPolicy">Privacy Policy</NavLink>
                     </div>
                     <div className="content">
                         <Route exact path="/" component={Home} />
-                        <Route path="/autoflirt" component={Autoflirt} />
-                        <Route path="/about" component={About} />
+                        {/* <Route path="/autoflirt" component={Autoflirt} />
+                        <Route path="/about" component={About} /> */}
+                        <Route path="/privacyPolicy" component={PrivacyPolicy} />
                     </div>
                     <Footer />
                 </div>
