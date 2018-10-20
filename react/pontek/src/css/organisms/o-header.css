@@ -16,8 +16,8 @@
 
 .o-header__trigger {
     position: fixed;
-    top: 30px;
-    right: 40px;
+    top: 20px;
+    right: 20px;
     border: none;
     height: 23px;
     width: 30px;
@@ -87,6 +87,7 @@
         max-height: 40px;
         margin-top: 30px;
         display: block;
+        position: absolute;
         background: none;
         left: auto;
         width: auto;
