@@ -17,7 +17,7 @@
 .o-header__trigger {
     position: fixed;
     top: 30px;
-    right: 30px;
+    right: 40px;
     border: none;
     height: 23px;
     width: 30px;
@@ -86,6 +86,10 @@
         flex-direction: row;
         max-height: 40px;
         margin-top: 30px;
+        display: block;
+        background: none;
+        left: auto;
+        width: auto;
     }
 
     .o-header__item {
