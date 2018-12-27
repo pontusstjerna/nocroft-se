@@ -16,6 +16,8 @@
     left: 0;
     opacity: 0.5;
     background-position-x: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .o-hero__title {
