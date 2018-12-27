@@ -15,6 +15,14 @@ import Surveillance from '../pages/surveillance.js';
 
 class Frame extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            token: '',
+        }
+    }
+
     scrollTo(section) {
         setTimeout(() => window.scrollTo({
             top: document.getElementById(section).getBoundingClientRect().top,
@@ -35,6 +43,18 @@ class Frame extends Component {
         document.querySelector('.o-header').classList.toggle('o-header__open');
     }
 
+    login = token => {
+        this.setState({token});
+    }
+
+    renderLogin = props => {
+        if (this.state.token) {
+            return <Surveillance {...props} token={this.state.token} />
+        } else {
+            return <Admin {...props} onLogin={this.login} />
+        }
+    }
+
     render () {
         return (
             <HashRouter>
@@ -53,8 +73,7 @@ class Frame extends Component {
                         {/* <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} /> */}
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
-                        <Route path="/login" component={Admin} />
-                        <Route path="/surveillance" render={props => <Surveillance {...props} token="din_mamma123"/>} />
+                        <Route path="/login" render={this.renderLogin} />
                     </div>
                     <Footer />
                 </div>
