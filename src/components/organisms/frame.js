@@ -11,6 +11,7 @@ import Autoflirt from '../pages/autoflirt.js';
 import PrivacyPolicy from '../pages/privacyPolicy.js';
 import Admin from '../pages/admin.js';
 import About from '../pages/about.js';
+import Surveillance from '../pages/surveillance.js';
 
 class Frame extends Component {
 
@@ -53,6 +54,7 @@ class Frame extends Component {
                         <Route path="/about" component={About} /> */}
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
                         <Route path="/login" component={Admin} />
+                        <Route path="/surveillance" render={props => <Surveillance {...props} token="din_mamma123"/>} />
                     </div>
                     <Footer />
                 </div>

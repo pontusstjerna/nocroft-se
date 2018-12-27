@@ -10,6 +10,10 @@ class Admin extends Component {
         };
     }
 
+    handleSubmit = event => {
+        event.preventDefault();
+    }
+
     render() {
         return (
             <section className="p-admin">
