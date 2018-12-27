@@ -9,6 +9,7 @@ import {
 import Home from '../pages/home.js';
 import Autoflirt from '../pages/autoflirt.js';
 import PrivacyPolicy from '../pages/privacyPolicy.js';
+import Admin from '../pages/admin.js';
 import About from '../pages/about.js';
 
 class Frame extends Component {
@@ -44,12 +45,14 @@ class Frame extends Component {
                         {/* <NavLink className="o-header__item" to="/autoflirt">Autoflirt</NavLink>                        
                         <NavLink className="o-header__item" to="/about">About me </NavLink> */}
                         <a className="o-header__item" onClick={this.closeMenu} href="#/privacyPolicy">Privacy Policy</a>
+                        <a className="o-header__item" onClick={this.closeMenu} href="#/login">Login</a>
                     </div>
                     <div className="o-header__content">
                         <Route exact path="/" component={Home} />
                         {/* <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} /> */}
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
+                        <Route path="/login" component={Admin} />
                     </div>
                     <Footer />
                 </div>
