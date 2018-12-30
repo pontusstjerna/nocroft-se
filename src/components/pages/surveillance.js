@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RobotPi from '../organisms/robotpi-react';
 
 import { API_URL } from './admin.js';
 
@@ -13,6 +14,11 @@ class Surveillance extends Component {
 
     componentDidMount = () => {
         this.checkAuth();
+    }
+
+    shouldComponentUpdate = () => {
+        //return !this.state.robotPi;
+        return true;
     }
 
     checkAuth = () => {
@@ -43,9 +49,22 @@ class Surveillance extends Component {
 
     render() {
     
+        const { robotPi, secretMessage } = this.state;
+
         return (
             <div className="p-surveillance">
-                <p>{this.state.secretMessage}</p>
+                {robotPi &&
+                    <div className="container">
+                        <RobotPi />
+                        <button onClick={() => this.setState({robotPi: false})}>Exit CatHunter </button>                        
+                    </div>
+                }
+                {!robotPi &&
+                    <div className="container">
+                        <p>{this.state.secretMessage}</p>
+                        <button onClick={() => this.setState({robotPi: true})}>CatHunter </button>
+                    </div>
+                }
                 <button onClick={this.logout}>Log out</button>
             </div>
         );

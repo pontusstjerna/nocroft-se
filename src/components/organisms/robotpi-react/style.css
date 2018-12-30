@@ -1,0 +1,59 @@
+.buttons div {
+    font-size: 3em;
+    margin: 0.1em;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    background-color: #303030;
+    transition-duration: 100ms;
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.buttons .active {
+    background-color: #a0a0a0;
+    transition-duration: 100ms;
+}
+
+.buttons #btnLeft {
+    background-image: url(assets/baseline-arrow_upleft-24px.svg);
+}
+
+.buttons #btnForward {
+    background-image: url(assets/baseline-arrow_upward-24px.svg);
+}
+
+.buttons #btnRight {
+    background-image: url(assets/baseline-arrow_upright-24px.svg);
+}
+
+.buttons #btnRotLeft {
+    background-image: url(assets/baseline-arrow_back-24px.svg);
+}
+
+.buttons #btnBackward {
+    background-image: url(assets/baseline-arrow_downward-24px.svg);
+}
+
+.buttons #btnRotRight {
+    background-image: url(assets/baseline-arrow_forward-24px.svg);
+}
+
+.disconnected {
+    color: red;
+}
+
+#video-canvas {
+    border: 2px solid #303030;
+    border-radius: 5px;
+    width: 320px;
+    height: 240px;
+}

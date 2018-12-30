@@ -3,5 +3,10 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    height: calc(100vh - 200px);
+    margin-top: 200px;
+}
+
+.p-surveillance .container {
+    width: 100%;
+    text-align: center;
 }
