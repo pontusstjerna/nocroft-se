@@ -43,18 +43,6 @@ class Frame extends Component {
         document.querySelector('.o-header').classList.toggle('o-header__open');
     }
 
-    login = token => {
-        this.setState({token});
-    }
-
-    renderLogin = props => {
-        if (this.state.token) {
-            return <Surveillance {...props} token={this.state.token} />
-        } else {
-            return <Admin {...props} onLogin={this.login} />
-        }
-    }
-
     render () {
         return (
             <HashRouter>
@@ -66,14 +54,15 @@ class Frame extends Component {
                         {/* <NavLink className="o-header__item" to="/autoflirt">Autoflirt</NavLink>                        
                         <NavLink className="o-header__item" to="/about">About me </NavLink> */}
                         <a className="o-header__item" onClick={this.closeMenu} href="#/privacyPolicy">Privacy Policy</a>
-                        <a className="o-header__item" onClick={this.closeMenu} href="#/login">Login</a>
+                        <a className="o-header__item" onClick={this.closeMenu} href="#/admin">Login</a>
                     </div>
                     <div className="o-header__content">
                         <Route exact path="/" component={Home} />
                         {/* <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} /> */}
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
-                        <Route path="/login" render={this.renderLogin} />
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/surveillance" component={Surveillance} />
                     </div>
                     <Footer />
                 </div>

@@ -1,8 +1,7 @@
 .o-login {
     display: flex;
     flex-direction: column;
-    height: 200px;
-    width: 30%;
+    width: 80%;
     justify-content: space-between;
     align-items: center;
     font-size: 1.5rem;
@@ -12,9 +11,19 @@
     width: 100%;
     background: #ccc;
     border: none;
+    margin-bottom: 30px;
+    padding: 5px;
 }
 
 .o-login button {
     border: none;
     background: #ccc;
+    padding: 0 20px;
+}
+
+@media screen and (min-width: 710px) {
+    .o-login {
+        width: 30%;
+    }
+    
 }

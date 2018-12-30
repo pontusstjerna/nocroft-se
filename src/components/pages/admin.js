@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+export const API_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? '' : '/api';
+
 class Admin extends Component {
     constructor(props) {
         super(props);
@@ -15,18 +17,25 @@ class Admin extends Component {
         event.preventDefault();
         const { username, password } = this.state;
 
-        fetch('/login', {
+        fetch(`${API_URL}/login`, {
+            method: 'POST',
+            body: btoa(`${username}:${password}`),
             headers: {
-                'Authorization': 'basic ' + btoa(`${username}:${password}`)
+                'Content-Type': 'text/plain'
             }
         }).then(response => {
             if (response.ok) {
-                response.text().then(this.props.onLogin);
+                return response.text();
             } else {
                 alert('Invalid username or password.');
+                return '';
             }
-
-            this.setState({loggingIn: false});
+        })
+        .then(token => {
+            if (token) {
+                window.sessionStorage.setItem('token-surveillance', token)
+                window.location = '#/surveillance';
+            }
         }).catch(err => {
             console.log(err);
         });
