@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import io from 'socket.io-client';
 import { connectIO, connectWS } from './socket.js';
 
 import './style.css';

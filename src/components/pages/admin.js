@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export const API_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? '' : '/api';
+export const API_URL = '/api';
 
 class Admin extends Component {
     constructor(props) {

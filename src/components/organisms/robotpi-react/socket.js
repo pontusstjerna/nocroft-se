@@ -12,25 +12,30 @@ export const connectIO = (url, token) => {
                 }
             }
         } : {});
-    
+
+        const timeout = setTimeout(() => {
+            socket.disconnect();
+            reject('Timeout: Unable to connect to the CatHunter server.');
+        }, 7000);
+
         socket.on('unauthorized', () => {
             reject('Unauthorized.');
         })
 
         socket.on('disconnect', () => reject('Unable to connect to CatHunter server.'));
 
-        socket.emit('started');
-
         socket.on('started', started => resolve(started));
 
-        setTimeout(() => {
-            socket.disconnect();
-            reject('Timeout: Unable to connect to the CatHunter server.');
-        }, 7000);
+        socket.on('connect', () => {
+            setTimeout(() => {
+                socket.emit('started');
+                clearTimeout(timeout)
+            }, 500);
+        });
     });
 }
 
 export const connectWS = (canvas, url, token) => {
     url = `ws://${url}/?authorization=${token}`;
-    return new jsmpeg(url, {canvas});
+    //return new jsmpeg(url, {canvas});
 }
