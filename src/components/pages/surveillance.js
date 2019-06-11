@@ -9,6 +9,7 @@ class Surveillance extends Component {
 
         this.state = {
             secretMessage: '',
+            token: null,
         }
     }
 
@@ -39,7 +40,10 @@ class Surveillance extends Component {
             } else {
                 return response.text();
             }
-        }).then(text => this.setState({secretMessage: text}));
+        }).then(text => this.setState({
+            secretMessage: text,
+            token: token,
+        }));
     }
 
     logout = () => {
@@ -49,13 +53,13 @@ class Surveillance extends Component {
 
     render() {
     
-        const { robotPi, secretMessage } = this.state;
+        const { robotPi, secretMessage, token } = this.state;
 
         return (
             <div className="p-surveillance">
                 {robotPi &&
                     <div className="container">
-                        <RobotPi socketURL="http://localhost:3000" />
+                        <RobotPi socketURL="http://localhost:8080" token={token} />
                         <button onClick={() => this.setState({robotPi: false})}>Exit CatHunter </button>                        
                     </div>
                 }

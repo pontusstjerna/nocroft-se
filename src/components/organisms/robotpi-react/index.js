@@ -13,18 +13,17 @@ class RobotPi extends Component {
 
         this.state = {
             player: undefined,
-            serverStarted: false,
+            isServerStarted: false,
             connecting: false,
             error: '',
-            player: undefined,
         };
     }
 
     componentDidMount() {
-        const { socketURL, videoURL, token } = this.props;
+        const { videoURL, token } = this.props;
 
-        connectIO(socketURL, token)
-        .then(serverStarted => this.setState({serverStarted, connecting: false,}))
+        connectIO('', token)
+        .then(isServerStarted => this.setState({isServerStarted: isServerStarted, connecting: false,}))
         .catch(error => this.setState({error, connecting: false}));
 
         this.setState({connecting: true});
@@ -33,7 +32,7 @@ class RobotPi extends Component {
     }
 
     render() {
-        const { serverStarted, connecting, error } = this.state;
+        const { isServerStarted, connecting, error } = this.state;
 
         return (
             <div >
@@ -42,18 +41,18 @@ class RobotPi extends Component {
                     <p>
                         Please use a browser that supports the Canvas Element, like
                         <a href="http://www.google.com/chrome">Chrome</a>,
-                        <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+                        <a href="http://www.mozilla.com/sfirefox/">Firefox</a>,
                         <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
                     </p>
                 </canvas>
                 <div className="buttons">
-                    <div id="btnLeft"></div>
-                    <div id="btnForward"></div>
-                    <div id="btnRight" ></div>
+                    <div id="btnLeft"/>
+                    <div id="btnForward"/>
+                    <div id="btnRight" />
                     <br/>
-                    <div id="btnRotLeft"></div>
-                    <div id="btnBackward"></div>
-                    <div id="btnRotRight"></div>
+                    <div id="btnRotLeft"/>
+                    <div id="btnBackward"/>
+                    <div id="btnRotRight"/>
                 </div>
                 { error && 
                     <p className="disconnected">{error}</p>
@@ -61,8 +60,8 @@ class RobotPi extends Component {
                 { connecting &&
                     <p>Connecting...</p>
                 }
-                { serverStarted &&
-                    <p>Server last started {serverStarted}.</p>
+                { isServerStarted &&
+                    <p>Server last started {isServerStarted}.</p>
                 }
 
             </div>

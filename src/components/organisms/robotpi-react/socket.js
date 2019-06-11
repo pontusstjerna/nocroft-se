@@ -3,10 +3,11 @@ import jsmpeg from 'jsmpeg';
 
 export const connectIO = (url, token) => {
     return new Promise((resolve, reject) => {
+        console.log(token)
         let socket = io(url, token ? {
             transportOptions: {
                 polling: {
-                    extraheaders: {
+                    extraHeaders: {
                         'Authorization': 'bearer ' + token,
                     }
                 }
