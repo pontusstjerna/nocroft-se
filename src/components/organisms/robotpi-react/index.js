@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import io from 'socket.io-client';
 import { connectIO, connectWS } from './socket.js';
+import CtrlButton from './ctrlButton';
+import Controller from './controller';
+import * as types from './robotPiActionTypes';
 
 import './style.css';
 
@@ -16,6 +19,7 @@ class RobotPi extends Component {
             isServerStarted: false,
             connecting: false,
             error: '',
+            controller: null,
         };
     }
 
@@ -23,7 +27,11 @@ class RobotPi extends Component {
         const { videoURL, token } = this.props;
 
         connectIO('', token)
-        .then(isServerStarted => this.setState({isServerStarted: isServerStarted, connecting: false,}))
+        .then(({socket, isStarted}) => this.setState({
+            isServerStarted: isStarted,
+            connecting: false,
+            controller: new Controller(socket)
+        }))
         .catch(error => this.setState({error, connecting: false}));
 
         this.setState({connecting: true});
@@ -32,7 +40,7 @@ class RobotPi extends Component {
     }
 
     render() {
-        const { isServerStarted, connecting, error } = this.state;
+        const { isServerStarted, connecting, error, controller } = this.state;
 
         return (
             <div >
@@ -46,13 +54,13 @@ class RobotPi extends Component {
                     </p>
                 </canvas>
                 <div className="buttons">
-                    <div id="btnLeft"/>
-                    <div id="btnForward"/>
-                    <div id="btnRight" />
+                    <CtrlButton action={types.LEFT} controller={controller} />
+                    <CtrlButton action={types.FORWARD} controller={controller} />
+                    <CtrlButton action={types.RIGHT} controller={controller} />
                     <br/>
-                    <div id="btnRotLeft"/>
-                    <div id="btnBackward"/>
-                    <div id="btnRotRight"/>
+                    <CtrlButton action={types.ROTATE_LEFT} controller={controller} />
+                    <CtrlButton action={types.REVERSE} controller={controller} />
+                    <CtrlButton action={types.ROTATE_RIGHT} controller={controller} />
                 </div>
                 { error && 
                     <p className="disconnected">{error}</p>

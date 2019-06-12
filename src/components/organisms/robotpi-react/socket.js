@@ -24,7 +24,7 @@ export const connectIO = (url, token) => {
 
         socket.on('disconnect', () => reject('Unable to connect to CatHunter server.'));
 
-        socket.on('started', started => resolve(started));
+        socket.on('started', started => resolve({socket: socket, isStarted: started}));
 
         socket.on('connect', () => {
             setTimeout(() => {
