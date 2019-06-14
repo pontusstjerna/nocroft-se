@@ -6,6 +6,10 @@ class CtrlButton extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            active: false,
+        }
+
         this.onPressReverse = this.onPressReverse.bind(this);
         this.onReleaseReverse = this.onReleaseReverse.bind(this);
     }
@@ -14,16 +18,28 @@ class CtrlButton extends Component {
         const { controller } = this.props;
         controller.reverse();
         controller.forward();
+        this.setState({active: true});
     }
 
     onReleaseReverse() {
         const { controller } = this.props;
         controller.stop();
         controller.reverse();
+        this.setState({active: false});
+    }
+
+    onPress(action) {
+        this.props.controller.perform(action);
+        this.setState({active: true});
+    }
+
+    onRelease() {
+        this.props.controller.stop();
+        this.setState({active: false});
     }
 
     render() {
-        const { action, controller } = this.props;
+        const { action, active } = this.props;
 
         if (action === types.REVERSE) {
             return <button
@@ -36,11 +52,12 @@ class CtrlButton extends Component {
         }
 
         return <button
+                className={active || this.state.active ? 'active' : ''}
                 id={'btn-' + action}
-                onMouseDown={() => controller.perform(action)}
-                onMouseUp={() => controller.stop()}
-                onTouchStart={() => controller.perform(action)}
-                onTouchEnd={() => controller.stop()}
+                onMouseDown={() => this.onPress(action)}
+                onMouseUp={this.onRelease}
+                onTouchStart={() => this.onPress(action)}
+                onTouchEnd={this.onRelease}
             />;
     }
 }

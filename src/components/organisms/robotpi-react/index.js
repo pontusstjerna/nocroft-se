@@ -213,7 +213,8 @@ class RobotPi extends Component {
     }
 
     render() {
-        const { isServerStarted, connecting, error, controller } = this.state;
+        const { isServerStarted, connecting, error, controller, input } = this.state;
+        const { up, left, down, right } = inputs;
 
         return (
             <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
@@ -228,12 +229,12 @@ class RobotPi extends Component {
                 </canvas>
                 <div className="buttons">
                     <CtrlButton action={types.LEFT} controller={controller} />
-                    <CtrlButton action={types.FORWARD} controller={controller} />
+                    <CtrlButton action={types.FORWARD} active={up} controller={controller} />
                     <CtrlButton action={types.RIGHT} controller={controller} />
                     <br/>
-                    <CtrlButton action={types.ROTATE_LEFT} controller={controller} />
-                    <CtrlButton action={types.REVERSE} controller={controller} />
-                    <CtrlButton action={types.ROTATE_RIGHT} controller={controller} />
+                    <CtrlButton action={types.ROTATE_LEFT} active={left} controller={controller} />
+                    <CtrlButton action={types.REVERSE} active={down} controller={controller} />
+                    <CtrlButton action={types.ROTATE_RIGHT} active={right} controller={controller} />
                 </div>
                 { error && 
                     <p className="disconnected">{error}</p>
