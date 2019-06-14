@@ -20,6 +20,12 @@ class RobotPi extends Component {
             connecting: false,
             error: '',
             controller: null,
+            inputs: {
+                up: false,
+                left: false,
+                down: false,
+                right: false,
+            }
         };
     }
 
@@ -39,11 +45,102 @@ class RobotPi extends Component {
         const player = connectWS(this.refs.canvas, videoURL, token);
     }
 
+    onKeyDown(event) {
+        const { controller, inputs } = this.state;
+        const { up, left, down, right } = inputs;
+
+        switch(event.key) {
+            case 'ArrowLeft':
+                if (!left) {
+                    if (up) {
+                        controller.left();
+                    } else if (down) {
+                        controller.right();
+                    } else {
+                        controller.rotLeft();
+                    }
+
+                    this.setState({
+                        inputs: {
+                            ...this.state.inputs,
+                            left: true,
+                        }
+                    });
+                }
+                break;
+
+            case 'ArrowUp':
+                if (!up) {
+                    if (left) {
+                        controller.left();
+                    } else if (right) {
+                        controller.right();
+                    } else {
+                        controller.forward();
+                    }
+
+                    this.setState({
+                        inputs: {
+                            ...this.state.inputs,
+                            up: true,
+                        }
+                    });
+                }
+                break;
+
+            case 'ArrowRight':
+                if (!right) {
+                    if (up) {
+                        controller.right();
+                    } else if (down) {
+                        controller.left();
+                    } else {
+                        controller.rotRight();
+                    }
+
+                    this.setState({
+                        inputs: {
+                            ...this.state.inputs,
+                            right: true,
+                        }
+                    });
+                }
+                break;
+
+            case 'ArrowDown':
+                if (!down) {
+                    controller.reverse();
+                    if (left) {
+                        controller.right();
+                    } else if (right) {
+                        controller.left();
+                    } else {
+                        controller.forward();
+                    }
+
+                    this.setState({
+                        inputs: {
+                            ...this.state.inputs,
+                            down: true,
+                        }
+                    });
+                }
+                break;
+
+            default: return;
+        }
+        event.preventDefault(); // prevent the default action (scroll / move caret)
+    }
+
+    onKeyUp(event) {
+
+    }
+
     render() {
         const { isServerStarted, connecting, error, controller } = this.state;
 
         return (
-            <div >
+            <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
                 <h1>CatHunter 1.1</h1>
                 <canvas ref="video-canvas" id="video-canvas" width="640" height="480">
                     <p>
