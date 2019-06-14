@@ -59,7 +59,7 @@ class Surveillance extends Component {
             <div className="p-surveillance">
                 {robotPi &&
                     <div className="container">
-                        <RobotPi socketURL="" token={token} videoURL="ws://192.168.0.86:4002" />
+                        <RobotPi socketURL="" token={token} videoURL={'ws://localhost:8080/video'} />
                         <button onClick={() => this.setState({robotPi: false})}>Exit CatHunter </button>                        
                     </div>
                 }
