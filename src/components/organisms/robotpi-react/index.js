@@ -46,6 +46,14 @@ class RobotPi extends Component {
         this.setState({connecting: true});
 
         //const player = connectWS(this.refs.canvas, videoURL, token);
+
+        document.addEventListener("keydown", this.onKeyDown);
+        document.addEventListener("keyup", this.onKeyUp);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.onKeyDown);
+        document.removeEventListener("keyup", this.onKeyUp);
     }
 
     onKeyDown(event) {
@@ -58,7 +66,7 @@ class RobotPi extends Component {
                     if (up) {
                         controller.left();
                     } else if (down) {
-                        controller.right();
+                        controller.left();
                     } else {
                         controller.rotLeft();
                     }
@@ -96,7 +104,7 @@ class RobotPi extends Component {
                     if (up) {
                         controller.right();
                     } else if (down) {
-                        controller.left();
+                        controller.right();
                     } else {
                         controller.rotRight();
                     }
@@ -114,9 +122,9 @@ class RobotPi extends Component {
                 if (!down) {
                     controller.reverse();
                     if (left) {
-                        controller.right();
-                    } else if (right) {
                         controller.left();
+                    } else if (right) {
+                        controller.right();
                     } else {
                         controller.forward();
                     }
@@ -213,11 +221,11 @@ class RobotPi extends Component {
     }
 
     render() {
-        const { isServerStarted, connecting, error, controller, input } = this.state;
+        const { isServerStarted, connecting, error, controller, inputs } = this.state;
         const { up, left, down, right } = inputs;
 
         return (
-            <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+            <div>
                 <h1>CatHunter 1.1</h1>
                 <canvas ref="video-canvas" id="video-canvas" width="640" height="480">
                     <p>

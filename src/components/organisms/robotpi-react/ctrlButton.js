@@ -12,6 +12,8 @@ class CtrlButton extends Component {
 
         this.onPressReverse = this.onPressReverse.bind(this);
         this.onReleaseReverse = this.onReleaseReverse.bind(this);
+        this.onPress = this.onPress.bind(this);
+        this.onRelease = this.onRelease.bind(this);
     }
 
     onPressReverse() {
@@ -44,6 +46,7 @@ class CtrlButton extends Component {
         if (action === types.REVERSE) {
             return <button
                 id={'btn-' + action}
+                className={active || this.state.active ? 'active' : ''}
                 onMouseDown={this.onPressReverse}
                 onMouseUp={this.onReleaseReverse}
                 onTouchStart={this.onPressReverse}
