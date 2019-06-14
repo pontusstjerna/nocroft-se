@@ -27,6 +27,9 @@ class RobotPi extends Component {
                 right: false,
             }
         };
+
+        this.onKeyDown = this.onKeyDown.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
     }
 
     componentDidMount() {
@@ -42,7 +45,7 @@ class RobotPi extends Component {
 
         this.setState({connecting: true});
 
-        const player = connectWS(this.refs.canvas, videoURL, token);
+        //const player = connectWS(this.refs.canvas, videoURL, token);
     }
 
     onKeyDown(event) {
@@ -129,11 +132,84 @@ class RobotPi extends Component {
 
             default: return;
         }
+
         event.preventDefault(); // prevent the default action (scroll / move caret)
     }
 
     onKeyUp(event) {
+        const { controller, inputs } = this.state;
+        const { up, left, down, right } = inputs;
 
+        switch(event.key) {
+            case 'ArrowLeft':
+                if (up || down) {
+                    controller.forward();
+                } else {
+                    controller.stop();
+                }
+
+                this.setState({
+                    inputs: {
+                        ...this.state.inputs,
+                        left: false,
+                    }
+                });
+                break;
+
+            case 'ArrowUp':
+                if (left) {
+                    controller.rotLeft();
+                } else if (right) {
+                    controller.rotRight();
+                } else {
+                    controller.stop();
+                }
+
+                this.setState({
+                    inputs: {
+                        ...this.state.inputs,
+                        up: false,
+                    }
+                });
+                break;
+
+            case 'ArrowRight':
+                if (up || down) {
+                    controller.forward();
+                } else {
+                    controller.stop();
+                }
+
+                this.setState({
+                    inputs: {
+                        ...this.state.inputs,
+                        right: false,
+                    }
+                });
+                break;
+
+            case 'ArrowDown':
+                controller.reverse();
+                if (left) {
+                    controller.rotLeft();
+                } else if (right) {
+                    controller.rotRight();
+                } else {
+                    controller.stop();
+                }
+
+                this.setState({
+                    inputs: {
+                        ...this.state.inputs,
+                        down: false,
+                    }
+                });
+                break;
+
+            default: return;
+        }
+
+        event.preventDefault(); // prevent the default action (scroll / move caret)
     }
 
     render() {
