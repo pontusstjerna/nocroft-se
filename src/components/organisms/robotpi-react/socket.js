@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import jsmpeg from 'jsmpeg';
+// import jsmpeg from 'jsmpeg';
 
 export const connectIO = (url, token) => {
     return new Promise((resolve, reject) => {
@@ -35,7 +35,10 @@ export const connectIO = (url, token) => {
     });
 }
 
-export const connectWS = (canvas, url, token) => {
-    url = `ws://${url}/?authorization=${token}`;
-    //return new jsmpeg(url, {canvas});
+export const connectVideoCanvas = (canvas, url, token) => {
+    if (!canvas) return;
+
+    url = `${url}`;
+    console.log('Connecting to video WS: ' + url);
+    return new window.JSMpeg.Player(url, {canvas});
 }

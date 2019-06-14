@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import io from 'socket.io-client';
-import { connectIO, connectWS } from './socket.js';
+import { connectIO, connectVideoCanvas } from './socket.js';
 import CtrlButton from './ctrlButton';
 import Controller from './controller';
 import * as types from './robotPiActionTypes';
@@ -15,7 +15,7 @@ class RobotPi extends Component {
         super(props);
 
         this.state = {
-            player: undefined,
+            videoPlayer: undefined,
             isServerStarted: false,
             connecting: false,
             error: '',
@@ -33,9 +33,9 @@ class RobotPi extends Component {
     }
 
     componentDidMount() {
-        const { videoURL, token } = this.props;
+        const { socketURL, videoURL, token } = this.props;
 
-        connectIO('', token)
+        connectIO(socketURL, token)
         .then(({socket, isStarted}) => this.setState({
             isServerStarted: isStarted,
             connecting: false,
@@ -43,9 +43,9 @@ class RobotPi extends Component {
         }))
         .catch(error => this.setState({error, connecting: false}));
 
-        this.setState({connecting: true});
+        connectVideoCanvas(document.getElementById("video-canvas"), videoURL, token);
 
-        //const player = connectWS(this.refs.canvas, videoURL, token);
+        this.setState({connecting: true,});
 
         document.addEventListener("keydown", this.onKeyDown);
         document.addEventListener("keyup", this.onKeyUp);
@@ -227,7 +227,7 @@ class RobotPi extends Component {
         return (
             <div>
                 <h1>CatHunter 1.1</h1>
-                <canvas ref="video-canvas" id="video-canvas" width="640" height="480">
+                <canvas ref="videoCanvas" id="video-canvas" width="640" height="480">
                     <p>
                         Please use a browser that supports the Canvas Element, like
                         <a href="http://www.google.com/chrome">Chrome</a>,
