@@ -16,6 +16,7 @@ class RobotPi extends Component {
 
         this.state = {
             videoPlayer: undefined,
+            socket: undefined,
             isServerStarted: false,
             connecting: false,
             error: '',
@@ -25,25 +26,28 @@ class RobotPi extends Component {
                 left: false,
                 down: false,
                 right: false,
-            }
+            },
         };
 
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
+        this.onError = this.onError.bind(this);
     }
 
     componentDidMount() {
         const { socketURL, videoURL, token } = this.props;
 
-        connectIO(socketURL, token)
+        connectIO(socketURL, token, this.onError)
         .then(({socket, isStarted}) => this.setState({
             isServerStarted: isStarted,
             connecting: false,
-            controller: new Controller(socket)
+            controller: new Controller(socket),
+            socket
         }))
-        .catch(error => this.setState({error, connecting: false}));
+        .catch(this.onError);
 
-        connectVideoCanvas(document.getElementById("video-canvas"), videoURL, token);
+        const videoPlayer = connectVideoCanvas(document.getElementById("video-canvas"), videoURL, token, this.onError);
+        this.setState({videoPlayer});
 
         this.setState({connecting: true,});
 
@@ -220,8 +224,21 @@ class RobotPi extends Component {
         event.preventDefault(); // prevent the default action (scroll / move caret)
     }
 
+    onError(error) {
+        const { socket, videoPlayer } = this.state;
+        if (socket) {
+            socket.close();
+        }
+
+        if (videoPlayer) {
+            videoPlayer.destroy();
+        }
+
+        this.setState({error: error});
+    }
+
     render() {
-        const { isServerStarted, connecting, error, controller, inputs } = this.state;
+        const { isServerStarted, connecting, error, controller, inputs, errorMessage } = this.state;
         const { up, left, down, right } = inputs;
 
         return (
@@ -253,7 +270,6 @@ class RobotPi extends Component {
                 { isServerStarted &&
                     <p>Server last started {isServerStarted}.</p>
                 }
-
             </div>
         );
     }
