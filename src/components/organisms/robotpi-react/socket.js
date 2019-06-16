@@ -37,8 +37,6 @@ export const connectIO = (url, token, onError) => {
 
 export const connectVideoCanvas = (canvas, url, token, onError) => {
     if (!canvas) onError('No canvas available.');
-
-    url = `${url}`;
     console.log('Connecting to video WS: ' + url);
     return new window.JSMpeg.Player(url, {
         canvas,

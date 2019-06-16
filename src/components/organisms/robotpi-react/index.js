@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-import io from 'socket.io-client';
 import { connectIO, connectVideoCanvas } from './socket.js';
+import { API_URL } from '../../pages/admin.js';
 import CtrlButton from './ctrlButton';
 import Controller from './controller';
 import * as types from './robotPiActionTypes';
+
 
 import './style.css';
 
@@ -46,8 +47,20 @@ class RobotPi extends Component {
         }))
         .catch(this.onError);
 
-        const videoPlayer = connectVideoCanvas(document.getElementById("video-canvas"), videoURL, token, this.onError);
-        this.setState({videoPlayer});
+        fetch(`${API_URL}/access-token`, {
+            headers: {
+                'Authorization': 'bearer ' + token,
+            }
+        }).then(response => {
+            if (!response.ok) {
+                console.log('Failed to get video access token');
+            } else {
+                return response.text();
+            }
+        }).then(videoToken => {
+            const videoPlayer = connectVideoCanvas(document.getElementById("video-canvas"), videoURL + '?access_token=' + videoToken, token, this.onError);
+            this.setState({videoPlayer});
+        });
 
         this.setState({connecting: true,});
 
@@ -234,7 +247,7 @@ class RobotPi extends Component {
             videoPlayer.destroy();
         }
 
-        this.setState({error: error});
+        this.setState({error: String(error)});
     }
 
     render() {
