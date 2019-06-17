@@ -69,8 +69,13 @@ class RobotPi extends Component {
     }
 
     componentWillUnmount() {
+        const { socket, videoPlayer } = this.state;
+
         document.removeEventListener("keydown", this.onKeyDown);
         document.removeEventListener("keyup", this.onKeyUp);
+
+        if (socket) socket.close();
+        if (videoPlayer) videoPlayer.stop();
     }
 
     onKeyDown(event) {
