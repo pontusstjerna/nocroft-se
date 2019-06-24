@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export const API_URL = '/api';
 
-class Admin extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
 
@@ -10,6 +10,7 @@ class Admin extends Component {
             username: '',
             password: '',
             loggingIn: false,
+            errorMessage: '',
         };
     }
 
@@ -27,7 +28,15 @@ class Admin extends Component {
             if (response.ok) {
                 return response.text();
             } else {
-                alert('Invalid username or password.');
+                let errorMessage = 'Invalid username or password.';
+                switch (response.status) {
+                    case 504:
+                        errorMessage = 'Unable to connect to the server, please try again later.';
+                        break;
+                    default: break;
+                }
+                console.log(response.status);
+                this.setState({errorMessage});
                 return '';
             }
         })
@@ -44,16 +53,19 @@ class Admin extends Component {
     }
 
     render() {
+        const { username, password, errorMessage } = this.state;
         return (
             <section className="p-admin">
+                <h3>Nocroft Admin</h3>
                 <form className="o-login" onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.username} onChange={e => this.setState({username: e.target.value})} placeholder="Username" />
-                    <input type="password" value={this.password} onChange={e => this.setState({password: e.target.value})} placeholder="Password" />
+                    <input type="text" value={username} onChange={e => this.setState({username: e.target.value})} placeholder="Username" />
+                    <input type="password" value={password} onChange={e => this.setState({password: e.target.value})} placeholder="Password" />
                     <button type="Submit">Login</button>
                 </form>
+                <p className="o-login__error">{ errorMessage }</p>
             </section>
         );
     }
 }
 
-export default Admin;
+export default Login;

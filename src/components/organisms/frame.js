@@ -9,7 +9,7 @@ import {
 import Home from '../pages/home.js';
 import Autoflirt from '../pages/autoflirt.js';
 import PrivacyPolicy from '../pages/privacyPolicy.js';
-import Admin from '../pages/admin.js';
+import Login from '../pages/login.js';
 import About from '../pages/about.js';
 import Surveillance from '../pages/surveillance.js';
 
@@ -61,7 +61,7 @@ class Frame extends Component {
                         {/* <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} /> */}
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
-                        <Route path="/admin" component={Admin} />
+                        <Route path="/admin" component={Login} />
                         <Route path="/surveillance" component={Surveillance} />
                     </div>
                     <Footer />

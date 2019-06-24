@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connectIO, connectVideoCanvas } from './socket.js';
-import { API_URL } from '../../pages/admin.js';
+import { API_URL } from '../../pages/login.js';
 import CtrlButton from './ctrlButton';
 import Controller from './controller';
 import * as types from './robotPiActionTypes';

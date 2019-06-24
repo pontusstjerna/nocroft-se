@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RobotPi from '../organisms/robotpi-react';
 
-import { API_URL } from './admin.js';
+import { API_URL } from './login.js';
 
 class Surveillance extends Component {
     constructor(props) {
@@ -53,7 +53,7 @@ class Surveillance extends Component {
 
     render() {
     
-        const { robotPi, secretMessage, token } = this.state;
+        const { robotPi, token } = this.state;
 
         return (
             <div className="p-surveillance">
