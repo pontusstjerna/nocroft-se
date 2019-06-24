@@ -3,7 +3,7 @@ import RobotPi from '../organisms/robotpi-react';
 
 import { API_URL } from './login.js';
 
-class Surveillance extends Component {
+class Admin extends Component {
     constructor(props) {
         super(props);
 
@@ -75,4 +75,4 @@ class Surveillance extends Component {
     }
 }
 
-export default Surveillance;
+export default Admin;
