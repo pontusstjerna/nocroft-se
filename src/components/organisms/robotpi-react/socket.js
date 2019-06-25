@@ -24,7 +24,7 @@ export const connectIO = (url, token, onError) => {
         socket.on('connect_timeout', () => onError('Connection to server timed out.'));
         socket.on('reconnect_timeout', () => onError('Connection to server timed out.'));
 
-        socket.on('started', started => resolve({socket: socket, isStarted: started}));
+        socket.on('started', started => resolve({socket, started: JSON.parse(started)}));
 
         socket.on('connect', () => {
             setTimeout(() => {

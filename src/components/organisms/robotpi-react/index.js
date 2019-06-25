@@ -18,7 +18,8 @@ class RobotPi extends Component {
         this.state = {
             videoPlayer: undefined,
             socket: undefined,
-            isServerStarted: false,
+            started: null,
+            lastConnected: null,
             connecting: false,
             error: '',
             controller: null,
@@ -28,8 +29,10 @@ class RobotPi extends Component {
                 down: false,
                 right: false,
             },
+            status: null,
         };
 
+        this.setupStatusInterval = this.setupStatusInterval.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
         this.onError = this.onError.bind(this);
@@ -39,12 +42,17 @@ class RobotPi extends Component {
         const { socketURL, videoURL, token } = this.props;
 
         connectIO(socketURL, token, this.onError)
-        .then(({socket, isStarted}) => this.setState({
-            isServerStarted: isStarted,
-            connecting: false,
-            controller: new Controller(socket),
-            socket
-        }))
+        .then(({socket, started}) => {
+            this.setState({
+                started: started.started,
+                lastConnected: started.lastConnected,
+                connecting: false,
+                controller: new Controller(socket),
+                socket
+            });
+
+            this.setupStatusInterval(socket);
+        })
         .catch(this.onError);
 
         fetch(`${API_URL}/access-token`, {
@@ -76,6 +84,14 @@ class RobotPi extends Component {
 
         if (socket) socket.close();
         if (videoPlayer) videoPlayer.stop();
+    }
+
+    setupStatusInterval(socket) {
+        socket.on('status', status => {
+           this.setState({status: JSON.parse(status)});
+            setTimeout(() => socket.emit('status'), 5000);
+        });
+        socket.emit('status');
     }
 
     onKeyDown(event) {
@@ -256,7 +272,7 @@ class RobotPi extends Component {
     }
 
     render() {
-        const { isServerStarted, connecting, error, controller, inputs, errorMessage } = this.state;
+        const { started, lastConnected, connecting, error, controller, inputs, status, } = this.state;
         const { up, left, down, right } = inputs;
 
         return (
@@ -285,10 +301,35 @@ class RobotPi extends Component {
                 { connecting &&
                     <p>Connecting...</p>
                 }
-                { isServerStarted &&
-                    <p>Server last started {isServerStarted}.</p>
+                { started &&
+                    <p>Server last started {started}.</p>
                 }
+                { lastConnected &&
+                    <p>Last user disconnected {lastConnected}.</p>
+                }
+                { this.renderStatus(status) }
             </div>
+        );
+    }
+
+    renderStatus(status) {
+        if (!status) {
+            return <p>Unable to get CatHunter system status.</p>;
+        }
+
+        return (
+            <p>
+                <b>Throttled: </b>{ status.throttled }<br />
+                <b>Temperature: </b>{ status.temp }<br />
+                { status.volts &&
+                    <span>
+                        <b>Core volts: </b>{ status.volts.core }<br />
+                        <b>SD RAM C volts: </b>{ status.volts.sdram_c }<br />
+                        <b>SD RAM I volts: </b>{ status.volts.sdram_i }<br />
+                        <b>SD RAM P volts: </b>{ status.volts.sdram_p }<br />
+                    </span>
+                }
+            </p>
         );
     }
 }
