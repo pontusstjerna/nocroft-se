@@ -319,7 +319,7 @@ class RobotPi extends Component {
 
         return (
             <p>
-                <b>Throttled: </b>{ status.throttled }<br />
+                { status.throttled }<br />
                 <b>Temperature: </b>{ status.temp }<br />
                 { status.volts &&
                     <span>

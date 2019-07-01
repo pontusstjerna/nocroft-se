@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { login } from "../../util/auth";
 
 export const API_URL = '/api';
 
@@ -18,39 +19,17 @@ class Login extends Component {
         event.preventDefault();
         const { username, password } = this.state;
 
-        fetch(`${API_URL}/login`, {
-            method: 'POST',
-            body: btoa(`${username}:${password}`),
-            headers: {
-                'Content-Type': 'text/plain'
-            }
-        }).then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                let errorMessage = 'Invalid username or password.';
-                switch (response.status) {
-                    case 504:
-                        errorMessage = 'Unable to connect to the server, please try again later.';
-                        break;
-                    default: break;
-                }
-                console.log(response.status);
-                this.setState({errorMessage});
-                return '';
-            }
-        })
-        .then(token => {
+        login(username, password).then(token => {
             if (token) {
                 window.sessionStorage.setItem('token-surveillance', token)
                 window.location = '#/surveillance';
             }
         }).catch(err => {
-            console.log(err);
+            this.setState({errorMessage: err.message, loggingIn: false});
         });
 
         this.setState({loggingIn: true});
-    }
+    };
 
     render() {
         const { username, password, errorMessage } = this.state;

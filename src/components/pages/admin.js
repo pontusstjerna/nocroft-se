@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import RobotPi from '../organisms/robotpi-react';
-
-import { API_URL } from './login.js';
+import { checkAuth, logout } from "../../util/auth";
 
 class Admin extends Component {
     constructor(props) {
@@ -14,41 +13,16 @@ class Admin extends Component {
     }
 
     componentDidMount = () => {
-        this.checkAuth();
+        checkAuth().then(({secretMessage, token}) => {
+            this.setState({secretMessage, token});
+        }).catch(err => {
+            console.log(err);
+            logout();
+        });
     }
 
     shouldComponentUpdate = () => {
-        //return !this.state.robotPi;
         return true;
-    }
-
-    checkAuth = () => {
-        const token = window.sessionStorage.getItem('token-surveillance');
-        if (!token) {
-            this.logout();
-            return;
-        }
-
-        fetch(`${API_URL}/login`, {
-            headers: {
-                'Authorization': 'bearer ' + token,
-            }
-        }).then(response => {
-            if (!response.ok) {
-                response.text().then(console.log);
-                this.logout();
-            } else {
-                return response.text();
-            }
-        }).then(text => this.setState({
-            secretMessage: text,
-            token: token,
-        }));
-    }
-
-    logout = () => {
-        window.sessionStorage.removeItem('token-surveillance');
-        window.location = "#/admin";
     }
 
     render() {
@@ -69,7 +43,7 @@ class Admin extends Component {
                         <button onClick={() => this.setState({robotPi: true})}>CatHunter </button>
                     </div>
                 }
-                <button onClick={this.logout}>Log out</button>
+                <button onClick={logout}>Log out</button>
             </div>
         );
     }
