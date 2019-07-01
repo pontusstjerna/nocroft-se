@@ -13,7 +13,6 @@ export const checkAuth = () => {
             }
         }));
     }).then(response => {
-        console.log(response.status);
         if (!response.ok) {
             throw new Error('Unable to authenticate with token (maybe expired?).')
         } else {
@@ -40,6 +39,7 @@ export const login = (username, password) => {
         }
     }).then(response => {
         if (response.ok) {
+            setCheckAuthInterval();
             return response.text();
         } else {
             let errorMessage = 'Invalid username or password.';
@@ -49,8 +49,20 @@ export const login = (username, password) => {
                     break;
                 default: break;
             }
-            console.log(response.status);
             throw new Error(errorMessage);
         }
     });
+};
+
+// Check authed every 30 sec
+const setCheckAuthInterval = () => {
+    setTimeout(() => {
+        checkAuth().then(authorized => {
+            if (authorized) setCheckAuthInterval();
+        }).catch(err => {
+            console.log(err);
+            console.log('Logging out.');
+            logout();
+        })
+    }, 30000);
 };
