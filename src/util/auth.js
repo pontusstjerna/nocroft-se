@@ -25,9 +25,11 @@ export const checkAuth = () => {
     })});
 };
 
+export const isLoggedIn = () => window.sessionStorage.getItem('token-surveillance') !== null;
+
 export const logout = () => {
     window.sessionStorage.removeItem('token-surveillance');
-    window.location = "#/admin";
+    window.location = '/';
 };
 
 export const login = (username, password) => {

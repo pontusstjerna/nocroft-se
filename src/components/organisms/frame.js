@@ -5,6 +5,7 @@ import {
     NavLink,
     HashRouter
   } from 'react-router-dom';
+import { isLoggedIn, logout, } from "../../util/auth";
 
 import Home from '../pages/home.js';
 import Autoflirt from '../pages/autoflirt.js';
@@ -54,7 +55,19 @@ class Frame extends Component {
                         {/* <NavLink className="o-header__item" to="/autoflirt">Autoflirt</NavLink>                        
                         <NavLink className="o-header__item" to="/about">About me </NavLink> */}
                         <a className="o-header__item" onClick={this.closeMenu} href="#/privacyPolicy">Privacy Policy</a>
-                        <a className="o-header__item" onClick={this.closeMenu} href="#/admin">Login</a>
+                        { !isLoggedIn() &&
+                            <a className="o-header__item" onClick={this.closeMenu} href="#/admin">Login</a>
+                        }
+                        { isLoggedIn() &&
+                            <a
+                                className="o-header__item"
+                                onClick={() => {
+                                    logout();
+                                    this.closeMenu();
+                                }}
+                                href="#/"
+                            >Logout</a>
+                        }
                     </div>
                     <div className="o-header__content">
                         <Route exact path="/" component={Home} />

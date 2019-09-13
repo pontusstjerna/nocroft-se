@@ -4,7 +4,6 @@ import Symmetry from '../molecules/symmetry';
 class Hero extends Component {
 
     getImg(imgs) {
-        console.log(imgs);
         return 'assets/heros/' + imgs[Math.floor(Math.random() * (imgs.length))];
     }
 
