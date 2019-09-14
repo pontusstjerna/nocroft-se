@@ -58,3 +58,17 @@
     width: 320px;
     height: 240px;
 }
+
+@media screen and (min-width: 710px) {
+    #video-canvas {
+        width: 640px;
+        height: 480px;
+    }
+}
+
+@media screen and (min-width: 960px) {
+    #video-canvas {
+        width: 960px;
+        height: 720px;
+    }
+}
