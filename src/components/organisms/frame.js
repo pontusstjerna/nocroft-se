@@ -56,7 +56,7 @@ class Frame extends Component {
                         <NavLink className="o-header__item" to="/about">About me </NavLink> */}
                         <a className="o-header__item" onClick={this.closeMenu} href="#/privacyPolicy">Privacy Policy</a>
                         { !isLoggedIn() &&
-                            <a className="o-header__item" onClick={this.closeMenu} href="#/admin">Login</a>
+                            <a className="o-header__item" onClick={this.closeMenu} href="#/login">Login</a>
                         }
                         { isLoggedIn() &&
                             <a
@@ -74,8 +74,8 @@ class Frame extends Component {
                         {/* <Route path="/autoflirt" component={Autoflirt} />
                         <Route path="/about" component={About} /> */}
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
-                        <Route path="/admin" component={Login} />
-                        <Route path="/surveillance" component={Admin} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/admin" component={Admin} />
                     </div>
                     <Footer />
                 </div>

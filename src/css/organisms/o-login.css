@@ -9,17 +9,15 @@
 }
 
 .o-login input {
-    width: 100%;
-    background: #ccc;
+    background: transparent;
     border: none;
     margin-bottom: 30px;
-    padding: 5px;
+    border-bottom: 1px solid #CCC;
+    color: #ccc;
 }
 
-.o-login button {
-    border: none;
-    background: #ccc;
-    padding: 0 20px;
+.o-login input:focus {
+    outline: none;
 }
 
 .o-login__error {
