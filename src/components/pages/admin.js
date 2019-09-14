@@ -33,7 +33,7 @@ class Admin extends Component {
             <div className="p-surveillance">
                 {robotPi &&
                     <div className="container">
-                        <RobotPi socketURL="" token={token} videoURL={'wss://' + window.location.host.split(':')[0] + ':8080/video'} />
+                        <RobotPi socketURL="" token={token} videoURL={'wss://' + window.location.host.split(':')[0] + '/video'} />
                         <button onClick={() => this.setState({robotPi: false})}>Exit CatHunter </button>                        
                     </div>
                 }
