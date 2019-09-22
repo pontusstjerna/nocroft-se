@@ -25,7 +25,9 @@ export const checkAuth = () => {
     })});
 };
 
-export const hasToken = () => window.sessionStorage.getItem('token-surveillance') !== null;
+export const hasToken = () => getToken() !== null;
+
+export const getToken = () => window.sessionStorage.getItem('token-surveillance');
 
 export const checkLogin = () => checkAuth()
     .then(() => true)

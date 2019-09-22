@@ -11,6 +11,7 @@ import Login from '../pages/login.js';
 import About from '../pages/about.js';
 import Admin from '../pages/admin.js';
 import Surveillance from '../pages/surveillance';
+import CatHunter from '../pages/catHunter';
 
 const securedPaths = ['/admin', '/surveillance', '/robotpi'];
 
@@ -68,9 +69,11 @@ class Frame extends Component {
                         <button className="o-header__trigger" onClick={this.toggleMenu}><span></span></button>
                         <a className="o-header__item" href="/" onClick={() => this.scrollTo('section-home')} >Home</a>
                         <a className="o-header__item" href="/#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
-                        {/* <NavLink className="o-header__item" to="/autoflirt">Autoflirt</NavLink>                        
-                        <NavLink className="o-header__item" to="/about">About me </NavLink> */}
+                        {/*<NavLink className="o-header__item" to="/about">About me </NavLink> */}
                         <a className="o-header__item" onClick={this.closeMenu} href="/privacyPolicy">Privacy Policy</a>
+                        { isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/admin">Admin</a> }
+                        { isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/surveillance">Surveillance</a> }
+                        { isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cathunter">CatHunter</a> }
                         { !isLoggedIn &&
                             <a className="o-header__item" onClick={this.closeMenu} href="/login">Login</a>
                         }
@@ -92,6 +95,8 @@ class Frame extends Component {
                         <Route path="/privacyPolicy" component={PrivacyPolicy} />
                         <Route path="/login" component={Login} />
                         <Route path="/admin" component={Admin} />
+                        <Route path="/surveillance" component={Surveillance} />
+                        <Route path="/cathunter" component={CatHunter} />
                     </div>
                     <Footer />
                 </div>

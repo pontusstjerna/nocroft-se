@@ -24,7 +24,7 @@
     color: white;
     font-size: 3rem;
     padding: 10px 20px;
-    z-index: 20;
+    z-index: 1;
 }
 
 @media screen and (min-width: 710px) {
