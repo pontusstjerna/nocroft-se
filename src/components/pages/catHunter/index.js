@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
 import { getToken } from "../../../util/auth";
-import { connectIO, connectVideoCanvas } from './socket.js';
+import { connectIO } from './socket.js';
 import { API_URL } from '../login.js';
 import CtrlButton from './ctrlButton';
 import Controller from './controller';
 import * as types from './robotPiActionTypes';
 
 import './style.css';
+import VideoStream from "../../molecules/videoStream";
 
 const socketURL = '';
 const videoURL = 'wss://' + window.location.host.split(':')[0] + '/video';
@@ -20,7 +21,6 @@ class RobotPi extends Component {
         // <RobotPi socketURL="" token={token} videoURL={'wss://' + window.location.host.split(':')[0] + '/video'} />
 
         this.state = {
-            videoPlayer: undefined,
             socket: undefined,
             started: null,
             lastConnected: null,
@@ -58,21 +58,6 @@ class RobotPi extends Component {
             this.setupStatusInterval(socket);
         })
         .catch(this.onError);
-
-        fetch(`${API_URL}/access-token`, {
-            headers: {
-                'Authorization': 'bearer ' + token,
-            }
-        }).then(response => {
-            if (!response.ok) {
-                console.log('Failed to get video access token');
-            } else {
-                return response.text();
-            }
-        }).then(videoToken => {
-            const videoPlayer = connectVideoCanvas(document.getElementById("video-canvas"), videoURL + '?access_token=' + videoToken, token, this.onError);
-            this.setState({videoPlayer});
-        });
 
         this.setState({connecting: true,});
 
@@ -263,13 +248,9 @@ class RobotPi extends Component {
     }
 
     onError(error) {
-        const { socket, videoPlayer } = this.state;
+        const { socket } = this.state;
         if (socket) {
             socket.close();
-        }
-
-        if (videoPlayer) {
-            videoPlayer.destroy();
         }
 
         this.setState({error: String(error)});
@@ -282,14 +263,7 @@ class RobotPi extends Component {
         return (
             <div className="p-cathunter">
                 <h1>CatHunter 1.1</h1>
-                <canvas ref="videoCanvas" id="video-canvas" width="640" height="480">
-                    <p>
-                        Please use a browser that supports the Canvas Element, like
-                        <a href="http://www.google.com/chrome">Chrome</a>,
-                        <a href="http://www.mozilla.com/sfirefox/">Firefox</a>,
-                        <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-                    </p>
-                </canvas>
+                <VideoStream id="CatHunter" url="/video" />
                 <div className="buttons">
                     <CtrlButton action={types.LEFT} controller={controller} />
                     <CtrlButton action={types.FORWARD} active={up} controller={controller} />
