@@ -25,7 +25,11 @@ export const checkAuth = () => {
     })});
 };
 
-export const isLoggedIn = () => window.sessionStorage.getItem('token-surveillance') !== null;
+export const hasToken = () => window.sessionStorage.getItem('token-surveillance') !== null;
+
+export const checkLogin = () => checkAuth()
+    .then(() => true)
+    .catch(() => false);
 
 export const logout = () => {
     window.sessionStorage.removeItem('token-surveillance');

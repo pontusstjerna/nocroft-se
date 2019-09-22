@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import Footer from './footer.js';
-import {
-    Route,
-    NavLink,
-    HashRouter
-  } from 'react-router-dom';
-import { isLoggedIn, logout, } from "../../util/auth";
+import history from '../../util/history';
+import { Route, NavLink, Router } from 'react-router-dom';
+import { checkLogin, logout, hasToken } from "../../util/auth";
 
 import Home from '../pages/home.js';
 import Autoflirt from '../pages/autoflirt.js';
@@ -13,6 +10,9 @@ import PrivacyPolicy from '../pages/privacyPolicy.js';
 import Login from '../pages/login.js';
 import About from '../pages/about.js';
 import Admin from '../pages/admin.js';
+import Surveillance from '../pages/surveillance';
+
+const securedPaths = ['/admin', '/surveillance', '/robotpi'];
 
 class Frame extends Component {
 
@@ -21,6 +21,20 @@ class Frame extends Component {
 
         this.state = {
             token: '',
+            isLoggedIn: false,
+        }
+    }
+
+    componentDidMount() {
+        history.listen(history => {
+            if (securedPaths.includes(history.pathname)) {
+                checkLogin().then(isLoggedIn => this.setState({ isLoggedIn }));
+            }
+        });
+        this.setState({ isLoggedIn: hasToken() });
+
+        if (hasToken()) {
+            checkLogin().then(isLoggedIn => this.setState({ isLoggedIn }));
         }
     }
 
@@ -45,20 +59,22 @@ class Frame extends Component {
     }
 
     render () {
+        const { isLoggedIn, token } = this.state;
+
         return (
-            <HashRouter>
+            <Router history={history}>
                 <div>
                     <div className="o-header">
                         <button className="o-header__trigger" onClick={this.toggleMenu}><span></span></button>
-                        <a className="o-header__item" href="#/" onClick={() => this.scrollTo('section-home')} >Home</a>                        
-                        <a className="o-header__item" href="#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
+                        <a className="o-header__item" href="/" onClick={() => this.scrollTo('section-home')} >Home</a>
+                        <a className="o-header__item" href="/#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
                         {/* <NavLink className="o-header__item" to="/autoflirt">Autoflirt</NavLink>                        
                         <NavLink className="o-header__item" to="/about">About me </NavLink> */}
-                        <a className="o-header__item" onClick={this.closeMenu} href="#/privacyPolicy">Privacy Policy</a>
-                        { !isLoggedIn() &&
-                            <a className="o-header__item" onClick={this.closeMenu} href="#/login">Login</a>
+                        <a className="o-header__item" onClick={this.closeMenu} href="/privacyPolicy">Privacy Policy</a>
+                        { !isLoggedIn &&
+                            <a className="o-header__item" onClick={this.closeMenu} href="/login">Login</a>
                         }
-                        { isLoggedIn() &&
+                        { isLoggedIn &&
                             <a
                                 className="o-header__item"
                                 onClick={() => {
@@ -79,7 +95,7 @@ class Frame extends Component {
                     </div>
                     <Footer />
                 </div>
-            </HashRouter>
+            </Router>
         );
     }
 }

@@ -21,8 +21,8 @@ class Login extends Component {
 
         login(username, password).then(token => {
             if (token) {
-                window.sessionStorage.setItem('token-surveillance', token)
-                window.location = '#/admin';
+                window.sessionStorage.setItem('token-surveillance', token);
+                this.props.history.push('/admin');
             }
         }).catch(err => {
             this.setState({errorMessage: err.message, loggingIn: false});
