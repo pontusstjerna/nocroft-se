@@ -25,6 +25,7 @@ class VideoStream extends Component {
                 'Authorization': 'bearer ' + token,
             }
         }).then(response => {
+            console.log('Got OK access-token for video.');
             if (!response.ok) {
                 console.log('Failed to get video access token');
             } else {

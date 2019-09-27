@@ -23,7 +23,7 @@ class Admin extends Component {
     render() {
         return (
             <div className="p-surveillance">
-                <h2>{this.state.secretMessage}</h2>
+                <p>{this.state.secretMessage}</p>
             </div>
         );
     }
