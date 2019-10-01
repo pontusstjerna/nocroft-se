@@ -3,8 +3,11 @@ import { checkLogin, logout } from "../../util/auth";
 import VideoStream from '../molecules/videoStream';
 
 const streams = [{
-    url: '/video',
-    id: 'CatHunter'
+    url: '/cathunter',
+    id: 'CatHunter',
+}, {
+    url: '/picam1',
+    id: 'PiCam-1'
 }];
 
 class Surveillance extends Component {

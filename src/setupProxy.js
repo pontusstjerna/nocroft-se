@@ -1,6 +1,6 @@
 const proxy = require('http-proxy-middleware');
 
-export const live = false;
+const live = true;
 
 module.exports = function(app) {
 

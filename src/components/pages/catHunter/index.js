@@ -11,7 +11,6 @@ import './style.css';
 import VideoStream from "../../molecules/videoStream";
 
 const socketURL = '';
-const videoURL = 'wss://' + window.location.host.split(':')[0] + '/video';
 
 class RobotPi extends Component {
 
@@ -263,7 +262,7 @@ class RobotPi extends Component {
         return (
             <div className="p-cathunter">
                 <h1>CatHunter 1.1</h1>
-                <VideoStream id="CatHunter" url="/video" />
+                <VideoStream id="CatHunter" url="/cathunter" />
                 <div className="buttons">
                     <CtrlButton action={types.LEFT} controller={controller} />
                     <CtrlButton action={types.FORWARD} active={up} controller={controller} />
