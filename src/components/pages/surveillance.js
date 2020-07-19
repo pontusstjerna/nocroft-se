@@ -8,6 +8,9 @@ const streams = [{
 }, {
     url: '/picam1',
     id: 'PiCam-1'
+}, {
+    url: '/picam2',
+    id: 'PiCam-2'
 }];
 
 class Surveillance extends Component {

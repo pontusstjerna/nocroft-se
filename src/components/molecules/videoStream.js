@@ -47,6 +47,7 @@ class VideoStream extends Component {
         if (!canvas) onError('No canvas available.');
         return new window.JSMpeg.Player(url, {
             canvas,
+            audio: false,
             onStalled: () => onError('Unable to connect to video.')
         });
     }

@@ -5,3 +5,5 @@ export const ROTATE_LEFT = 'rotLeft';
 export const ROTATE_RIGHT = 'rotRight';
 export const REVERSE = 'reverse';
 export const STOP = 'stop';
+export const START_CHARGING = 'startCharging';
+export const STOP_CHARGING = 'stopCharging';
