@@ -33,12 +33,14 @@ class RobotPi extends Component {
                 right: false,
             },
             status: null,
+            chargingLoading: false
         };
 
         this.setupStatusInterval = this.setupStatusInterval.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
         this.onError = this.onError.bind(this);
+        this.renderChargeButton = this.renderChargeButton.bind(this)
     }
 
     componentDidMount() {
@@ -76,7 +78,7 @@ class RobotPi extends Component {
 
     setupStatusInterval(socket) {
         socket.on('status', status => {
-           this.setState({status: JSON.parse(status)});
+           this.setState({status: JSON.parse(status), chargingLoading: false});
             setTimeout(() => socket.emit('status'), 5000);
         });
         socket.emit('status');
@@ -272,6 +274,7 @@ class RobotPi extends Component {
                     <CtrlButton action={types.REVERSE} active={down} controller={controller} />
                     <CtrlButton action={types.ROTATE_RIGHT} active={right} controller={controller} />
                 </div>
+                { status && this.renderChargeButton() }
                 { error && 
                     <p className="disconnected">{error}</p>
                 }
@@ -289,6 +292,26 @@ class RobotPi extends Component {
         );
     }
 
+    renderChargeButton() {
+        const { status: { isCharging }, chargingLoading, controller, socket } = this.state
+
+        if (isCharging === undefined || chargingLoading) {
+            return <p>Loading...</p>
+        }
+
+        const onClick = () => {
+            this.setState({ chargingLoading: true })
+            if (isCharging) {
+                controller.stopCharging()
+            } else {
+                controller.startCharging()
+            }
+            socket.emit('status')
+        }
+
+        return <button onClick={onClick}>{ isCharging ? 'Stop ' : 'Start ' }charging</button>
+    }
+
     renderStatus(status) {
         if (!status) {
             return <p>Unable to get CatHunter system status.</p>;
@@ -297,6 +320,7 @@ class RobotPi extends Component {
         return (
             <p>
                 { status.throttled }<br />
+                <b>Charging: </b>{ status.isCharging ? 'Yes' : 'No' }<br/>
                 <b>Temperature: </b>{ status.temp }<br />
                 { status.volts &&
                     <span>

@@ -37,6 +37,14 @@ class Controller {
     stop() {
         this.socket.emit(types.STOP);
     }
+
+    startCharging() {
+        this.socket.emit(types.START_CHARGING)
+    }
+
+    stopCharging() {
+        this.socket.emit(types.STOP_CHARGING)
+    }
 }
 
 export default Controller;
