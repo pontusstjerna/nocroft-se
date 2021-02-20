@@ -1,35 +1,35 @@
 {
-  "name": "pontek",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "http://pontek.se/",
-  "dependencies": {
-    "autoflirt": "git+https://pontusstjerna@github.com/pontusstjerna/autoflirt.git",
-    "bootstrap": "^4.2.1",
-    "http-proxy-middleware": "^0.19.1",
-    "jsmpeg": "^1.0.0",
-    "react": "^16.7.0",
-    "react-bootstrap": "^0.32.4",
-    "react-dom": "^16.7.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.0.3",
-    "socket.io-client": "^2.2.0",
-    "typed.js": "^2.0.9"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "html-loader": "^0.5.5",
-    "prettier": "^2.0.5"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "name": "pontek",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "http://pontek.se/",
+    "dependencies": {
+        "autoflirt": "git+https://pontusstjerna@github.com/pontusstjerna/autoflirt.git",
+        "bootstrap": "^4.2.1",
+        "http-proxy-middleware": "^0.19.1",
+        "jsmpeg": "^1.0.0",
+        "react": "^16.7.0",
+        "react-bootstrap": "^0.32.4",
+        "react-dom": "^16.7.0",
+        "react-router-dom": "^4.3.1",
+        "react-scripts": "2.0.3",
+        "socket.io-client": "^3.1.1",
+        "typed.js": "^2.0.9"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "devDependencies": {
+        "html-loader": "^0.5.5",
+        "prettier": "^2.0.5"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
 }
