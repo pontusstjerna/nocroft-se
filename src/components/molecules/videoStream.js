@@ -1,101 +1,68 @@
-import React, { Component } from 'react'
-import { API_URL } from '../pages/login'
+import React, { useEffect, useRef, useState } from 'react'
+import JSMpegWritableSource from '../../util/JSMpegWritableSource'
+import io from 'socket.io-client'
 import { getToken } from '../../util/auth'
 
-class VideoStream extends Component {
-  constructor(props) {
-    super(props)
+const VideoStream = ({ target, width, height }) => {
+  const [error, setError] = useState('')
 
-    this.state = {
-      videoPlayer: undefined,
-      error: '',
-    }
+  const canvasRef = useRef(null)
+  const videoPlayerRef = useRef(null)
 
-    this.canvasIdentifier = `video-stream-vanvas${props.id}`
-    this.videoURL = `ws://${window.location.host.split(':')[0]}/socket.io/${
-      props.url
-    }?EIO=3&transport=websocket`
-    this.onError = this.onError.bind(this)
-  }
+  const token = getToken()
 
-  componentDidMount() {
-    const token = getToken()
+  useEffect(() => {
+    const socket = io('/video', { auth: { token } })
 
-    fetch(`${API_URL}/access-token`, {
-      headers: {
-        Authorization: 'bearer ' + token,
-      },
+    socket.on('connect', () => {
+      videoPlayerRef.current = connectVideoCanvas(socket)
     })
-      .then(response => {
-        console.log('Got OK access-token for video.')
-        if (!response.ok) {
-          console.log('Failed to get video access token')
-        } else {
-          return response.text()
-        }
-      })
-      .then(videoToken => {
-        const videoPlayer = this.connectVideoCanvas(
-          document.getElementById(this.canvasIdentifier),
-          this.videoURL + '?access_token=' + videoToken,
-          token,
-          this.onError
-        )
-        this.setState({ videoPlayer })
-      })
-  }
 
-  componentWillUnmount() {
-    if (this.state.videoPlayer) {
-      this.state.videoPlayer.stop()
+    return () => {
+      videoPlayerRef.current && videoPlayerRef.current.stop()
     }
+  }, [])
+
+  const onError = error => {
+    videoPlayerRef.current && videoPlayerRef.current.destroy()
+    setError(String(error))
   }
 
-  connectVideoCanvas(canvas, url, token, onError) {
-    if (!canvas) onError('No canvas available.')
-    return new window.JSMpeg.Player(url, {
-      canvas,
+  const connectVideoCanvas = socket => {
+    if (!canvasRef.current) {
+      onError('No canvas available.')
+      return null
+    }
+
+    return new window.JSMpeg.Player(null, {
+      canvas: canvasRef.current,
       audio: false,
       onStalled: () => onError('Unable to connect to video.'),
+      source: JSMpegWritableSource,
+      socket,
     })
   }
 
-  onError(error) {
-    const { videoPlayer } = this.state
-
-    if (videoPlayer) {
-      videoPlayer.destroy()
-    }
-
-    this.setState({ error: String(error) })
-  }
-
-  render() {
-    const { width, height } = this.props
-
-    return (
-      <div className="m-videostream">
-        <canvas
-          className="m-videostream--canvas"
-          ref={this.canvasIdentifier}
-          id={this.canvasIdentifier}
-          width={width ? width : '640'}
-          height={height ? height : '480'}
-        >
-          <p>
-            Please use a browser that supports the Canvas Element, like
-            <a href="http://www.google.com/chrome">Chrome</a>,
-            <a href="http://www.mozilla.com/sfirefox/">Firefox</a>,
-            <a href="http://www.apple.com/safari/">Safari</a> or Internet
-            Explorer 10
-          </p>
-        </canvas>
-        {this.state.error && (
-          <p className="m-videostream--error">{this.state.error}</p>
-        )}
-      </div>
-    )
-  }
+  return (
+    <div className="m-videostream">
+      <canvas
+        className="m-videostream--canvas"
+        ref={canvasRef}
+        id={`video-stream-canvas-${target}`}
+        width={width ? width : '640'}
+        height={height ? height : '480'}
+      >
+        <p>
+          Please use a browser that supports the Canvas Element, like
+          <a href="http://www.google.com/chrome">Chrome</a>,
+          <a href="http://www.mozilla.com/sfirefox/">Firefox</a>,
+          <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer
+          10
+        </p>
+      </canvas>
+      {error && <p className="m-videostream--error">{error}</p>}
+    </div>
+  )
 }
 
 export default VideoStream

@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 
 export const connectIO = (token, onError) => {
   return new Promise((resolve, reject) => {
-    const socket = io('/robotpi', token ? { auth: { token: token } } : {})
+    const socket = io('/robotpi', token ? { auth: { token } } : {})
 
     const timeout = setTimeout(() => {
       socket.disconnect()

@@ -7,7 +7,7 @@ import Controller from './controller'
 import * as types from './robotPiActionTypes'
 
 import './style.css'
-import VideoStream from '../../molecules/videoStream'
+import VideoStream from '../../molecules/VideoStream'
 
 class RobotPi extends Component {
   constructor(props) {
@@ -271,7 +271,7 @@ class RobotPi extends Component {
     return (
       <div className="p-cathunter">
         <h1>CatHunter 1.1</h1>
-        <VideoStream id="CatHunter" url="/cathunter" />
+        <VideoStream target="robotpi" />
         <div className="buttons">
           <CtrlButton action={types.LEFT} controller={controller} />
           <CtrlButton
