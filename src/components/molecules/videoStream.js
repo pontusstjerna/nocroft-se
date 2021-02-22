@@ -12,7 +12,7 @@ const VideoStream = ({ target, width, height }) => {
   const token = getToken()
 
   useEffect(() => {
-    const socket = io('/video', { auth: { token } })
+    const socket = io(`/video/${target}`, { auth: { token: null } })
 
     socket.on('connect', () => {
       videoPlayerRef.current = connectVideoCanvas(socket)

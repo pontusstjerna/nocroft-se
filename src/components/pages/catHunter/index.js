@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { checkLogin, logout } from '../../../util/auth'
 import { getToken } from '../../../util/auth'
 import { connectIO } from './socket.js'
 import CtrlButton from './ctrlButton'
@@ -38,6 +38,12 @@ class RobotPi extends Component {
   }
 
   componentDidMount() {
+    checkLogin().then(isLoggedIn => {
+      if (!isLoggedIn) {
+        logout()
+      }
+    })
+
     const token = getToken()
 
     connectIO(token, this.onError)

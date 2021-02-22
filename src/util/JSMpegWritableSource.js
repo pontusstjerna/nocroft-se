@@ -9,11 +9,7 @@ class JSMpegWritableSource {
     // Streaming is obiously true when using a stream
     this.streaming = true
 
-    options.socket.on('video_data', data => {
-      //this.write.bind(this))
-      this.write(data)
-      console.log('data!')
-    })
+    options.socket.on('video_data', this.write.bind(this))
   }
 
   connect(destination) {
