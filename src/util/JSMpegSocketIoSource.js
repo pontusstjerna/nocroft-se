@@ -1,4 +1,4 @@
-class JSMpegWritableSource {
+class JSMpegSocketIoSource {
   constructor(url, options) {
     this.destination = null
 
@@ -35,4 +35,4 @@ class JSMpegWritableSource {
   }
 }
 
-export default JSMpegWritableSource
+export default JSMpegSocketIoSource

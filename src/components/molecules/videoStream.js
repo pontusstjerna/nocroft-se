@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import JSMpegWritableSource from '../../util/JSMpegWritableSource'
+import JSMpegSocketIoSource from '../../util/JSMpegSocketIoSource'
 import io from 'socket.io-client'
 import { getToken } from '../../util/auth'
 
@@ -12,10 +12,13 @@ const VideoStream = ({ target, width, height }) => {
   const token = getToken()
 
   useEffect(() => {
-    const socket = io(`/video/${target}`, { auth: { token: null } })
+    const socket = io(`/video`, {
+      auth: { token, room: target },
+    })
 
     socket.on('connect', () => {
       videoPlayerRef.current = connectVideoCanvas(socket)
+      socket.emit('start')
     })
 
     return () => {
@@ -38,7 +41,7 @@ const VideoStream = ({ target, width, height }) => {
       canvas: canvasRef.current,
       audio: false,
       onStalled: () => onError('Unable to connect to video.'),
-      source: JSMpegWritableSource,
+      source: JSMpegSocketIoSource,
       socket,
     })
   }
