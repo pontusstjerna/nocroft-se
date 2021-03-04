@@ -18,6 +18,7 @@ class Surveillance extends Component {
         <div className="p-surveillance--cameras">
           <VideoStream target="picam1" />
           <VideoStream target="picam2" />
+          <VideoStream target="servercam" />
           <VideoStream target="robotpi" />
         </div>
       </div>
