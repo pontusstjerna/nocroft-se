@@ -27,14 +27,14 @@ class RobotPi extends Component {
         right: false,
       },
       status: null,
-      chargingLoading: false,
+      setPowerLoading: false,
     }
 
     this.setupStatusInterval = this.setupStatusInterval.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
     this.onKeyUp = this.onKeyUp.bind(this)
     this.onError = this.onError.bind(this)
-    this.renderChargeButton = this.renderChargeButton.bind(this)
+    this.renderPowerSelection = this.renderPowerSelection.bind(this)
   }
 
   componentDidMount() {
@@ -80,7 +80,7 @@ class RobotPi extends Component {
     socket.on('status', status => {
       this.setState({
         status: status && JSON.parse(status),
-        chargingLoading: false,
+        setPowerLoading: false,
       })
       setTimeout(() => socket.emit('status'), 5000)
     })
@@ -303,7 +303,7 @@ class RobotPi extends Component {
             controller={controller}
           />
         </div>
-        {status && this.renderChargeButton()}
+        {this.renderPowerSelection()}
         {error && <p className="disconnected">{error}</p>}
         {connecting && <p>Connecting...</p>}
         {started && <p>CatHunter last started {started}.</p>}
@@ -313,32 +313,30 @@ class RobotPi extends Component {
     )
   }
 
-  renderChargeButton() {
-    const {
-      status: { isCharging },
-      chargingLoading,
-      controller,
-      socket,
-    } = this.state
+  renderPowerSelection() {
+    const { setPowerLoading, controller, socket } = this.state
 
-    if (isCharging === undefined || chargingLoading) {
+    if (setPowerLoading) {
       return <p>Loading...</p>
     }
 
-    const onClick = () => {
-      this.setState({ chargingLoading: true })
-      if (isCharging) {
-        controller.stopCharging()
-      } else {
-        controller.startCharging()
-      }
-      socket.emit('status')
-    }
-
     return (
-      <button onClick={onClick}>
-        {isCharging ? 'Stop ' : 'Start '}charging
-      </button>
+      <div>
+        <label for="power">Set power mode: </label>
+        <select
+          name="power"
+          id="power"
+          onchange={e => {
+            this.setState({ setPowerLoading: true })
+            this.socket.emit(e.target.value)
+          }}
+        >
+          <option value={types.SET_POWER_LOW}>Low</option>
+          <option value={types.SET_POWER_MEDIUM_LOW}>Mediun low</option>
+          <option value={types.SET_POWER_MEDIUM}>Medium</option>
+          <option value={types.SET_POWER_HIGH}>High</option>
+        </select>
+      </div>
     )
   }
 
@@ -351,8 +349,8 @@ class RobotPi extends Component {
       <p>
         {status.throttled}
         <br />
-        <b>Charging: </b>
-        {status.isCharging ? 'Yes' : 'No'}
+        <b>Power: </b>
+        {`${status.power * 100}%`}
         <br />
         <b>Temperature: </b>
         {status.temp}
