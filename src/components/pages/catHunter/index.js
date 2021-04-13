@@ -27,6 +27,7 @@ class RobotPi extends Component {
         right: false,
       },
       status: null,
+      powerSelectValue: '',
       setPowerLoading: false,
     }
 
@@ -314,7 +315,7 @@ class RobotPi extends Component {
   }
 
   renderPowerSelection() {
-    const { setPowerLoading, controller, socket } = this.state
+    const { setPowerLoading, powerSelectValue, socket } = this.state
 
     if (setPowerLoading) {
       return <p>Loading...</p>
@@ -326,11 +327,17 @@ class RobotPi extends Component {
         <select
           name="power"
           id="power"
-          onchange={e => {
-            this.setState({ setPowerLoading: true })
-            this.socket.emit(e.target.value)
+          value={powerSelectValue}
+          onChange={e => {
+            const { value } = e.target
+            this.setState({ powerSelectValue: value })
+            if (value !== '') {
+              socket.emit(value)
+              this.setState({ setPowerLoading: true })
+            }
           }}
         >
+          <option value="">--Select power--</option>
           <option value={types.SET_POWER_LOW}>Low</option>
           <option value={types.SET_POWER_MEDIUM_LOW}>Mediun low</option>
           <option value={types.SET_POWER_MEDIUM}>Medium</option>
