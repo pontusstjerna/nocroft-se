@@ -35,7 +35,9 @@ class CtrlButton extends Component {
   }
 
   onRelease() {
-    this.props.controller.stop()
+    const { releaseAction, controller } = this.props
+
+    releaseAction ? controller.perform(releaseAction) : controller.stop()
     this.setState({ active: false })
   }
 

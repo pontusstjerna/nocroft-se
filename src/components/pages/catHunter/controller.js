@@ -49,6 +49,18 @@ class Controller {
   setPowerHigh() {
     this.socket.emit(types.SET_POWER_HIGH)
   }
+
+  cameraUp() {
+    this.socket.emit(types.TILT_CAMERA_UP)
+  }
+
+  cameraDown() {
+    this.socket.emit(types.TILT_CAMERA_DOWN)
+  }
+
+  cameraRelease() {
+    this.socket.emit(types.TILT_CAMERA_STOP)
+  }
 }
 
 export default Controller

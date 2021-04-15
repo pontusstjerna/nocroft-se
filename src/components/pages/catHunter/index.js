@@ -8,6 +8,7 @@ import * as types from './robotPiActionTypes'
 
 import './style.css'
 import VideoStream from '../../molecules/VideoStream'
+import CameraControl from './CameraControl'
 
 class RobotPi extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class RobotPi extends Component {
         left: false,
         down: false,
         right: false,
+        cameraUp: false,
+        cameraDown: false,
       },
       status: null,
       powerSelectValue: '',
@@ -90,7 +93,7 @@ class RobotPi extends Component {
 
   onKeyDown(event) {
     const { controller, inputs } = this.state
-    const { up, left, down, right } = inputs
+    const { up, left, down, right, cameraUp, cameraDown } = inputs
 
     switch (event.key) {
       case 'ArrowLeft':
@@ -169,7 +172,18 @@ class RobotPi extends Component {
           })
         }
         break
-
+      case 'PageUp':
+        if (!cameraUp) {
+          controller.cameraUp()
+          this.setState({ inputs: { ...this.state.inputs, cameraUp: true } })
+        }
+        break
+      case 'PageDown':
+        if (!cameraDown) {
+          controller.cameraDown()
+          this.setState({ inputs: { ...this.state.inputs, cameraDown: true } })
+        }
+        break
       default:
         return
     }
@@ -246,7 +260,14 @@ class RobotPi extends Component {
           },
         })
         break
-
+      case 'PageUp':
+        controller.cameraRelease()
+        this.setState({ inputs: { ...this.state.inputs, cameraUp: false } })
+        break
+      case 'PageDown':
+        controller.cameraRelease()
+        this.setState({ inputs: { ...this.state.inputs, cameraDown: false } })
+        break
       default:
         return
     }
@@ -273,13 +294,14 @@ class RobotPi extends Component {
       inputs,
       status,
     } = this.state
-    const { up, left, down, right } = inputs
+    const { up, left, down, right, cameraUp, cameraDown } = inputs
 
     return (
       <div className="p-cathunter">
         <h1>CatHunter 1.1</h1>
         <VideoStream target="robotpi" />
         <div className="buttons">
+          <p>Movement control</p>
           <CtrlButton action={types.LEFT} controller={controller} />
           <CtrlButton
             action={types.FORWARD}
@@ -304,6 +326,11 @@ class RobotPi extends Component {
             controller={controller}
           />
         </div>
+        <CameraControl
+          controller={controller}
+          up={cameraUp}
+          down={cameraDown}
+        />
         {this.renderPowerSelection()}
         {error && <p className="disconnected">{error}</p>}
         {connecting && <p>Connecting...</p>}
