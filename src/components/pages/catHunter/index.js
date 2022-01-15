@@ -127,7 +127,7 @@ class RobotPi extends Component {
 
     return (
       <div className="p-cathunter">
-        <h1>CatHunter 1.1</h1>
+        <h1>CatHunter 1.2</h1>
         <VideoStream target="robotpi" />
         <div className="buttons">
           <p>Movement control</p>
@@ -145,7 +145,7 @@ class RobotPi extends Component {
             controller={controller}
           />
           <CtrlButton
-            action={types.REVERSE}
+            action={types.BACKWARD}
             active={down}
             controller={controller}
           />

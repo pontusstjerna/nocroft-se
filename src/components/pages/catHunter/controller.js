@@ -13,6 +13,10 @@ class Controller {
     this.socket.emit(types.FORWARD)
   }
 
+  backward() {
+    this.socket.emit(types.BACKWARD)
+  }
+
   left() {
     this.socket.emit(types.LEFT)
   }

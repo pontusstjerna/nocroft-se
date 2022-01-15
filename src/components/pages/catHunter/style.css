@@ -46,6 +46,7 @@ label {
 }
 
 .buttons #btn-reverse,
+.buttons #btn-backward,
 .buttons #btn-tilt_camera_down {
   background-image: url(assets/baseline-arrow_downward-24px.svg);
 }

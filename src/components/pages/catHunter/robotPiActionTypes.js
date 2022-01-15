@@ -1,4 +1,5 @@
 export const FORWARD = 'forward'
+export const BACKWARD = 'backward'
 export const LEFT = 'left'
 export const RIGHT = 'right'
 export const ROTATE_LEFT = 'rot_left'
