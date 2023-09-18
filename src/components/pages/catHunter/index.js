@@ -8,7 +8,7 @@ import Controller from './controller'
 import * as types from './robotPiActionTypes'
 
 import './style.css'
-import VideoStream from '../../molecules/VideoStream'
+import VideoStream from '../../molecules/videoStream'
 import CameraControl from './CameraControl'
 
 class RobotPi extends Component {

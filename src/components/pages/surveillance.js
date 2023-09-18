@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { checkLogin, logout } from '../../util/auth'
-import VideoStream from '../molecules/VideoStream'
+import VideoStream from '../molecules/videoStream'
 
 class Surveillance extends Component {
   componentDidMount() {
