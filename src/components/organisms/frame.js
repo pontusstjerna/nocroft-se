@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import Footer from './footer.js';
 import history from '../../util/history';
-import { Route, NavLink, Router } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import { checkLogin, logout, hasToken } from "../../util/auth";
 
 import Home from '../pages/home.js';
-import Autoflirt from '../pages/autoflirt.js';
-import PrivacyPolicy from '../pages/privacyPolicy.js';
 import Login from '../pages/login.js';
-import About from '../pages/about.js';
 import Admin from '../pages/admin.js';
 import Surveillance from '../pages/surveillance';
 import CatHunter from '../pages/catHunter';
@@ -42,14 +39,14 @@ class Frame extends Component {
     scrollTo(section) {
         setTimeout(() => window.scrollTo({
             top: document.getElementById(section).getBoundingClientRect().top,
-              behavior: 'smooth',
-          }), 5);
+            behavior: 'smooth',
+        }), 5);
         this.closeMenu();
-    } 
+    }
 
     closeMenu() {
         const menuClasses = document.querySelector('.o-header').classList;
-        
+
         if (menuClasses.contains('o-header__open')) {
             menuClasses.remove('o-header__open');
         }
@@ -59,7 +56,7 @@ class Frame extends Component {
         document.querySelector('.o-header').classList.toggle('o-header__open');
     }
 
-    render () {
+    render() {
         const { isLoggedIn, token } = this.state;
 
         return (
@@ -68,16 +65,13 @@ class Frame extends Component {
                     <div className="o-header">
                         <button className="o-header__trigger" onClick={this.toggleMenu}><span></span></button>
                         <a className="o-header__item" href="/" onClick={() => this.scrollTo('section-home')} >Home</a>
-                        <a className="o-header__item" href="/#" onClick={() => this.scrollTo('section-apps')} >Apps</a>
-                        {/*<NavLink className="o-header__item" to="/about">About me </NavLink> */}
-                        <a className="o-header__item" onClick={this.closeMenu} href="/privacyPolicy">Privacy Policy</a>
-                        { isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/admin">Admin</a> }
-                        { isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/surveillance">Surveillance</a> }
-                        { isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cathunter">CatHunter</a> }
-                        { !isLoggedIn &&
+                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/admin">Admin</a>}
+                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/surveillance">Surveillance</a>}
+                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cathunter">CatHunter</a>}
+                        {!isLoggedIn &&
                             <a className="o-header__item" onClick={this.closeMenu} href="/login">Login</a>
                         }
-                        { isLoggedIn &&
+                        {isLoggedIn &&
                             <a
                                 className="o-header__item"
                                 onClick={() => {
@@ -90,9 +84,6 @@ class Frame extends Component {
                     </div>
                     <div className="o-header__content">
                         <Route exact path="/" component={Home} />
-                        {/* <Route path="/autoflirt" component={Autoflirt} />
-                        <Route path="/about" component={About} /> */}
-                        <Route path="/privacyPolicy" component={PrivacyPolicy} />
                         <Route path="/login" component={Login} />
                         <Route path="/admin" component={Admin} />
                         <Route path="/surveillance" component={Surveillance} />

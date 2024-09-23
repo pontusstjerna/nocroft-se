@@ -4,13 +4,16 @@
     position: absolute;
     bottom: 0;
     height: 200px;
+    left: 0;
+    right: 0;
 }
 
 .o-footer .o-footer__copy {
     margin-bottom: 0;
 }
 
-img, a {
+img,
+a {
     width: 100;
     align-content: center;
     text-align: center;
