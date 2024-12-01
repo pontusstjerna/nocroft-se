@@ -1,4 +1,6 @@
-.m-videostream {}
+.m-videostream {
+    position: relative;
+}
 
 .m-videostream--canvas {}
 

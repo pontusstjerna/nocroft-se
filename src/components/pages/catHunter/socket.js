@@ -7,7 +7,7 @@ export const connectIO = (token, onError) => {
     const timeout = setTimeout(() => {
       socket.disconnect()
       reject('Timeout: Unable to connect to the CatHunter server.')
-    }, 7000)
+    }, 60000)
 
     socket.on('unauthorized', () => onError('Unauthorized.'))
     socket.on('error', onError)

@@ -5,6 +5,7 @@ import { getToken } from '../../util/auth'
 
 const VideoStream = ({ target, width, height }) => {
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const canvasRef = useRef(null)
   const videoPlayerRef = useRef(null)
@@ -43,7 +44,8 @@ const VideoStream = ({ target, width, height }) => {
       onStalled: () => onError('Unable to connect to video.'),
       source: JSMpegSocketIoSource,
       socket,
-    })
+      onConnected: () => setLoading(false)
+    },)
   }
 
   return (
@@ -63,6 +65,7 @@ const VideoStream = ({ target, width, height }) => {
           10
         </p>
       </canvas>
+      {loading && <p style={{ position: "absolute", left: "20px", bottom: 0 }}>Loading stream from {target}...</p>}
       {error && <p className="m-videostream--error">{error}</p>}
     </div>
   )

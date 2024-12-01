@@ -150,16 +150,12 @@ export default function CatHunter(props) {
   } = startedData
   const { up, left, down, right, cameraUp, cameraDown } = inputs
 
-  if (loading) {
-    return <div className="p-cathunter"><p>Connecting to CatHunter... {connectingSeconds}s</p></div>
-  }
-
-
   return (
     <div className="p-cathunter">
       <h1>CatHunter 3.0</h1>
       <VideoStream target="robotpi" />
-      <div className="buttons">
+      {loading && <p>Connecting to CatHunter... {connectingSeconds}s</p>}
+      {!loading && <><div className="buttons">
         <CtrlButton action={actions.LEFT} controller={controller} />
         <CtrlButton
           action={actions.FORWARD}
@@ -184,15 +180,16 @@ export default function CatHunter(props) {
           controller={controller}
         />
       </div>
-      <CameraControl
-        controller={controller}
-        up={cameraUp}
-        down={cameraDown}
-      />
-      {renderPowerSelection()}
+        <CameraControl
+          controller={controller}
+          up={cameraUp}
+          down={cameraDown}
+        />
+        {renderPowerSelection()}
+        {started && <p>CatHunter last started {started}.</p>}
+        {lastConnected && <p>Last user disconnected {lastConnected}.</p>}
+      </>}
       {error && <p className="disconnected">{error}</p>}
-      {started && <p>CatHunter last started {started}.</p>}
-      {lastConnected && <p>Last user disconnected {lastConnected}.</p>}
       {renderStatus(status)}
     </div>
   )

@@ -4,6 +4,7 @@ class JSMpegSocketIoSource {
 
     this.completed = false
     this.established = false
+    this.onConnected = options.onConnected
     this.progress = 0
 
     // Streaming is obiously true when using a stream
@@ -20,6 +21,9 @@ class JSMpegSocketIoSource {
     this.established = true
     this.completed = true
     this.progress = 1
+    if (this.onConnected) {
+      this.onConnected()
+    }
   }
 
   resume() {
