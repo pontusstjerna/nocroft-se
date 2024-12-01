@@ -11,7 +11,7 @@ import VideoStream from '../../molecules/videoStream'
 import CameraControl from './CameraControl'
 
 export default function CatHunter(props) {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [socket, setSocket] = useState(null)
   const [powerSelectCommand, setPowerSelectCommand] = useState("")
   const [status, setStatus] = useState({})
@@ -25,6 +25,7 @@ export default function CatHunter(props) {
   })
   const [error, setError] = useState("")
   const [startedData, setStartedData] = useState({})
+  const [connectingSeconds, setConnectingSeconds] = useState(0)
 
 
   const controller = {
@@ -63,6 +64,14 @@ export default function CatHunter(props) {
   function onKeyUp(event) {
     handleKeyUp(event, action => socket.emit(action), inputs, setInputs)
   }
+
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => setConnectingSeconds(connectingSeconds + 1), 1000)
+    } else {
+      setConnectingSeconds(0)
+    }
+  }, [connectingSeconds])
 
   useEffect(() => {
     checkLogin().then(isLoggedIn => {
@@ -141,9 +150,9 @@ export default function CatHunter(props) {
   } = startedData
   const { up, left, down, right, cameraUp, cameraDown } = inputs
 
-  /*if (loading) {
-    return <div className="p-cathunter"><p>Connecting to CatHunter... this might take a little while.</p></div>
-  }*/
+  if (loading) {
+    return <div className="p-cathunter"><p>Connecting to CatHunter... {connectingSeconds}s</p></div>
+  }
 
 
   return (
