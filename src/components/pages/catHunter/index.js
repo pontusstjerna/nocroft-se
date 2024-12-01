@@ -1,48 +1,70 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { checkLogin, logout } from '../../../util/auth'
 import { getToken } from '../../../util/auth'
 import { connectIO } from './socket.js'
 import { handleKeyDown, handleKeyUp } from './keyControl'
 import CtrlButton from './ctrlButton'
-import Controller from './controller'
-import * as types from './robotPiActionTypes'
+import * as actions from './robotPiActionTypes'
 
 import './style.css'
 import VideoStream from '../../molecules/videoStream'
 import CameraControl from './CameraControl'
 
-class RobotPi extends Component {
-  constructor(props) {
-    super(props)
+export default function CatHunter(props) {
+  const [loading, setLoading] = useState(false)
+  const [socket, setSocket] = useState(null)
+  const [powerSelectCommand, setPowerSelectCommand] = useState("")
+  const [status, setStatus] = useState({})
+  const [inputs, setInputs] = useState({
+    up: false,
+    left: false,
+    down: false,
+    right: false,
+    cameraUp: false,
+    cameraDown: false,
+  })
+  const [error, setError] = useState("")
+  const [startedData, setStartedData] = useState({})
 
-    this.state = {
-      socket: undefined,
-      started: null,
-      lastConnected: null,
-      connecting: false,
-      error: '',
-      controller: null,
-      inputs: {
-        up: false,
-        left: false,
-        down: false,
-        right: false,
-        cameraUp: false,
-        cameraDown: false,
-      },
-      status: null,
-      powerSelectValue: '',
-      setPowerLoading: false,
-    }
 
-    this.setupStatusInterval = this.setupStatusInterval.bind(this)
-    this.onKeyDown = this.onKeyDown.bind(this)
-    this.onKeyUp = this.onKeyUp.bind(this)
-    this.onError = this.onError.bind(this)
-    this.renderPowerSelection = this.renderPowerSelection.bind(this)
+  const controller = {
+    perform: action => socket.emit(action),
+    forward: () => socket.emit(types.FORWARD),
+    backward: () => socket.emit(types.BACKWARD),
+    left: () => socket.emit(types.LEFT),
+    right: () => socket.emit(types.RIGHT),
+    rotLeft: () => socket.emit(types.ROTATE_LEFT),
+    rotRight: () => socket.emit(types.ROTATE_RIGHT),
+    reverse: () => socket.emit(types.REVERSE),
+    stop: () => socket.emit(types.STOP),
+    setPowerLow: () => socket.emit(types.SET_POWER_LOW),
+    setPowerMediumLow: () => socket.emit(types.SET_POWER_MEDIUM_LOW),
+    setPowerMedium: () => socket.emit(types.SET_POWER_MEDIUM),
+    setPowerHigh: () => socket.emit(types.SET_POWER_HIGH),
+    cameraUp: () => socket.emit(types.TILT_CAMERA_UP),
+    cameraDown: () => socket.emit(types.TILT_CAMERA_DOWN),
+    cameraRelease: () => socket.emit(types.TILT_CAMERA_STOP),
   }
 
-  componentDidMount() {
+  function setupStatusInterval(socket) {
+    socket.on('status', status => {
+      if (status) {
+        setStatus(JSON.parse(status))
+      }
+      setTimeout(() => socket.emit('status'), 500)
+    })
+    socket.emit('status')
+  }
+
+  function onKeyDown(event) {
+    handleKeyDown(event, action => socket.emit(action), inputs, setInputs)
+  }
+
+  function onKeyUp(event) {
+    handleKeyUp(event, action => socket.emit(action), inputs, setInputs)
+  }
+
+  useEffect(() => {
     checkLogin().then(isLoggedIn => {
       if (!isLoggedIn) {
         logout()
@@ -51,192 +73,119 @@ class RobotPi extends Component {
 
     const token = getToken()
 
-    connectIO(token, this.onError)
+    connectIO(token, error => setError(String(error)))
       .then(({ socket, started }) => {
-        this.setState({
-          started: started.started,
-          lastConnected: started.lastConnected,
-          connecting: false,
-          controller: new Controller(socket),
-          socket,
-        })
-
-        this.setupStatusInterval(socket)
+        setStartedData(started)
+        setSocket(socket)
+        setupStatusInterval(socket)
+        setLoading(false)
       })
-      .catch(this.onError)
+      .catch(error => setError(String(error)))
 
-    this.setState({ connecting: true })
+    setLoading(true)
 
-    document.addEventListener('keydown', this.onKeyDown)
-    document.addEventListener('keyup', this.onKeyUp)
-  }
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('keyup', onKeyUp)
 
-  componentWillUnmount() {
-    const { socket, videoPlayer } = this.state
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('keyup', onKeyUp)
 
-    document.removeEventListener('keydown', this.onKeyDown)
-    document.removeEventListener('keyup', this.onKeyUp)
-
-    if (socket) socket.close()
-    if (videoPlayer) videoPlayer.stop()
-  }
-
-  setupStatusInterval(socket) {
-    socket.on('status', status => {
-      this.setState({
-        status: status && JSON.parse(status),
-        setPowerLoading: false,
-      })
-      setTimeout(() => socket.emit('status'), 5000)
-    })
-    socket.emit('status')
-  }
-
-  onKeyDown(event) {
-    const { controller, inputs } = this.state
-    handleKeyDown(event, controller, inputs, inputs =>
-      this.setState({ inputs })
-    )
-  }
-
-  onKeyUp(event) {
-    const { controller, inputs } = this.state
-    handleKeyUp(event, controller, inputs, inputs => this.setState({ inputs }))
-  }
-
-  onError(error) {
-    const { socket } = this.state
-    if (socket) {
-      socket.close()
+      if (socket) socket.close()
     }
+  }, [])
 
-    this.setState({ error: String(error) })
-  }
 
-  render() {
-    const {
-      started,
-      lastConnected,
-      connecting,
-      error,
-      controller,
-      inputs,
-      status,
-    } = this.state
-    const { up, left, down, right, cameraUp, cameraDown } = inputs
 
-    return (
-      <div className="p-cathunter">
-        <h1>CatHunter 1.2</h1>
-        <VideoStream target="robotpi" />
-        <div className="buttons">
-          <p>Movement control</p>
-          <CtrlButton action={types.LEFT} controller={controller} />
-          <CtrlButton
-            action={types.FORWARD}
-            active={up}
-            controller={controller}
-          />
-          <CtrlButton action={types.RIGHT} controller={controller} />
-          <br />
-          <CtrlButton
-            action={types.ROTATE_LEFT}
-            active={left}
-            controller={controller}
-          />
-          <CtrlButton
-            action={types.BACKWARD}
-            active={down}
-            controller={controller}
-          />
-          <CtrlButton
-            action={types.ROTATE_RIGHT}
-            active={right}
-            controller={controller}
-          />
-        </div>
-        <CameraControl
-          controller={controller}
-          up={cameraUp}
-          down={cameraDown}
-        />
-        {this.renderPowerSelection()}
-        {error && <p className="disconnected">{error}</p>}
-        {connecting && <p>Connecting...</p>}
-        {started && <p>CatHunter last started {started}.</p>}
-        {lastConnected && <p>Last user disconnected {lastConnected}.</p>}
-        {this.renderStatus(status)}
-      </div>
-    )
-  }
-
-  renderPowerSelection() {
-    const { setPowerLoading, powerSelectValue, socket } = this.state
-
-    if (setPowerLoading) {
-      return <p>Loading...</p>
-    }
-
+  function renderPowerSelection() {
     return (
       <div>
         <label for="power">Set power mode: </label>
         <select
           name="power"
           id="power"
-          value={powerSelectValue}
+          value={powerSelectCommand}
           onChange={e => {
-            const { value } = e.target
-            this.setState({ powerSelectValue: value })
-            if (value !== '') {
-              socket.emit(value)
-              this.setState({ setPowerLoading: true })
+            const command = e.target.value
+            setPowerSelectCommand(command)
+            if (command !== '') {
+              socket.emit(command)
             }
           }}
         >
           <option value="">--Select power--</option>
-          <option value={types.SET_POWER_LOW}>Low</option>
-          <option value={types.SET_POWER_MEDIUM_LOW}>Mediun low</option>
-          <option value={types.SET_POWER_MEDIUM}>Medium</option>
-          <option value={types.SET_POWER_HIGH}>High</option>
+          <option value={actions.SET_POWER_LOW}>Low</option>
+          <option value={actions.SET_POWER_MEDIUM_LOW}>Mediun low</option>
+          <option value={actions.SET_POWER_MEDIUM}>Medium</option>
+          <option value={actions.SET_POWER_HIGH}>High</option>
         </select>
       </div>
     )
   }
 
-  renderStatus(status) {
-    if (!status) {
-      return <p>Unable to get CatHunter system status.</p>
+  function renderStatus(status) {
+    if (Object.keys(status).length === 0) {
+      return <p>Waiting for CatHunter status...</p>
     }
 
-    return (
-      <p>
-        {status.throttled}
-        <br />
-        <b>Power: </b>
-        {`${status.power * 100}%`}
-        <br />
-        <b>Temperature: </b>
-        {status.temp}
-        <br />
-        {status.volts && (
-          <span>
-            <b>Core volts: </b>
-            {status.volts.core}
-            <br />
-            <b>SD RAM C volts: </b>
-            {status.volts.sdram_c}
-            <br />
-            <b>SD RAM I volts: </b>
-            {status.volts.sdram_i}
-            <br />
-            <b>SD RAM P volts: </b>
-            {status.volts.sdram_p}
-            <br />
-          </span>
-        )}
-      </p>
-    )
+    return <div>{
+      Object.keys(status).map(statusKey =>
+        <p><b>{statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")}</b> {status[statusKey]}</p>)
+    }
+    </div>
   }
-}
 
-export default RobotPi
+  const {
+    started,
+    lastConnected,
+  } = startedData
+  const { up, left, down, right, cameraUp, cameraDown } = inputs
+
+  /*if (loading) {
+    return <div className="p-cathunter"><p>Connecting to CatHunter... this might take a little while.</p></div>
+  }*/
+
+
+  return (
+    <div className="p-cathunter">
+      <h1>CatHunter 3.0</h1>
+      <VideoStream target="robotpi" />
+      <div className="buttons">
+        <CtrlButton action={actions.LEFT} controller={controller} />
+        <CtrlButton
+          action={actions.FORWARD}
+          active={up}
+          controller={controller}
+        />
+        <CtrlButton action={actions.RIGHT} controller={controller} />
+        <br />
+        <CtrlButton
+          action={actions.ROTATE_LEFT}
+          active={left}
+          controller={controller}
+        />
+        <CtrlButton
+          action={actions.BACKWARD}
+          active={down}
+          controller={controller}
+        />
+        <CtrlButton
+          action={actions.ROTATE_RIGHT}
+          active={right}
+          controller={controller}
+        />
+      </div>
+      <CameraControl
+        controller={controller}
+        up={cameraUp}
+        down={cameraDown}
+      />
+      {renderPowerSelection()}
+      {error && <p className="disconnected">{error}</p>}
+      {started && <p>CatHunter last started {started}.</p>}
+      {lastConnected && <p>Last user disconnected {lastConnected}.</p>}
+      {renderStatus(status)}
+    </div>
+  )
+
+}

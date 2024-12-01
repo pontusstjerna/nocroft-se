@@ -1,15 +1,17 @@
-export const handleKeyDown = (event, controller, inputs, setInputs) => {
+import * as actions from './robotPiActionTypes'
+
+export const handleKeyDown = (event, onCommand, inputs, setInputs) => {
   const { up, left, down, right, cameraUp, cameraDown } = inputs
 
   switch (event.key) {
     case 'ArrowLeft':
       if (!left) {
         if (up) {
-          controller.left()
+          onCommand(actions.LEFT)
         } else if (down) {
-          controller.left()
+          onCommand(actions.LEFT)
         } else {
-          controller.rotLeft()
+          onCommand(actions.ROTATE_LEFT)
         }
 
         setInputs({ ...inputs, left: true })
@@ -19,11 +21,11 @@ export const handleKeyDown = (event, controller, inputs, setInputs) => {
     case 'ArrowUp':
       if (!up) {
         if (left) {
-          controller.left()
+          onCommand(actions.LEFT)
         } else if (right) {
-          controller.right()
+          onCommand(actions.RIGHT)
         } else {
-          controller.forward()
+          onCommand(actions.FORWARD)
         }
 
         setInputs({ ...inputs, up: true })
@@ -33,11 +35,11 @@ export const handleKeyDown = (event, controller, inputs, setInputs) => {
     case 'ArrowRight':
       if (!right) {
         if (up) {
-          controller.right()
+          onCommand(actions.RIGHT)
         } else if (down) {
-          controller.right()
+          onCommand(actions.RIGHT)
         } else {
-          controller.rotRight()
+          onCommand(actions.ROTATE_RIGHT)
         }
 
         setInputs({
@@ -49,13 +51,13 @@ export const handleKeyDown = (event, controller, inputs, setInputs) => {
 
     case 'ArrowDown':
       if (!down) {
-        controller.reverse()
+        onCommand(actions.REVERSE)
         if (left) {
-          controller.left()
+          onCommand(actions.LEFT)
         } else if (right) {
-          controller.right()
+          onCommand(actions.RIGHT)
         } else {
-          controller.forward()
+          onCommand(actions.FORWARD)
         }
 
         setInputs({
@@ -66,13 +68,13 @@ export const handleKeyDown = (event, controller, inputs, setInputs) => {
       break
     case 'PageUp':
       if (!cameraUp) {
-        controller.cameraUp()
+        onCommand(actions.TILT_CAMERA_UP)
         setInputs({ ...inputs, cameraUp: true })
       }
       break
     case 'PageDown':
       if (!cameraDown) {
-        controller.cameraDown()
+        onCommand(actions.TILT_CAMERA_DOWN)
         setInputs({ ...inputs, cameraDown: true })
       }
       break
@@ -83,15 +85,15 @@ export const handleKeyDown = (event, controller, inputs, setInputs) => {
   event.preventDefault() // prevent the default action (scroll / move caret)
 }
 
-export const handleKeyUp = (event, controller, inputs, setInputs) => {
+export const handleKeyUp = (event, onCommand, inputs, setInputs) => {
   const { up, left, down, right } = inputs
 
   switch (event.key) {
     case 'ArrowLeft':
       if (up || down) {
-        controller.forward()
+        onCommand(actions.FORWARD)
       } else {
-        controller.stop()
+        onCommand(actions.STOP)
       }
 
       setInputs({ ...inputs, left: false })
@@ -99,11 +101,11 @@ export const handleKeyUp = (event, controller, inputs, setInputs) => {
 
     case 'ArrowUp':
       if (left) {
-        controller.rotLeft()
+        onCommand(actions.ROTATE_LEFT)
       } else if (right) {
-        controller.rotRight()
+        onCommand(actions.ROTATE_RIGHT)
       } else {
-        controller.stop()
+        onCommand(actions.STOP)
       }
 
       setInputs({
@@ -114,9 +116,9 @@ export const handleKeyUp = (event, controller, inputs, setInputs) => {
 
     case 'ArrowRight':
       if (up || down) {
-        controller.forward()
+        onCommand(actions.FORWARD)
       } else {
-        controller.stop()
+        onCommand(actions.STOP)
       }
 
       setInputs({
@@ -126,13 +128,13 @@ export const handleKeyUp = (event, controller, inputs, setInputs) => {
       break
 
     case 'ArrowDown':
-      controller.reverse()
+      onCommand(actions.REVERSE)
       if (left) {
-        controller.rotLeft()
+        onCommand(actions.ROTATE_LEFT)
       } else if (right) {
-        controller.rotRight()
+        onCommand(actions.ROTATE_RIGHT)
       } else {
-        controller.stop()
+        onCommand(actions.STOP)
       }
 
       setInputs({
@@ -141,16 +143,16 @@ export const handleKeyUp = (event, controller, inputs, setInputs) => {
       })
       break
     case 'PageUp':
-      controller.cameraRelease()
+      onCommand(actions.TILT_CAMERA_STOP)
       setInputs({ ...inputs, cameraUp: false })
       break
     case 'PageDown':
-      controller.cameraRelease()
+      onCommand(actions.TILT_CAMERA_STOP)
       setInputs({ ...inputs, cameraDown: false })
       break
     default:
       return
 
-      event.preventDefault() // prevent the default action (scroll / move caret)
   }
+  event.preventDefault() // prevent the default action (scroll / move caret)
 }

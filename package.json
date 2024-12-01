@@ -6,6 +6,7 @@
     "dependencies": {
         "autoflirt": "git+https://pontusstjerna@github.com/pontusstjerna/autoflirt.git",
         "bootstrap": "^4.2.1",
+        "http-proxy-middleware": "^3.0.3",
         "jsmpeg": "^1.0.0",
         "react": "^18.2.0",
         "react-bootstrap": "^0.32.4",
