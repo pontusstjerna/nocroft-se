@@ -9,6 +9,7 @@ import Login from '../pages/login.js';
 import Admin from '../pages/admin.js';
 import Surveillance from '../pages/surveillance';
 import CatHunter from '../pages/catHunter';
+import Cameras from '../pages/cameras.js';
 
 const securedPaths = ['/admin', '/surveillance', '/robotpi'];
 
@@ -66,8 +67,8 @@ class Frame extends Component {
                         <button className="o-header__trigger" onClick={this.toggleMenu}><span></span></button>
                         <a className="o-header__item" href="/" onClick={() => this.scrollTo('section-home')} >Home</a>
                         {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/admin">Admin</a>}
-                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/surveillance">Surveillance</a>}
-                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cathunter">CatHunter</a>}
+                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cameras">Cameras</a>}
+                        {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cathunter">KattJäger</a>}
                         {!isLoggedIn &&
                             <a className="o-header__item" onClick={this.closeMenu} href="/login">Login</a>
                         }
@@ -86,7 +87,7 @@ class Frame extends Component {
                         <Route exact path="/" component={Home} />
                         <Route path="/login" component={Login} />
                         <Route path="/admin" component={Admin} />
-                        <Route path="/surveillance" component={Surveillance} />
+                        <Route path="/cameras" component={Cameras} />
                         <Route path="/cathunter" component={CatHunter} />
                     </div>
                     <Footer />

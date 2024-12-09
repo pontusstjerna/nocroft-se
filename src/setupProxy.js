@@ -4,8 +4,17 @@ module.exports = function (app) {
     app.use(
         '/api',
         createProxyMiddleware({
-            target: 'https://nocroft.se/api',
+            target: 'http://localhost:8080',
             changeOrigin: true,
+        })
+    )
+
+    app.use(
+        "/socket.io",
+        createProxyMiddleware({
+            target: "http://localhost:8080/socket.io",
+            changeOrigin: true,
+            ws: true
         })
     )
 };
