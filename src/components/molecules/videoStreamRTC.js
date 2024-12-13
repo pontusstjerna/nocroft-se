@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { checkAuth, logout } from "../../util/auth"
 import { API_URL } from "../pages/login"
 import io from 'socket.io-client'
+import styled from "styled-components"
 
 const newLocal = "Got  "
 export default function VideoStreamRTC({ source, token, width, height }) {
@@ -63,10 +64,24 @@ export default function VideoStreamRTC({ source, token, width, height }) {
 
     }, [token])
 
-    return <div className="m-videostream">
-        <p>{source}</p>
-        <video ref={videoRef} width={640} height={480} autoPlay={true} muted={true} playsInline={true} />
-        {loading && <p>Loading...</p>}
-    </div>
+    return <Container>
+        <Video ref={videoRef} width={640} height={480} autoPlay={true} muted={true} playsInline={true} />
+        <Label><b>{source}</b> {loading ? 'Loading...' : ''}</Label>
+    </Container>
 }
+
+const Container = styled.div`
+    position: relative;   
+`
+
+const Video = styled.video`
+    border: 2px solid #303030;
+`
+
+const Label = styled.p`
+    position: absolute;
+    left: 4px;
+    top: 0;
+    background-color: #00000055;
+`
 
