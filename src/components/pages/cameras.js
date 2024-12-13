@@ -2,6 +2,7 @@ import { API_URL } from "../pages/login";
 import { useEffect, useState } from "react"
 import { checkAuth, logout } from "../../util/auth"
 import VideoStreamRTC from "../molecules/videoStreamRTC";
+import styled from "styled-components";
 
 
 
@@ -32,12 +33,29 @@ export default function Cameras() {
         }).then(sources => setSources(sources))
     }, [token])
 
-    return <div className="p-surveillance">
+    return <Container>
         <h2>Cameras</h2>
         {error.lenght > 0 && <p>Something went wrong: {error}</p>}
-        <div className="p-surveillance--cameras">
+        <CameraContainer>
             {sources.map(source => <VideoStreamRTC key={source} source={source} token={token} width={640} height={480} />)}
-        </div>
+        </CameraContainer>
         {sources.length === 0 && <p>No video sources available at the moment! Please start a camera.</p>}
-    </div>
+    </Container>
+
+
 }
+
+const Container = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px;
+`
+
+const CameraContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+`

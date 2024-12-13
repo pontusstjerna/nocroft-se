@@ -5,5 +5,4 @@ import './global.css';
 import './atoms';
 import './pages';
 import './organisms';
-import './molecules';
 import './utility';
