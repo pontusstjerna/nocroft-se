@@ -9,6 +9,7 @@ import * as actions from './robotPiActionTypes'
 import './style.css'
 import VideoStream from '../../molecules/videoStream'
 import CameraControl from './CameraControl'
+import VideoStreamRTC from '../../molecules/videoStreamRTC.js'
 
 export default function CatHunter(props) {
   const [loading, setLoading] = useState(true)
@@ -51,6 +52,7 @@ export default function CatHunter(props) {
     socket.on('status', status => {
       if (status) {
         setStatus(JSON.parse(status))
+        setLoading(false)
       }
       setTimeout(() => socket.emit('status'), 500)
     })
@@ -83,11 +85,9 @@ export default function CatHunter(props) {
     const token = getToken()
 
     connectIO(token, error => setError(String(error)))
-      .then(({ socket, started }) => {
-        setStartedData(started)
+      .then(({ socket }) => {
         setSocket(socket)
         setupStatusInterval(socket)
-        setLoading(false)
       })
       .catch(error => setError(String(error)))
 
@@ -153,7 +153,7 @@ export default function CatHunter(props) {
   return (
     <div className="p-cathunter">
       <h1>CatHunter 3.0</h1>
-      <VideoStream target="robotpi" />
+      <VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} />
       {loading && <p>Connecting to CatHunter... {connectingSeconds}s</p>}
       {!loading && <><div className="buttons">
         <CtrlButton action={actions.LEFT} controller={controller} />
