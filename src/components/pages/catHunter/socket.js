@@ -4,11 +4,6 @@ export const connectIO = (token, onError) => {
   return new Promise((resolve, reject) => {
     const socket = io('/robotpi', token ? { auth: { token } } : {})
 
-    const timeout = setTimeout(() => {
-      socket.disconnect()
-      reject('Timeout: Unable to connect to the CatHunter server.')
-    }, 60000)
-
     socket.on('unauthorized', () => onError('Unauthorized.'))
     socket.on('error', onError)
     socket.on('disconnect', () =>

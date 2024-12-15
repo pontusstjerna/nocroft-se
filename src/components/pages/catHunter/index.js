@@ -50,16 +50,21 @@ export default function CatHunter(props) {
     cameraRelease: () => socket.emit(types.TILT_CAMERA_STOP),
   }
 
-  function setupStatusInterval(socket) {
+  useEffect(() => {
+    if (!socket) {
+      return
+    }
     socket.on('status', status => {
       if (status) {
         setStatus(JSON.parse(status))
         setLoading(false)
       }
-      setTimeout(() => socket.emit('status'), 500)
     })
-    socket.emit('status')
-  }
+
+    const interval = setInterval(() => socket.emit('status'), 500)
+
+    return () => clearInterval(interval)
+  }, [socket])
 
   function onKeyDown(event) {
     handleKeyDown(event, action => socket.emit(action), inputs, setInputs)
@@ -90,7 +95,6 @@ export default function CatHunter(props) {
     connectIO(token, error => setError(String(error)))
       .then(({ socket }) => {
         setSocket(socket)
-        setupStatusInterval(socket)
       })
       .catch(error => setError(String(error)))
 
@@ -140,11 +144,11 @@ export default function CatHunter(props) {
       return <p>Waiting for CatHunter status...</p>
     }
 
-    return <div>{
+    return <StatusContainer>{
       Object.keys(status).map(statusKey =>
-        <p><b>{statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")}</b> {JSON.stringify(status[statusKey])}</p>)
+        <p><b>{statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")}</b> {status[statusKey]}</p>)
     }
-    </div>
+    </StatusContainer>
   }
 
   const { up, left, down, right, cameraUp, cameraDown } = inputs
@@ -201,4 +205,11 @@ const Container = styled.div`
   align-items: center;
   margin-top: 70px;
   width: 100%;
+`
+
+const StatusContainer = styled.div`
+  text-align: left;
+  align-self: left;
+  width: 50%;
+  margin-left: 50%;
 `
