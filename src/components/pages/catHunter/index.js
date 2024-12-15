@@ -10,6 +10,7 @@ import './style.css'
 import VideoStream from '../../molecules/videoStream'
 import CameraControl from './CameraControl'
 import VideoStreamRTC from '../../molecules/videoStreamRTC.js'
+import styled from 'styled-components'
 
 export default function CatHunter(props) {
   const [loading, setLoading] = useState(true)
@@ -27,6 +28,7 @@ export default function CatHunter(props) {
   const [error, setError] = useState("")
   const [startedData, setStartedData] = useState({})
   const [connectingSeconds, setConnectingSeconds] = useState(0)
+  const [token, setToken] = useState(null)
 
 
   const controller = {
@@ -83,6 +85,7 @@ export default function CatHunter(props) {
     })
 
     const token = getToken()
+    setToken(token)
 
     connectIO(token, error => setError(String(error)))
       .then(({ socket }) => {
@@ -139,19 +142,15 @@ export default function CatHunter(props) {
 
     return <div>{
       Object.keys(status).map(statusKey =>
-        <p><b>{statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")}</b> {status[statusKey]}</p>)
+        <p><b>{statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")}</b> {JSON.stringify(status[statusKey])}</p>)
     }
     </div>
   }
 
-  const {
-    started,
-    lastConnected,
-  } = startedData
   const { up, left, down, right, cameraUp, cameraDown } = inputs
 
   return (
-    <div className="p-cathunter">
+    <Container >
       <h1>CatHunter 3.0</h1>
       <VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} />
       {loading && <p>Connecting to CatHunter... {connectingSeconds}s</p>}
@@ -186,12 +185,20 @@ export default function CatHunter(props) {
           down={cameraDown}
         />
         {renderPowerSelection()}
-        {started && <p>CatHunter last started {started}.</p>}
-        {lastConnected && <p>Last user disconnected {lastConnected}.</p>}
+        {startedData?.started && <p>CatHunter last started {startedData?.started}.</p>}
+        {startedData?.lastConnected && <p>Last user disconnected {startedData?.lastConnected}.</p>}
       </>}
-      {error && <p className="disconnected">{error}</p>}
+      {error && <p className="disconnected">{JSON.stringify(error)}</p>}
       {renderStatus(status)}
-    </div>
+    </Container>
   )
 
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px;
+  width: 100%;
+`

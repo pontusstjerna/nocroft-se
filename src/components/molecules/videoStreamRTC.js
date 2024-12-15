@@ -65,17 +65,26 @@ export default function VideoStreamRTC({ source, token, width, height }) {
     }, [token])
 
     return <Container>
-        <Video ref={videoRef} width={640} height={480} autoPlay={true} muted={true} playsInline={true} />
+        <Video ref={videoRef} autoPlay={true} muted={true} playsInline={true} />
         <Label><b>{source}</b> {loading ? 'Loading...' : ''}</Label>
     </Container>
 }
 
 const Container = styled.div`
     position: relative;   
+    height: 480px;
+    width: 100%;
+
+    @media screen and (min-width: 710px) {
+        width: 640px;
+        height: 480px;
+    }
 `
 
 const Video = styled.video`
     border: 2px solid #303030;
+    width: 100%;
+    height: 100;
 `
 
 const Label = styled.p`
