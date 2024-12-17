@@ -33,21 +33,20 @@ export default function CatHunter(props) {
 
   const controller = {
     perform: action => socket.emit(action),
-    forward: () => socket.emit(types.FORWARD),
-    backward: () => socket.emit(types.BACKWARD),
-    left: () => socket.emit(types.LEFT),
-    right: () => socket.emit(types.RIGHT),
-    rotLeft: () => socket.emit(types.ROTATE_LEFT),
-    rotRight: () => socket.emit(types.ROTATE_RIGHT),
-    reverse: () => socket.emit(types.REVERSE),
-    stop: () => socket.emit(types.STOP),
-    setPowerLow: () => socket.emit(types.SET_POWER_LOW),
-    setPowerMediumLow: () => socket.emit(types.SET_POWER_MEDIUM_LOW),
-    setPowerMedium: () => socket.emit(types.SET_POWER_MEDIUM),
-    setPowerHigh: () => socket.emit(types.SET_POWER_HIGH),
-    cameraUp: () => socket.emit(types.TILT_CAMERA_UP),
-    cameraDown: () => socket.emit(types.TILT_CAMERA_DOWN),
-    cameraRelease: () => socket.emit(types.TILT_CAMERA_STOP),
+    forward: () => socket.emit(actions.FORWARD),
+    backward: () => socket.emit(actions.BACKWARD),
+    left: () => socket.emit(actions.LEFT),
+    right: () => socket.emit(actions.RIGHT),
+    rotLeft: () => socket.emit(actions.ROTATE_LEFT),
+    rotRight: () => socket.emit(actions.ROTATE_RIGHT),
+    stop: () => socket.emit(actions.STOP),
+    setPowerLow: () => socket.emit(actions.SET_POWER_LOW),
+    setPowerMediumLow: () => socket.emit(actions.SET_POWER_MEDIUM_LOW),
+    setPowerMedium: () => socket.emit(actions.SET_POWER_MEDIUM),
+    setPowerHigh: () => socket.emit(actions.SET_POWER_HIGH),
+    cameraUp: () => socket.emit(actions.TILT_CAMERA_UP),
+    cameraDown: () => socket.emit(actions.TILT_CAMERA_DOWN),
+    cameraRelease: () => socket.emit(actions.TILT_CAMERA_STOP),
   }
 
   useEffect(() => {
@@ -61,18 +60,20 @@ export default function CatHunter(props) {
       }
     })
 
+    const onKeyDown = event => handleKeyDown(event, action => socket.emit(action), inputs, setInputs)
+    const onKeyUp = event => handleKeyUp(event, action => socket.emit(action), inputs, setInputs)
+
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('keyup', onKeyUp)
+
     const interval = setInterval(() => socket.emit('status'), 500)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('keyup', onKeyUp)
+    }
   }, [socket])
-
-  function onKeyDown(event) {
-    handleKeyDown(event, action => socket.emit(action), inputs, setInputs)
-  }
-
-  function onKeyUp(event) {
-    handleKeyUp(event, action => socket.emit(action), inputs, setInputs)
-  }
 
   useEffect(() => {
     if (loading) {
@@ -95,17 +96,16 @@ export default function CatHunter(props) {
     connectIO(token, error => setError(String(error)))
       .then(({ socket }) => {
         setSocket(socket)
+
       })
       .catch(error => setError(String(error)))
 
     setLoading(true)
 
-    document.addEventListener('keydown', onKeyDown)
-    document.addEventListener('keyup', onKeyUp)
+
 
     return () => {
-      document.removeEventListener('keydown', onKeyDown)
-      document.removeEventListener('keyup', onKeyUp)
+
 
       if (socket) socket.close()
     }
@@ -156,7 +156,7 @@ export default function CatHunter(props) {
   return (
     <Container >
       <h1>CatHunter 3.0</h1>
-      <VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} />
+      {!loading && <VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} />}
       {loading && <p>Connecting to CatHunter... {connectingSeconds}s</p>}
       {!loading && <><div className="buttons">
         <CtrlButton action={actions.LEFT} controller={controller} />

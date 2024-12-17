@@ -51,14 +51,7 @@ export const handleKeyDown = (event, onCommand, inputs, setInputs) => {
 
     case 'ArrowDown':
       if (!down) {
-        onCommand(actions.REVERSE)
-        if (left) {
-          onCommand(actions.LEFT)
-        } else if (right) {
-          onCommand(actions.RIGHT)
-        } else {
-          onCommand(actions.FORWARD)
-        }
+        onCommand(actions.BACKWARD)
 
         setInputs({
           ...inputs,
@@ -128,14 +121,7 @@ export const handleKeyUp = (event, onCommand, inputs, setInputs) => {
       break
 
     case 'ArrowDown':
-      onCommand(actions.REVERSE)
-      if (left) {
-        onCommand(actions.ROTATE_LEFT)
-      } else if (right) {
-        onCommand(actions.ROTATE_RIGHT)
-      } else {
-        onCommand(actions.STOP)
-      }
+      onCommand(actions.STOP)
 
       setInputs({
         ...inputs,
