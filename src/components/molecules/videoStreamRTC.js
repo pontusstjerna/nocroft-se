@@ -26,7 +26,8 @@ export default function VideoStreamRTC({ source, token, width, height }) {
                     urls: "turn:nocroft.se:3478",
                     username: "webserver",
                     credential: "maskros"
-                }]
+                }],
+                iceCandidatePoolSize: 2
             })
 
             peerConnection.ontrack = event => {
