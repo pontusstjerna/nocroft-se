@@ -21,7 +21,13 @@ export default function VideoStreamRTC({ source, token, width, height }) {
         socket.on('connect', () => {
             console.log("Socket connected to " + source)
             setLoading(true)
-            const peerConnection = new RTCPeerConnection({ sdpSemantics: 'unified-plan' })
+            const peerConnection = new RTCPeerConnection({
+                sdpSemantics: 'unified-plan', iceServers: [{
+                    urls: "turn:nocroft.se:3478",
+                    username: "webserver",
+                    credential: "maskros"
+                }]
+            })
 
             peerConnection.ontrack = event => {
                 console.log(`Got ${event.track.kind} event from peer connection.`)
@@ -84,7 +90,6 @@ const Container = styled.div`
 const Video = styled.video`
     border: 2px solid #303030;
     width: 100%;
-    height: 100;
 `
 
 const Label = styled.p`

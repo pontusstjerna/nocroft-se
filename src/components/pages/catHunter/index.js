@@ -156,7 +156,7 @@ export default function CatHunter(props) {
   return (
     <Container >
       <h1>CatHunter 3.0</h1>
-      {!loading && <VideoContainer><VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} /><Cross /></VideoContainer>}
+      {!loading && <VideoContainer><VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} /><CrossContainer><Cross /></CrossContainer></VideoContainer>}
       {loading && <p>Connecting to CatHunter... {connectingSeconds}s</p>}
       {!loading && <><div className="buttons">
         <CtrlButton action={actions.LEFT} controller={controller} />
@@ -199,10 +199,18 @@ export default function CatHunter(props) {
 
 }
 
+const CrossContainer = styled.div`
+  height: 480px;
+  width: 100%;
+  @media screen and (min-width: 710px) {
+        width: 640px;
+        height: 480px;
+    }
+`
 const Cross = styled.div`
   position: absolute;
-  top: 306px;
-  left: 335px;
+  top: 300px;
+  left: 332px;
   width: 26px;
   aspect-ratio:1;
   --c: linear-gradient(#000 0 0) 50%;
@@ -211,8 +219,13 @@ const Cross = styled.div`
     var(--c)/10% 34% no-repeat space;
 `
 
+
+
 const VideoContainer = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `
 
 const Container = styled.div`
