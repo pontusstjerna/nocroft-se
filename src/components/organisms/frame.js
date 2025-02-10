@@ -10,6 +10,7 @@ import Admin from '../pages/admin.js';
 import Surveillance from '../pages/surveillance';
 import CatHunter from '../pages/catHunter';
 import Cameras from '../pages/cameras.js';
+import matilda from '../pages/matilda.js';
 
 const securedPaths = ['/admin', '/surveillance', '/robotpi'];
 
@@ -66,6 +67,7 @@ class Frame extends Component {
                     <div className="o-header">
                         <button className="o-header__trigger" onClick={this.toggleMenu}><span></span></button>
                         <a className="o-header__item" href="/" onClick={() => this.scrollTo('section-home')} >Home</a>
+                        {isLoggedIn && <a className="o-header__item" href="/matilda">Matildas test</a>}
                         {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/admin">Admin</a>}
                         {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cameras">Cameras</a>}
                         {isLoggedIn && <a className="o-header__item" onClick={this.closeMenu} href="/cathunter">KattJäger</a>}
@@ -85,6 +87,7 @@ class Frame extends Component {
                     </div>
                     <div className="o-header__content">
                         <Route exact path="/" component={Home} />
+                        <Route exact path="/matilda" component={matilda} />
                         <Route path="/login" component={Login} />
                         <Route path="/admin" component={Admin} />
                         <Route path="/cameras" component={Cameras} />

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react"
-import { checkAuth, logout } from "../../util/auth"
 import { API_URL } from "../pages/login"
 import io from 'socket.io-client'
 import styled from "styled-components"
@@ -23,43 +22,23 @@ export default function VideoStreamRTC({ source, token, width, height }) {
             const peerConnection = new RTCPeerConnection({
                 iceServers: [
                     {
-                        urls: "stun:stun.l.google.com:19302"
-                    },
-                    {
-                        urls: "turn:relay1.expressturn.com:3478",
-                        username: "efLC34KD51PQ4T537Q",
-                        credential: "83MYDN4EZQTHNHhS"
-                    },
-                    {
                         urls: "turn:nocroft.se:3478",
                         username: "webserver",
                         credential: "maskros"
                     },
-                    {
-                        urls: "stun:stun.relay.metered.ca:80",
-                    },
-                    {
-                        urls: "turn:global.relay.metered.ca:80",
-                        username: "c7f548a90dd81acc1222ae5c",
-                        credential: "1RaGdDCrbvyGc/To",
-                    },
-                    {
-                        urls: "turn:global.relay.metered.ca:80?transport=tcp",
-                        username: "c7f548a90dd81acc1222ae5c",
-                        credential: "1RaGdDCrbvyGc/To",
-                    },
-                    {
-                        urls: "turn:global.relay.metered.ca:443",
-                        username: "c7f548a90dd81acc1222ae5c",
-                        credential: "1RaGdDCrbvyGc/To",
-                    },
-                    {
-                        urls: "turns:global.relay.metered.ca:443?transport=tcp",
-                        username: "c7f548a90dd81acc1222ae5c",
-                        credential: "1RaGdDCrbvyGc/To",
-                    },
                 ],
             })
+
+            const iceGatheringComplete = new Promise((resolve) => {
+                peerConnection.onicegatheringstatechange = (event) => {
+                    console.log('icegatheringstatechange -> ', peerConnection?.iceGatheringState);
+
+                    if (peerConnection.iceGatheringState === 'complete') {
+                        console.log('iceCandidates -> ', iceCandidates);
+                        resolve();
+                    }
+                };
+            });
 
             peerConnection.ontrack = event => {
                 console.log(`Got ${event.track.kind} event from peer connection.`)
@@ -70,12 +49,22 @@ export default function VideoStreamRTC({ source, token, width, height }) {
             }
             peerConnection.addTransceiver("video", { direction: "recvonly" })
 
+            const iceCandidates = []
+
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    console.log('icecandidate -> ', event.candidate);
+                    iceCandidates.push(event.candidate.toJSON());
+                }
+            };
+
             peerConnection.createOffer().then(offer =>
                 peerConnection.setLocalDescription(offer)
             )
-                .then(() => new Promise(resolve => peerConnection.onicecandidate = () => resolve()))
+                .then(() => iceGatheringComplete)
                 .then(() => {
                     const offer = peerConnection.localDescription
+                    offer.sdp += iceCandidates.map((candidate) => `a=${candidate.candidate}`).join('\r\n') + '\r\n'
                     return fetch(`${API_URL}/video_offer/${source}`, {
                         method: "POST",
                         body: JSON.stringify({
@@ -85,7 +74,6 @@ export default function VideoStreamRTC({ source, token, width, height }) {
                         headers: {
                             "Authorization": `bearer ${token}`,
                             'Content-Type': 'application/json'
-
                         }
                     })
                 }).then(() => {
