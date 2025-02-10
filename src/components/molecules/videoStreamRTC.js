@@ -22,7 +22,7 @@ export default function VideoStreamRTC({ source, token, width, height }) {
             const peerConnection = new RTCPeerConnection({
                 iceServers: [
                     {
-                        urls: "turn:nocroft.se:3478",
+                        urls: "turn:nocroft.se:3478?transport=tcp",
                         username: "webserver",
                         credential: "maskros"
                     },
@@ -64,11 +64,11 @@ export default function VideoStreamRTC({ source, token, width, height }) {
                 .then(() => iceGatheringComplete)
                 .then(() => {
                     const offer = peerConnection.localDescription
-                    offer.sdp += iceCandidates.map((candidate) => `a=${candidate.candidate}`).join('\r\n') + '\r\n'
+                    const sdp = offer.sdp + iceCandidates.map((candidate) => `a=${candidate.candidate}`).join('\r\n') + '\r\n'
                     return fetch(`${API_URL}/video_offer/${source}`, {
                         method: "POST",
                         body: JSON.stringify({
-                            offer: { sdp: offer.sdp, type: offer.type },
+                            offer: { sdp: sdp, type: offer.type },
                             socketId: socket.id
                         }),
                         headers: {
