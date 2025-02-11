@@ -14,6 +14,7 @@ import styled from 'styled-components'
 
 export default function CatHunter(props) {
   const [loading, setLoading] = useState(true)
+  const [running, setRunning] = useState(false)
   const [socket, setSocket] = useState(null)
   const [powerSelectCommand, setPowerSelectCommand] = useState("")
   const [status, setStatus] = useState({})
@@ -66,22 +67,26 @@ export default function CatHunter(props) {
     document.addEventListener('keydown', onKeyDown)
     document.addEventListener('keyup', onKeyUp)
 
-    const interval = setInterval(() => socket.emit('status'), 500)
-
     return () => {
-      clearInterval(interval)
       document.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('keyup', onKeyUp)
     }
   }, [socket])
 
   useEffect(() => {
-    if (loading) {
+    if (running) {
+      const interval = setInterval(() => socket.emit('start'), 10000)
+      return () => clearInterval(interval)
+    }
+  }, [running])
+
+  useEffect(() => {
+    if (loading && running) {
       setTimeout(() => setConnectingSeconds(connectingSeconds + 1), 1000)
     } else {
       setConnectingSeconds(0)
     }
-  }, [connectingSeconds])
+  }, [connectingSeconds, loading, running])
 
   useEffect(() => {
     checkLogin().then(isLoggedIn => {
@@ -145,18 +150,36 @@ export default function CatHunter(props) {
     }
 
     return <StatusContainer>{
-      Object.keys(status).map(statusKey =>
-        <p><b>{statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")}</b> {status[statusKey]}</p>)
+      Object.keys(status).map(statusKey => {
+        let label = statusKey.charAt(0).toUpperCase() + statusKey.substring(1).replace(/_/g, " ")
+        let value = status[statusKey]
+        if (statusKey === "battery_voltage") {
+          const voltage = value / 1000.0
+          const percent = ((voltage - 3.3) / (4.2 - 3.3)) * 100
+          value = `${(percent.toFixed(0))}% (${(voltage).toFixed(2)}v)`
+          label = "Battery"
+        }
+        value = value.replace("true", "YES").replace("false", "NO")
+        return <StatusLine>{label}: <b>{value}</b></StatusLine>
+      })
     }
     </StatusContainer>
   }
 
   const { up, left, down, right, cameraUp, cameraDown } = inputs
 
+  if (!running) {
+    return <Container>
+      <h1>CatHunter 3.0 - idle</h1>
+      {renderStatus(status)}
+      <button onClick={() => setRunning(true)}>Start</button>
+    </Container>
+  }
+
   return (
     <Container >
       <h1>CatHunter 3.0</h1>
-      {!loading && <VideoContainer><VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} /><CrossContainer><Cross /></CrossContainer></VideoContainer>}
+      {!loading && <VideoStreamRTC width={640} height={480} source={"catero_huntero_3.0"} token={token} />}
       {loading && <p>Connecting to CatHunter... {connectingSeconds}s</p>}
       {!loading && <><div className="buttons">
         <CtrlButton action={actions.LEFT} controller={controller} />
@@ -183,62 +206,46 @@ export default function CatHunter(props) {
           controller={controller}
         />
       </div>
-        <CameraControl
+        {/* <CameraControl
           controller={controller}
           up={cameraUp}
           down={cameraDown}
-        />
+        /> */}
         {renderPowerSelection()}
         {startedData?.started && <p>CatHunter last started {startedData?.started}.</p>}
         {startedData?.lastConnected && <p>Last user disconnected {startedData?.lastConnected}.</p>}
       </>}
       {error && <p className="disconnected">{JSON.stringify(error)}</p>}
       {renderStatus(status)}
+      <button onClick={() => setRunning(false)}>Stop</button>
     </Container>
   )
 
 }
 
-const CrossContainer = styled.div`
-  height: 480px;
-  width: 100%;
-  @media screen and (min-width: 710px) {
-        width: 640px;
-        height: 480px;
-    }
-`
-const Cross = styled.div`
-  position: absolute;
-  top: 300px;
-  left: 332px;
-  width: 26px;
-  aspect-ratio:1;
-  --c: linear-gradient(#000 0 0) 50%;
-  background:
-    var(--c)/34% 10% space no-repeat,
-    var(--c)/10% 34% no-repeat space;
-`
-
-
-
-const VideoContainer = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 70px;
+  justify-content: center;
+  height: 80vh;
   width: 100%;
+  margin-top: 70px;
 `
 
 const StatusContainer = styled.div`
-  text-align: left;
-  align-self: left;
-  width: 50%;
-  margin-left: 50%;
+  text-align: center;
+  align-self: center;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 1em;
+  min-width: 20%;
+`
+
+const StatusLine = styled.p`
+  margin: 0;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
 `
