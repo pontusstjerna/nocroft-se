@@ -17,24 +17,24 @@ export default function Escape() {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  const beep = frequency => {
+  const beep = (frequency, time) => {
     const context = new AudioContext()
     const oscillator = context.createOscillator()
     //oscillator.type = 'square'
     oscillator.frequency.setTargetAtTime(frequency, context.currentTime, 0)
     oscillator.connect(context.destination)
     oscillator.start(0)
-    oscillator.stop(context.currentTime + 2)
+    oscillator.stop(context.currentTime + time + 0.5)
   }
 
-  const code = [11, 34, 22]
+  const code = [1, 1, 3, 4, 2, 2]
 
   const beep_code = async () => {
     await sleep(3000)
     while (true) {
       for (let i = 0; i < code.length; i++) {
-        beep(i === 0 ? 440 : 380)
-        await sleep(code[i] * 1000)
+        beep(i === 0 ? 440 : 380, code[i])
+        await sleep(10000)
       }
     }
   }
